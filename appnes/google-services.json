@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "749576528608",
+    "firebase_url": "https://arcade2-ebb47-default-rtdb.firebaseio.com",
+    "project_id": "arcade2-ebb47",
+    "storage_bucket": "arcade2-ebb47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749576528608:android:479654afa1922c4e712685",
+        "android_client_info": {
+          "package_name": "nostalgia.appgg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749576528608-tipmdcsm0g5c6mvutpte87u4e9ttt7ba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEKQSh-1YEXy26BOLMIYWq7X7jhXsKL9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749576528608-tipmdcsm0g5c6mvutpte87u4e9ttt7ba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749576528608:android:547ac390e362e0ec712685",
+        "android_client_info": {
+          "package_name": "com.qizhuo.fcnes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749576528608-tipmdcsm0g5c6mvutpte87u4e9ttt7ba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEKQSh-1YEXy26BOLMIYWq7X7jhXsKL9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749576528608-tipmdcsm0g5c6mvutpte87u4e9ttt7ba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,58 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.qizhuo.framework">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="UnusedAttribute">
+
+        <activity
+            android:name="com.qizhuo.framework.ui.SplashActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.qizhuo.framework.ui.gamegallery.SlotSelectionActivity" />
+
+        <activity
+            android:name="com.qizhuo.framework.ui.preferences.GamePreferenceActivity"
+            android:label="@string/game_pref"
+            android:theme="@style/PrefTheme" />
+
+        <activity
+            android:name="com.qizhuo.framework.ui.cheats.CheatsActivity"
+            android:label="Cheats" />
+
+        <activity android:name="com.qizhuo.framework.base.OpenGLTestActivity" />
+
+        <activity
+            android:name="com.qizhuo.framework.ui.preferences.AboutActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.qizhuo.framework.base.RestarterActivity"
+            android:configChanges="orientation|screenSize"
+            android:process=":restarter" />
+
+    </application>
+
+</manifest>

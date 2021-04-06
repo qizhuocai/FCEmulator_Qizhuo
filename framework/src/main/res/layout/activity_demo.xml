@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DemoActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/is_button_1"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ow_button"
+            android:layout_alignStart="@+id/ow_button"
+            android:layout_below="@+id/ow_button"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/ironsource_button_shape"
+            android:text="Initializing Interstitial" />
+
+        <Button
+            android:id="@+id/is_button_2"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/is_button_1"
+            android:layout_toEndOf="@+id/is_button_1"
+            android:layout_toRightOf="@+id/is_button_1"
+            android:background="@drawable/ironsource_button_shape"
+            android:text="Show Interstitial" />
+
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

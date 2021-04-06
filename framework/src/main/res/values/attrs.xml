@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MultitouchTwoButtonArea">
+        <attr name="first_button" format="reference" />
+        <attr name="second_button" format="reference" />
+    </declare-styleable>
+</resources>

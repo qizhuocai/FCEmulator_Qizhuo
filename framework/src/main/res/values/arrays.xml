@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string-array name="gallery_page_tab_names">
+        <item>By Name</item>
+        <item>Latest</item>
+        <item>Hottest</item>
+        <item>History</item>
+    </string-array>
+    <string-array name="general_pref_rotation_list">
+        <item>Auto</item>
+        <item>Portrait</item>
+        <item>Landscape</item>
+    </string-array>
+    <string-array name="general_pref_rotation_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="general_pref_quality_list">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
+    <string-array name="general_pref_quality_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

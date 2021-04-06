@@ -1,0 +1,71 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 30
+
+    signingConfigs {
+        demokey {
+            storeFile file('demokey.jks')
+            storePassword "demokey"
+            keyAlias 'demokey'
+            keyPassword 'demokey'
+        }
+    }
+    defaultConfig {
+        applicationId "nostalgia.appgg"
+        minSdkVersion 19
+        targetSdkVersion 30
+        versionCode 1401
+        versionName "1.4.1"
+        resConfigs "zh"
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a'
+        }
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_STL=c++_static'
+            }
+        }
+    }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.demokey
+            externalNativeBuild {
+                cmake {
+                    cppFlags.add('-DNATIVE_LOG')
+                }
+            }
+        }
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.demokey
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName = project.name + '-' + variant.name + '-V' +
+                    defaultConfig.versionCode + ".apk"
+            outputFileName = fileName
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path 'src/main/cpp/CMakeLists.txt'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':framework')
+}

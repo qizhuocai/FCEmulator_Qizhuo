@@ -1,0 +1,84 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 30
+
+    signingConfigs {
+        demokey {
+            storeFile file('demokey.jks')
+            storePassword "demokey"
+            keyAlias 'demokey'
+            keyPassword 'demokey'
+        }
+    }
+    defaultConfig {
+       // applicationId 'nostalgia.appnes'
+        applicationId 'com.qizhuo.fcnes'
+        minSdkVersion 19
+        targetSdkVersion 30
+//        versionCode 1401
+//        versionName "1.4.1"
+//        resConfigs "zh"
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a'
+        }
+
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_STL=c++_static'
+                version "3.20.0"
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "https://dl.bintray.com/ironsource-mobile/android-sdk"
+        }
+    }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.demokey
+            externalNativeBuild {
+                cmake {
+                    cppFlags.add('-DNATIVE_LOG')
+                }
+            }
+        }
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.demokey
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName = project.name + '-' + variant.name + '-V' +
+                    defaultConfig.versionCode + ".apk"
+            outputFileName = fileName
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path 'src/main/cpp/CMakeLists.txt'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':framework')
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
+    implementation 'com.karumi:dexter:6.2.2'
+    implementation "com.tonyodev.fetch2:fetch2:3.0.12"
+
+}
