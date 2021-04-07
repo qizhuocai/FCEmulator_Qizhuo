@@ -1,10 +1,10 @@
 {
-  "project_info": {
-    "project_number": "749576528608",
-    "firebase_url": "https://arcade2-ebb47-default-rtdb.firebaseio.com",
-    "project_id": "arcade2-ebb47",
-    "storage_bucket": "arcade2-ebb47.appspot.com"
-  },
+//  "project_info": {
+//    "project_number": "749576528608",
+//    "firebase_url": "https://arcade2-ebb47-default-rtdb.firebaseio.com",
+//    "project_id": "arcade2-ebb47",
+//    "storage_bucket": "arcade2-ebb47.appspot.com"
+//  },
   "client": [
     {
       "client_info": {
@@ -32,7 +32,7 @@
               "client_type": 3
             }
           ]
-        }
+        } 
       }
     },
     {

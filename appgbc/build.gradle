@@ -5,11 +5,12 @@ android {
 
     signingConfigs {
         demokey {
-            storeFile file('demokey.jks')
-            storePassword "demokey"
-            keyAlias 'demokey'
-            keyPassword 'demokey'
+            storeFile file('../fcemulator.jks')
+            storePassword "123456"
+            keyAlias 'fcmulatorkey'
+            keyPassword '123456'
         }
+
     }
     defaultConfig {
         applicationId "nostalgia.appgbc"
