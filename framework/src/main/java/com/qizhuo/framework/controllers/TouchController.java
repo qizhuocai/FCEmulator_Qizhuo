@@ -43,6 +43,7 @@ public class TouchController implements EmulatorController, OnMultitouchEventLis
         this.emulatorActivity = emulatorActivity;
     }
 
+    @Override
     public void onResume() {
         if (multitouchLayer != null) {
             multitouchLayer.setVibrationDuration(PreferenceUtil.getVibrationDuration(emulatorActivity));
@@ -53,6 +54,7 @@ public class TouchController implements EmulatorController, OnMultitouchEventLis
         multitouchLayer.setEnableStaticDPAD(!PreferenceUtil.isDynamicDPADEnable(emulatorActivity));
     }
 
+    @Override
     public void onPause() {
     }
 
@@ -60,6 +62,7 @@ public class TouchController implements EmulatorController, OnMultitouchEventLis
     public void onWindowFocusChanged(boolean hasFocus) {
     }
 
+    @Override
     public void onDestroy() {
         multitouchLayer = null;
         emulatorActivity = null;
@@ -208,8 +211,8 @@ public class TouchController implements EmulatorController, OnMultitouchEventLis
     public void onGameStarted(GameDescription game) {
         GfxProfile gfxProfile = emulator.getActiveGfxProfile();
         zapperIc.setVisibility(PreferenceUtil.isZapperEnabled(emulatorActivity, game.checksum) ? View.VISIBLE : View.GONE);
-        palIc.setVisibility(gfxProfile.name.equals("PAL") ? View.VISIBLE : View.GONE);
-        ntscIc.setVisibility(gfxProfile.name.equals("NTSC") ? View.VISIBLE : View.GONE);
+        palIc.setVisibility("PAL".equals(gfxProfile.name) ? View.VISIBLE : View.GONE);
+        ntscIc.setVisibility("NTSC".equals(gfxProfile.name) ? View.VISIBLE : View.GONE);
         boolean remoteVisible = PreferenceUtil.isWifiServerEnable(emulatorActivity)
                 && EmuUtils.isWifiAvailable(emulatorActivity);
         remoteIc.setVisibility(remoteVisible ? View.VISIBLE : View.INVISIBLE);

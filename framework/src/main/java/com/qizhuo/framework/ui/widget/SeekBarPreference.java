@@ -33,7 +33,7 @@ public class SeekBarPreference extends DialogPreference
         mDialogMessage = attrs.getAttributeValue(ANDROID_NS, "dialogMessage");
         mSuffix = attrs.getAttributeValue(ANDROID_NS, "text");
 
-        if (mSuffix.equals("[hack]")) {
+        if ("[hack]".equals(mSuffix)) {
             hack = true;
             mSuffix = "";
         }
@@ -50,8 +50,9 @@ public class SeekBarPreference extends DialogPreference
         layout.setPadding(6, 6, 6, 6);
 
         mSplashText = new TextView(mContext);
-        if (mDialogMessage != null)
+        if (mDialogMessage != null) {
             mSplashText.setText(mDialogMessage);
+        }
         layout.addView(mSplashText);
 
         mValueText = new TextView(mContext);
@@ -66,8 +67,9 @@ public class SeekBarPreference extends DialogPreference
         layout.addView(mSeekBar, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        if (shouldPersist())
+        if (shouldPersist()) {
             mValue = getPersistedInt(mDefault);
+        }
 
         mSeekBar.setMax(mMax);
         mSeekBar.setProgress(mValue);
@@ -87,19 +89,23 @@ public class SeekBarPreference extends DialogPreference
         mValue = restore ? (shouldPersist() ? getPersistedInt(mDefault) : 0) : (Integer) defaultValue;
     }
 
+    @Override
     public void onProgressChanged(SeekBar seek, int value, boolean fromTouch) {
 
         String t = String.valueOf(value + (hack ? 1 : 0));
         mValueText.setText(mSuffix == null ? t : t.concat(mSuffix));
 
-        if (shouldPersist())
+        if (shouldPersist()) {
             persistInt(value);
+        }
         callChangeListener(value);
     }
 
+    @Override
     public void onStartTrackingTouch(SeekBar seek) {
     }
 
+    @Override
     public void onStopTrackingTouch(SeekBar seek) {
     }
 
@@ -117,7 +123,8 @@ public class SeekBarPreference extends DialogPreference
 
     public void setProgress(int progress) {
         mValue = progress;
-        if (mSeekBar != null)
+        if (mSeekBar != null) {
             mSeekBar.setProgress(progress);
+        }
     }
 }

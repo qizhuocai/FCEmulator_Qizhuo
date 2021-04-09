@@ -387,6 +387,7 @@ public class EmulatorRunner {
             }
         }
 
+        @Override
         public void destroy() {
             isRunning.set(false);
             unpause();
@@ -423,6 +424,7 @@ public class EmulatorRunner {
             }
         }
 
+        @Override
         public void destroy() {
             isRunning.set(false);
             this.interrupt();

@@ -47,15 +47,18 @@ public class FilenameExtFilter implements FilenameFilter {
         return temp;
     }
 
+    @Override
     public boolean accept(File dir, String filename) {
-        if ((!showHiden) && (filename.charAt(0) == '.'))
+        if ((!showHiden) && (filename.charAt(0) == '.')) {
             return false;
+        }
 
         if (showDir) {
             File f = new File(dir, filename);
 
-            if (f.isDirectory())
+            if (f.isDirectory()) {
                 return true;
+            }
         }
 
         String fnLower = filename.toLowerCase();

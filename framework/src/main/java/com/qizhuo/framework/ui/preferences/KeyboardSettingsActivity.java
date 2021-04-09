@@ -39,6 +39,7 @@ import com.qizhuo.framework.KeyboardProfile;
 import com.qizhuo.framework.R;
 import com.qizhuo.framework.base.EmulatorHolder;
 import com.qizhuo.framework.controllers.KeyboardController;
+import com.qizhuo.framework.ui.gamegallery.GameDescription;
 import com.qizhuo.framework.utils.NLog;
 
 public class KeyboardSettingsActivity extends AppCompatActivity
@@ -209,32 +210,8 @@ public class KeyboardSettingsActivity extends AppCompatActivity
                             finish();
                         });
         final AlertDialog alertDialog = alertDialogBuilder.create();
-        final Pattern pattern = Pattern.compile("[a-zA-Z0-9]");
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Button ok = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                String txt = s.toString();
-                Matcher m = pattern.matcher(txt);
 
-                if (!profilesNames.contains(txt) && !txt.equals("")
-                        && m.replaceAll("").length() == 0) {
-                    ok.setEnabled(true);
 
-                } else {
-                    ok.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
         alertDialog.setOnShowListener(dialog -> {
             Button ok = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             ok.setEnabled(false);
@@ -276,21 +253,6 @@ public class KeyboardSettingsActivity extends AppCompatActivity
             EditText view = new EditText(KeyboardSettingsActivity.this);
             builder.setView(view);
             final Dialog d = builder.create();
-            view.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    char ch = s.charAt(0);
-                    proccessKeyEvent(ch + "", d, (int) ch, position);
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
             d.setOnKeyListener((dialog, keyCode, event) -> {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     if (event.isAltPressed()) {
@@ -311,7 +273,7 @@ public class KeyboardSettingsActivity extends AppCompatActivity
 
     private boolean proccessKeyEvent(String txt, DialogInterface dialog, int keyCode, int position) {
         NLog.i(TAG, "txt:" + txt);
-        if (!txt.equals("") && keyCode != KeyEvent.KEYCODE_BACK) {
+        if (!"".equals(txt) && keyCode != KeyEvent.KEYCODE_BACK) {
             int idx = inverseMap.indexOfValue(keyCode);
             if (idx >= 0) {
                 inverseMap.put(inverseMap.keyAt(idx), 0);
@@ -410,8 +372,9 @@ public class KeyboardSettingsActivity extends AppCompatActivity
                 }
             }
             int[] res = new int[result.size()];
-            for (int i = 0; i < result.size(); i++)
+            for (int i = 0; i < result.size(); i++) {
                 res[i] = result.get(i);
+            }
             return res;
         }
 

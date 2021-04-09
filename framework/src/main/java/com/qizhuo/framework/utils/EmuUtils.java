@@ -55,11 +55,13 @@ public class EmuUtils {
     }
 
     public static String stripExtension(String str) {
-        if (str == null)
+        if (str == null) {
             return null;
+        }
         int pos = str.lastIndexOf(".");
-        if (pos == -1)
+        if (pos == -1) {
             return str;
+        }
         return str.substring(0, pos);
     }
 
@@ -72,8 +74,9 @@ public class EmuUtils {
             NLog.e(TAG, "", e);
         } finally {
             try {
-                if (fis != null)
+                if (fis != null) {
                     fis.close();
+                }
             } catch (IOException ignored) {
             }
         }
@@ -98,8 +101,9 @@ public class EmuUtils {
                 }
                 md.update(buffer, 0, updateCount);
                 totalCount += updateCount;
-                if (totalCount >= MD5_BYTES_COUNT)
+                if (totalCount >= MD5_BYTES_COUNT) {
                     break;
+                }
             }
             if (totalCount >= MD5_BYTES_COUNT) {
                 byte[] digest = md.digest();

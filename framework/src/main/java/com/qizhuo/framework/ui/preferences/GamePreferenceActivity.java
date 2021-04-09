@@ -31,24 +31,6 @@ public class GamePreferenceActivity extends AppCompatPreferenceActivity {
                                     PreferenceCategory category, PreferenceScreen screen) {
         List<GfxProfile> profiles = EmulatorHolder.getInfo().getAvailableGfxProfiles();
 
-        if (profiles.size() > 1) {
-            CharSequence[] res =
-                    new CharSequence[EmulatorHolder.getInfo().getAvailableGfxProfiles().size() + 1];
-            res[0] = "Auto";
-            int i = 1;
-            for (GfxProfile gfx : profiles) {
-                res[i] = gfx.name;
-                i++;
-            }
-            preference.setEntries(res);
-            preference.setEntryValues(res);
-            if (preference.getValue() == null) {
-                preference.setValue("Auto");
-            }
-        } else {
-            category.removePreference(preference);
-            screen.removePreference(category);
-        }
     }
 
     @Override

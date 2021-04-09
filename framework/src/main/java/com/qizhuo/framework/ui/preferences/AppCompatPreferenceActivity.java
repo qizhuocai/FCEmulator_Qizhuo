@@ -73,11 +73,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
         getDelegate().onPostResume();
     }
 
-    @Override
-    protected void onTitleChanged(CharSequence title, int color) {
-        super.onTitleChanged(title, color);
-        getDelegate().setTitle(title);
-    }
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -97,6 +93,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
         getDelegate().onDestroy();
     }
 
+    @Override
     public void invalidateOptionsMenu() {
         getDelegate().invalidateOptionsMenu();
     }

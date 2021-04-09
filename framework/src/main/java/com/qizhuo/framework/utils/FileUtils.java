@@ -44,8 +44,9 @@ public class FileUtils {
             fis = new FileInputStream(from);
             copyFile(fis, to);
         } finally {
-            if (fis != null)
+            if (fis != null) {
                 fis.close();
+            }
         }
     }
 
@@ -59,8 +60,9 @@ public class FileUtils {
                 fos.write(buffer, 0, count);
             }
         } finally {
-            if (fos != null)
+            if (fos != null) {
                 fos.close();
+            }
         }
     }
 

@@ -46,6 +46,7 @@ class UnacceleratedView extends SurfaceView implements EmulatorView {
         return this;
     }
 
+    @Override
     public ViewPort getViewPort() {
         return viewPort;
     }

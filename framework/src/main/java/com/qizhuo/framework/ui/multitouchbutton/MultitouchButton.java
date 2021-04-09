@@ -20,20 +20,25 @@ public class MultitouchButton extends AppCompatButton
         super(context, attrs);
     }
 
+    @Override
     public void onTouchEnter(MotionEvent event) {
         setPressed(true);
 
-        if (listener != null)
+        if (listener != null) {
             listener.onMultitouchEnter(this);
+        }
     }
 
+    @Override
     public void onTouchExit(MotionEvent event) {
         setPressed(false);
 
-        if (listener != null)
+        if (listener != null) {
             listener.onMultitouchExit(this);
+        }
     }
 
+    @Override
     public void setOnMultitouchEventlistener(OnMultitouchEventListener listener) {
         this.listener = listener;
     }

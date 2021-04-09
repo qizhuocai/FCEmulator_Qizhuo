@@ -159,6 +159,7 @@ public class NesEmulator extends JniEmulator {
             sfxProfiles.add(high);
         }
 
+        @Override
         public boolean hasZapper() {
             return true;
         }
@@ -204,6 +205,7 @@ public class NesEmulator extends JniEmulator {
             return sfxProfiles;
         }
 
+        @Override
         public boolean supportsRawCheats() {
             return true;
         }

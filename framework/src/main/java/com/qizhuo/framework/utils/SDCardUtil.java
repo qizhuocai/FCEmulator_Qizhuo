@@ -139,8 +139,9 @@ public class SDCardUtil {
      * @throws IOException
      */
     public static boolean isSymlink(File file) throws IOException {
-        if (file == null)
+        if (file == null) {
             throw new NullPointerException("File must not be null");
+        }
         File canon;
         if (file.getParent() == null) {
             canon = file;

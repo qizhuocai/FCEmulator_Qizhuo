@@ -3,10 +3,12 @@ package com.qizhuo.framework;
 import com.qizhuo.framework.controllers.KeyboardController;
 
 abstract public class BasicEmulatorInfo implements EmulatorInfo {
+    @Override
     public boolean hasZapper() {
         return true;
     }
 
+    @Override
     public boolean isMultiPlayerSupported() {
         return true;
     }

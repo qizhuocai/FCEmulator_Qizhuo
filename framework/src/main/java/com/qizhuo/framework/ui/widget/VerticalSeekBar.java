@@ -29,6 +29,7 @@ public class VerticalSeekBar extends AppCompatSeekBar {
         super(context, attrs);
     }
 
+    @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(h, w, oldh, oldw);
     }
@@ -40,6 +41,7 @@ public class VerticalSeekBar extends AppCompatSeekBar {
         setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
     }
 
+    @Override
     protected void onDraw(Canvas c) {
         c.rotate(-90);
         c.translate(-getHeight(), 0);
@@ -98,6 +100,8 @@ public class VerticalSeekBar extends AppCompatSeekBar {
                 setPressed(false);
                 setSelected(false);
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + event.getAction());
         }
         return true;
     }

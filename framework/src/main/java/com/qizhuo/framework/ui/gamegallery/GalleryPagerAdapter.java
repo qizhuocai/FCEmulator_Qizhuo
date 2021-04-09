@@ -118,8 +118,9 @@ public class GalleryPagerAdapter extends PagerAdapter {
         for (int i = 0; i < SORT_TYPES.length; i++) {
             GalleryAdapter adapter = listAdapters[i];
             adapter.notifyDataSetChanged();
-            if (lists[i] != null)
+            if (lists[i] != null) {
                 lists[i].setSelection(yOffsets[i]);
+            }
         }
         super.notifyDataSetChanged();
     }
@@ -131,8 +132,9 @@ public class GalleryPagerAdapter extends PagerAdapter {
     public void onRestoreInstanceState(Bundle inState) {
         if (inState != null) {
             yOffsets = inState.getIntArray(EXTRA_POSITIONS);
-            if (yOffsets == null)
+            if (yOffsets == null) {
                 yOffsets = new int[mTabTitles.length];
+            }
         }
     }
 

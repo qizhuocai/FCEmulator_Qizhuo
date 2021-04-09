@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import com.qizhuo.framework.R;
 import com.qizhuo.framework.base.EmulatorHolder;
+import com.qizhuo.framework.ui.gamegallery.GameDescription;
 
 
 public class CheatsActivity extends AppCompatActivity {
@@ -93,17 +94,27 @@ public class CheatsActivity extends AppCompatActivity {
             desc.setText(cheat.desc);
         }
 
-        if (chars.getText().toString().equals("")) {
+        if ("".equals(chars.getText().toString())) {
             save.setEnabled(false);
         }
 
         chars.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void onTextChanged(GameDescription arg0, int arg1, int arg2, int arg3) {
+//            }
+//
+//            @Override
+//            public void beforeTextChanged(GameDescription arg0, int arg1, int arg2, int arg3) {
+//            }
+
             @Override
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
 
             @Override
@@ -125,7 +136,7 @@ public class CheatsActivity extends AppCompatActivity {
                     chars.setText(newText);
                     chars.setSelection(newText.length());
                 }
-                if (newText.equals("")) {
+                if ("".equals(newText)) {
                     save.setEnabled(false);
                 } else {
                     save.setEnabled(true);

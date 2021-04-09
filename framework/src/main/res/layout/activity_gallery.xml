@@ -19,9 +19,59 @@
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|snap"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
         </androidx.appcompat.widget.Toolbar>
+<!--        <scut.carson_ho.searchview.SearchView-->
+<!--            android:id="@+id/search_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:textSizeSearch="5dp"-->
+<!--            app:textColorSearch="#3F51B5"-->
+<!--            app:textHintSearch="输入查询关键字"-->
+<!--            app:searchBlockHeight="150"-->
+<!--            app:searchBlockColor="#ffffff"-->
+<!--            />-->
+<!--        app:textHintSearch="输入查询关键字"-->
+        <LinearLayout
+            android:background="@color/main_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
+            android:orientation="horizontal">
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <!--            android:drawableLeft="@drawable/search_icon"-->
+                <EditText
+                    android:id="@+id/search_et_input"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="10dp"
+                    android:drawablePadding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:hint="请输入关键字"/>
+                <ImageView
+                    android:visibility="gone"
+                    android:layout_marginRight="20dp"
+                    android:id="@+id/search_iv_delete"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </FrameLayout>
+            <Button
+                android:id="@+id/search_btn_back"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/control_cleartext"
+                />
+        </LinearLayout>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/game_gallery_tab"
             android:layout_width="match_parent"

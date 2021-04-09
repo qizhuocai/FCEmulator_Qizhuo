@@ -42,8 +42,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_margin="16dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@mipmap/ic_launcher" />
-
+                    />
+<!--                android:src="@mipmap/ic_launcher"-->
                 <TextView
                     android:id="@+id/app_name"
                     android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
                     android:layout_centerHorizontal="true"
                     android:textColor="@android:color/white"
                     android:textSize="12sp"
-                    tools:text="V1.0.0" />
+                    tools:text="V1.0.1" />
 
             </RelativeLayout>
 

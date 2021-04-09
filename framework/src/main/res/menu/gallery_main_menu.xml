@@ -12,6 +12,11 @@
         android:title="@string/gallery_menu_pref"
         app:showAsAction="never" />
     <item
+        android:id="@+id/gallery_menu_download"
+        android:icon="@drawable/ic_game_settings"
+        android:title="@string/gallery_menu_download"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/gallery_menu_exit"
         android:icon="@drawable/ic_exit"
         android:title="@string/gallery_menu_exit"

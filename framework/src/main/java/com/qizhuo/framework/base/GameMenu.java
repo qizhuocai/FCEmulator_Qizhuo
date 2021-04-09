@@ -78,8 +78,9 @@ public class GameMenu {
         listener.onGameMenuPrepare(this);
         RelativeLayout surroundContainer = (RelativeLayout) inflater.inflate(R.layout.game_menu_surround, null);
         surroundContainer.setOnClickListener(v -> {
-            if (dialog != null)
+            if (dialog != null) {
                 dialog.cancel();
+            }
         });
         LinearLayout container = surroundContainer.findViewById(R.id.game_menu_container);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) container.getLayoutParams();

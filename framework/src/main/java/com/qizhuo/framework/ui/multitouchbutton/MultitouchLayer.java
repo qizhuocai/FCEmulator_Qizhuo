@@ -238,8 +238,9 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
 
     private void initMultiTouchMap() {
         initCounter++;
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++) {
             pointerMap.put(i, EMPTY_COLOR);
+        }
         ridToIdxMap.clear();
         NLog.d(TAG, " create touch map width " + getMeasuredWidth() + " height:" + getMeasuredHeight());
         touchMapWidth = getMeasuredWidth();
@@ -448,19 +449,21 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
 
     private int getRelativeLeft(View myView, View rootView) {
         ViewParent parent = myView.getParent();
-        if (parent == null || parent == rootView)
+        if (parent == null || parent == rootView) {
             return myView.getLeft();
-        else
+        } else {
             return myView.getLeft() + getRelativeLeft((View) parent, rootView);
+        }
     }
 
     private int getRelativeTop(View myView, View rootView) {
         ViewParent parent = myView.getParent();
 
-        if (parent == null || parent == rootView)
+        if (parent == null || parent == rootView) {
             return myView.getTop();
-        else
+        } else {
             return myView.getTop() + getRelativeTop((View) parent, rootView);
+        }
     }
 
     private void handleTouchEvent(int x, int y, int pointerId, MotionEvent event) {
@@ -771,8 +774,9 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
                     r.round(tempRect);
                     invalidate(tempRect);
                     element.boundingbox.set(r.left + 10, r.top + 10, r.right - 10, r.bottom - 10);
-                    if (editMode == EDIT_MODE.TOUCH)
+                    if (editMode == EDIT_MODE.TOUCH) {
                         recomputeBtn(element);
+                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -781,6 +785,8 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
                 endMovementCheck();
             }
             break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + action);
         }
     }
 
@@ -800,8 +806,9 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
                     float scaleFactorW = (newW / selectW);
                     elementBb.set(startDragX, startDragY, x + startDragXoffset,
                             startDragY + selectH * scaleFactorW);
-                    if (editMode == EDIT_MODE.TOUCH)
+                    if (editMode == EDIT_MODE.TOUCH) {
                         recomputeBtn(element);
+                    }
                     element.validPosition = isRectValid(elementBb, element);
                     if (element.validPosition) {
                         lastValidBB.set(element.boundingbox);
@@ -845,8 +852,9 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
             if (!element.validPosition) {
                 element.boundingbox.set(lastValidBB);
             }
-            if (editMode == EDIT_MODE.TOUCH)
+            if (editMode == EDIT_MODE.TOUCH) {
                 recomputeBtn(element);
+            }
             element.validPosition = true;
             selectIdx = -1;
         }
@@ -1143,7 +1151,7 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
                     View btn = btns.get(i);
                     int id = btnIdMap.indexOf(btn.getId());
                     String s = pref.getString("" + id, "");
-                    if (!s.equals("")) {
+                    if (!"".equals(s)) {
                         String[] sa = s.split("-");
                         Rect bb = boundingBoxs[ridToIdxMap.get(btn.getId())];
                         int left = Integer.parseInt(sa[0]);

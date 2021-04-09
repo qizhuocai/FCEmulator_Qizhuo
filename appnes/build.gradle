@@ -31,6 +31,7 @@ android {
                 version "3.20.0"
             }
         }
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     repositories {
         maven {

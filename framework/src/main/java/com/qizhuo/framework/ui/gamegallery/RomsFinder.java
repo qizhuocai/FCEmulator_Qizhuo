@@ -22,6 +22,8 @@ import com.qizhuo.framework.utils.EmuUtils;
 import com.qizhuo.framework.utils.NLog;
 import com.qizhuo.framework.utils.SDCardUtil;
 
+import static com.qizhuo.framework.ui.gamegallery.GalleryActivity.finalStringListstrlist;
+
 public class RomsFinder extends Thread {
     private static final String TAG = "RomsFinder";
     private FilenameExtFilter filenameExtFilter;
@@ -111,10 +113,11 @@ public class RomsFinder extends Thread {
         final ArrayList<GameDescription> roms = oldRoms;
         NLog.i(TAG, "old games " + oldRoms.size());
         activity.runOnUiThread(() -> listener.onRomsFinderFoundGamesInCache(roms));
-
+        finalStringListstrlist.clear();
         if (searchNew) {
             for (GameDescription desc : oldRoms) {
                 oldGames.put(desc.path, desc);
+                finalStringListstrlist.add(desc);
             }
             startFileSystemMode(oldRoms);
         } else {
@@ -199,8 +202,9 @@ public class RomsFinder extends Thread {
                     NLog.e(TAG, "", e);
                 } finally {
                     try {
-                        if (zip != null)
+                        if (zip != null) {
                             zip.close();
+                        }
                     } catch (IOException e) {
                         NLog.e(TAG, "", e);
                     }
@@ -244,7 +248,7 @@ public class RomsFinder extends Thread {
             String path = file.getAbsolutePath();
             if (running.get()) {
                 String ext = EmuUtils.getExt(path).toLowerCase();
-                if (ext.equals("zip")) {
+                if ("zip".equals(ext)) {
                     zips.add(file);
                     try {
                         ZipFile zzFile = new ZipFile(file);

@@ -35,6 +35,7 @@ public class GGEmulatorActivity extends EmulatorActivity {
         return 512;
     }
 
+    @Override
     public boolean hasGLPalette() {
         return false;
     }

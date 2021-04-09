@@ -62,8 +62,9 @@ public class PreferenceUtil {
             exportPreferences(pref, file);
         } else if (type == IMPORT) {
             importPreferences(pref, file, handling);
-        } else
+        } else {
             throw new IllegalArgumentException();
+        }
     }
 
     public static void exportPreferences(SharedPreferences pref, File file) {
@@ -135,19 +136,19 @@ public class PreferenceUtil {
                 if (value.equals(escapedNull)) {
                     value = null;
                 }
-                if (type.equals("I")) {
+                if ("I".equals(type)) {
                     editor.putInt(name, value != null ? Integer.parseInt(value) : null);
                 }
-                if (type.equals("B")) {
+                if ("B".equals(type)) {
                     editor.putBoolean(name, value != null ? Boolean.parseBoolean(value) : null);
                 }
-                if (type.equals("F")) {
+                if ("F".equals(type)) {
                     editor.putFloat(name, value != null ? Float.parseFloat(value) : null);
                 }
-                if (type.equals("L")) {
+                if ("L".equals(type)) {
                     editor.putLong(name, value != null ? Long.parseLong(value) : null);
                 }
-                if (type.equals("S")) {
+                if ("S".equals(type)) {
                     if (value != null) {
                         value = value.replace(escapedI, "|");
                         value = value.replace(escapedN, "\n");
@@ -484,8 +485,9 @@ public class PreferenceUtil {
     public static boolean isScreenSettingsSaved(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         for (String key : pref.getAll().keySet()) {
-            if (key.startsWith("vp-"))
+            if (key.startsWith("vp-")) {
                 return true;
+            }
         }
         return false;
     }

@@ -42,6 +42,7 @@ class OpenGLView extends GLSurfaceView implements EmulatorView {
         return this;
     }
 
+    @Override
     public ViewPort getViewPort() {
         return renderer.getViewPort();
     }

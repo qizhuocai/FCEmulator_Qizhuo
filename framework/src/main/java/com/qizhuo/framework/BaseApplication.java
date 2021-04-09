@@ -12,6 +12,7 @@ abstract public class BaseApplication extends Application {
 
     private static final String TAG = BaseApplication.class.getName();
 
+    @Override
     public void onCreate() {
         super.onCreate();
         Utils.init(this);

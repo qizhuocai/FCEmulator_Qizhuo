@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-    <string name="app_name">EmuDroid</string>
+    <string name="app_name">FCEmulator</string>
     <string name="empty_desc">this component has no textual description</string>
     <string name="menu_settings">Settings</string>
     <string name="cancel">Cancel</string>
@@ -98,6 +98,7 @@
 
     <!-- gallery -->
     <string name="gallery_menu_pref">PREFERENCES</string>
+    <string name="gallery_menu_download">Download Online Roms </string>
     <string name="gallery_menu_wifi_on">WIFI CONTROL ON</string>
     <string name="gallery_menu_wifi_off">WIFI CONTROL OFF</string>
     <string name="gallery_menu_remote_control">REMOTE CONTROLLER</string>
@@ -153,25 +154,13 @@
     <string name="about">About</string>
     <string name="other_pref">Others</string>
     <string name="about_content" translatable="false">
-        NostalgiaLite\n\n
-        · This is an open source project and you can check out all the source code from github:\nhttps://github.com/huzongyao/NostalgiaLite\n\n
-        · The original source code is from Nostalgia.NES, and it\'s an open source project,
-        for more information, you can visit their official website: \nhttp://nostalgiaemulators.com\n\n
-        · I have changed and simplified some code and compiled it on android studio,
-        if you want to compile the project, you will need android gradle, sdk, ndk\n\n
-        More About Me\n
-        GitHub: https://huzongyao.github.io\n
-        ITEye博客：http://hzy3774.iteye.com\n
-        新浪微博: http://weibo.com/hzy3774\n\n
-        Contact To Me:\n
-        QQ: 377406997\n
-        Gmail: hzy3774@gmail.com\n
-        Foxmail: hzy3774@qq.com\n
+
     </string>
     <string name="gallery_menu_exit">Exit</string>
     <string name="control_select">SELECT</string>
     <string name="control_start">START</string>
     <string name="control_menu">MENU</string>
+    <string name="control_cleartext">clear</string>
 
     <string name="now_loading">Loading, Please Wait…</string>
 </resources>

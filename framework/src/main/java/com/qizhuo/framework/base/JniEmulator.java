@@ -162,6 +162,7 @@ public abstract class JniEmulator implements Emulator {
         }
     }
 
+    @Override
     public void setBaseDir(String path) {
         this.baseDir = path;
         if (!jni.setBaseDir(path)) {
@@ -255,6 +256,7 @@ public abstract class JniEmulator implements Emulator {
         }
     }
 
+    @Override
     public void setTurboEnabled(int port, int key, boolean isEnabled) {
         int n = port * 8;
         int t = ~turbos;
@@ -266,6 +268,7 @@ public abstract class JniEmulator implements Emulator {
         turbos = ~t;
     }
 
+    @Override
     public void readPalette(int[] result) {
         synchronized (loadLock) {
             if (gameInfo == null && !loadFailed) {
@@ -298,6 +301,7 @@ public abstract class JniEmulator implements Emulator {
         }
     }
 
+    @Override
     public void stop() {
         synchronized (readyLock) {
             ready.set(false);
@@ -318,6 +322,7 @@ public abstract class JniEmulator implements Emulator {
         }
     }
 
+    @Override
     public boolean isReady() {
         return ready.get();
     }
@@ -416,12 +421,14 @@ public abstract class JniEmulator implements Emulator {
         }
     }
 
+    @Override
     public void onEmulationResumed() {
         synchronized (sfxLock) {
             resetTrack();
         }
     }
 
+    @Override
     public void onEmulationPaused() {
     }
 

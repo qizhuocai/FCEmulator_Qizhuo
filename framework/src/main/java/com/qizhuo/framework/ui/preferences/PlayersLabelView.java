@@ -65,8 +65,9 @@ public class PlayersLabelView extends View {
             } else {
                 active = offsets[i] <= offset && offset < offsets[i] + 20000;
             }
-            if (active && (offset > (40 - width)))
+            if (active && (offset > (40 - width))) {
                 off = (int) (40 - width);
+            }
             paint.setColor(0xff000000);
             paint.setStyle(Style.FILL);
             canvas.drawRect(off - 2, 0, off + width, getMeasuredWidth(), paint);

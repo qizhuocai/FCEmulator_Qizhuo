@@ -23,42 +23,50 @@ public class NLog {
     }
 
     public static void e(String tag, String msg) {
-        if (E)
+        if (E) {
             Log.e(tag, msg);
+        }
     }
 
     public static void e(String tag, String msg, Throwable e) {
-        if (E)
+        if (E) {
             Log.e(tag, msg, e);
+        }
     }
 
     public static void d(String tag, String msg) {
-        if (D)
+        if (D) {
             Log.d(tag, msg);
+        }
     }
 
     public static void w(String tag, String msg) {
-        if (W)
+        if (W) {
             Log.w(tag, msg);
+        }
     }
 
     public static void i(String tag, String msg) {
-        if (I)
+        if (I) {
             Log.i(tag, msg);
+        }
     }
 
     public static void v(String tag, String msg) {
-        if (V)
+        if (V) {
             Log.i(tag, msg);
+        }
     }
 
     public static void wtf(String tag, String msg) {
-        if (WTF)
+        if (WTF) {
             Log.wtf(tag, msg);
+        }
     }
 
     public static void wtf(String tag, String msg, Throwable th) {
-        if (WTF)
+        if (WTF) {
             Log.wtf(tag, msg, th);
+        }
     }
 }

@@ -140,8 +140,9 @@ public class KeyboardProfile implements Serializable {
         Set<String> prefNames = pref.getAll().keySet();
         ArrayList<String> names = new ArrayList<>();
         for (String defName : DEFAULT_PROFILES_NAMES) {
-            if (!prefNames.contains(defName))
+            if (!prefNames.contains(defName)) {
                 names.add(defName);
+            }
         }
         names.addAll(prefNames);
         return names;
@@ -169,6 +170,8 @@ public class KeyboardProfile implements Serializable {
             case "wiimote":
                 prof = createWiimoteProfile();
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + name);
         }
         if (prof != null) {
             prof.save(context);
@@ -210,7 +213,7 @@ public class KeyboardProfile implements Serializable {
         }
 
         editor.apply();
-        if (!name.equals("default")) {
+        if (!"default".equals(name)) {
             pref = context.getSharedPreferences(KEYBOARD_PROFILES_SETTINGS, Context.MODE_PRIVATE);
             editor = pref.edit();
             editor.putBoolean(name, true);

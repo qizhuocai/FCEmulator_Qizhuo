@@ -74,7 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             if (column != null) {
                 String cName = column.columnName();
-                cName = cName.equals("") ? field.getName() : cName;
+                cName = "".equals(cName) ? field.getName() : cName;
                 Type type = field.getType();
                 boolean supported = true;
                 String dbType = "";
@@ -123,8 +123,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 if (Collection.class.isAssignableFrom((Class<?>) fieldClass)) {
                     Class<?> classType = getCollectionGenericClass(field);
 
-                    if (classType != null)
+                    if (classType != null) {
                         table2 = classType.getAnnotation(Table.class);
+                    }
 
                 } else {
                     table2 = field.getClass().getAnnotation(Table.class);
@@ -162,7 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             if (table != null) {
                 String tableName = table.tableName();
-                tableName = tableName.equals("") ? cls.getSimpleName() : tableName;
+                tableName = "".equals(tableName) ? cls.getSimpleName() : tableName;
                 db.execSQL("DROP TABLE IF EXISTS " + tableName);
                 NLog.i(TAG, "delete table " + tableName);
 
@@ -181,7 +182,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
 
             String tableName = table.tableName();
-            tableName = tableName.equals("") ? cls.getSimpleName() : tableName;
+            tableName = "".equals(tableName) ? cls.getSimpleName() : tableName;
             db.execSQL("DELETE FROM " + tableName);
             NLog.i(TAG, "clear table " + tableName);
         }
@@ -327,8 +328,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Class<?> cls = obj.getClass();
         HashSet<String> fieldsSet = new HashSet<>();
 
-        if (fields != null)
+        if (fields != null) {
             Collections.addAll(fieldsSet, fields);
+        }
 
         ClassItem classItem = classItems.get(cls);
 
@@ -344,7 +346,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 if (column != null) {
                     String cName = column.columnName();
-                    cName = cName.equals("") ? field.getName() : cName;
+                    cName = "".equals(cName) ? field.getName() : cName;
                     Object value;
 
                     try {
@@ -586,7 +588,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 field.setAccessible(true);
                 if (column != null && column.isPrimaryKey()) {
                     String cName = column.columnName();
-                    cName = cName.equals("") ? field.getName() : cName;
+                    cName = "".equals(cName) ? field.getName() : cName;
                     sql.append(cName).append("=");
                     Object value;
                     try {
@@ -623,12 +625,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             StringBuilder sql = new StringBuilder();
             long time = System.currentTimeMillis();
             sql.append("SELECT * FROM ").append(tableName);
-            if (where != null)
+            if (where != null) {
                 sql.append(" ").append(where);
-            if (groupby != null)
+            }
+            if (groupby != null) {
                 sql.append(" ").append(groupby);
-            if (orderBy != null)
+            }
+            if (orderBy != null) {
                 sql.append(" ").append(orderBy);
+            }
             sql.append(";");
             Cursor cursor = db.rawQuery(sql.toString(), null);
 
@@ -651,26 +656,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             if (cl == String.class) {
                                 field.set(obj, cursor.getString(i));
 
-                                if (index == classItem.primaryKeyIdx)
+                                if (index == classItem.primaryKeyIdx) {
                                     id = "\"" + cursor.getString(i) + "\"";
+                                }
 
                             } else if (cl.isEnum()) {
                                 @SuppressWarnings({"unchecked", "rawtypes"})
                                 Enum enu = Enum.valueOf((Class<Enum>) cl, cursor.getString(i));
                                 field.set(obj, enu);
 
-                                if (index == classItem.primaryKeyIdx)
+                                if (index == classItem.primaryKeyIdx) {
                                     id = "\"" + cursor.getString(i) + "\"";
+                                }
 
                             } else if (cl == int.class || cl == Integer.class) {
                                 field.set(obj, cursor.getInt(i));
-                                if (index == classItem.primaryKeyIdx)
+                                if (index == classItem.primaryKeyIdx) {
                                     id = cursor.getInt(i) + "";
+                                }
 
                             } else if (cl == long.class || cl == Long.class) {
                                 field.set(obj, cursor.getLong(i));
-                                if (index == classItem.primaryKeyIdx)
+                                if (index == classItem.primaryKeyIdx) {
                                     id = cursor.getLong(i) + "";
+                                }
 
                             } else if (cl == boolean.class || cl == Boolean.class) {
                                 field.set(obj, cursor.getInt(i) == 1);
@@ -739,7 +748,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             names = new String[fields.length];
             table = cls.getAnnotation(Table.class);
             tableName = table.tableName();
-            tableName = tableName.equals("") ? cls.getSimpleName() : tableName;
+            tableName = "".equals(tableName) ? cls.getSimpleName() : tableName;
 
             for (int i = 0; i < fields.length; i++) {
                 Field f = fields[i];
@@ -748,7 +757,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 if (column != null) {
                     classes[i] = f.getType();
                     names[i] = column.columnName();
-                    names[i] = names[i].equals("") ? f.getName() : names[i];
+                    names[i] = "".equals(names[i]) ? f.getName() : names[i];
                     if (column.isPrimaryKey()) {
                         primaryKeyIdx = i;
                     }

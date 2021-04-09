@@ -134,6 +134,8 @@ public class GalleryAdapter extends BaseAdapter implements SectionIndexer {
             case SORT_BY_LAST_PLAYED:
                 Collections.sort(games, lastPlayedDateComparator);
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + sortType);
         }
         String containsFilter = " " + filter;
         sumRuns = 0;
@@ -204,8 +206,9 @@ public class GalleryAdapter extends BaseAdapter implements SectionIndexer {
         sections = new Character[keyset.size()];
         keyset.toArray(sections);
         Arrays.sort(sections, Character::compareTo);
-        for (int i = 0; i < sections.length; i++)
+        for (int i = 0; i < sections.length; i++) {
             sections[i] = Character.toUpperCase(sections[i]);
+        }
         return sections;
     }
 

@@ -33,7 +33,7 @@ public class Cheat {
             String[] pom = item.getValue().split("\\|");
 
             if (pom.length > 0) {
-                Boolean enable = pom[0].equals("1");
+                Boolean enable = "1".equals(pom[0]);
                 String desc = pom.length > 1 ? pom[1] : "";
                 result.add(new Cheat(item.getKey(), desc, enable));
             }
@@ -84,8 +84,9 @@ public class Cheat {
         ArrayList<Cheat> cheats = getAllCheats(context, gameHash);
         ArrayList<String> result = new ArrayList<>();
         for (Cheat cheat : cheats) {
-            if (cheat.enable)
+            if (cheat.enable) {
                 result.add(cheat.chars);
+            }
         }
         return result;
     }
@@ -97,7 +98,7 @@ public class Cheat {
         Editor editor = pref.edit();
         editor.clear();
         for (Cheat cheat : items) {
-            if (!cheat.chars.equals("")) {
+            if (!"".equals(cheat.chars)) {
                 editor.putString(cheat.chars, (cheat.enable ? "1" : "0") + "|" + cheat.desc + "|");
             }
         }

@@ -66,7 +66,6 @@ public class SlotSelectionActivity extends AppCompatActivity {
         if (isUsed) {
             slotView.setOnLongClickListener(v -> {
                 PopupMenu menu = new PopupMenu(SlotSelectionActivity.this);
-                menu.setHeaderTitle(labelS);
                 menu.setOnItemSelectedListener(item -> {
                     if (item.getItemId() == SEND_SLOT) {
                     }
@@ -152,10 +151,12 @@ public class SlotSelectionActivity extends AppCompatActivity {
                 saveFocusIdx = i;
             }
         }
-        if (loadFocusIdx < 0)
+        if (loadFocusIdx < 0) {
             loadFocusIdx = 0;
-        if (saveFocusIdx < 0)
+        }
+        if (saveFocusIdx < 0) {
             saveFocusIdx = 0;
+        }
     }
 
     @Override
@@ -178,6 +179,7 @@ public class SlotSelectionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Handler h = new Handler() {
+            @Override
             public void handleMessage(android.os.Message msg) {
                 slots[msg.what].requestFocusFromTouch();
                 NLog.i(TAG, "focus item:" + loadFocusIdx);

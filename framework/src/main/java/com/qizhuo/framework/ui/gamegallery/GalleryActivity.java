@@ -2,20 +2,35 @@ package com.qizhuo.framework.ui.gamegallery;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
+import scut.carson_ho.searchview.ICallBack;
+import scut.carson_ho.searchview.bCallBack;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import com.qizhuo.framework.base.Character.LocalGroupSearch;
 import com.unity3d.ads.IUnityAdsListener;
 import com.unity3d.ads.UnityAds;
 
@@ -35,6 +50,8 @@ import com.qizhuo.framework.utils.DialogUtils;
 import com.qizhuo.framework.utils.EmuUtils;
 import com.qizhuo.framework.utils.NLog;
 
+import static com.qizhuo.framework.ui.gamegallery.RomsFinder.getAllGames;
+
 public abstract class GalleryActivity extends BaseGameGalleryActivity
         implements OnItemClickListener  {
 
@@ -49,13 +66,17 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
     private boolean importing = false;
     private boolean rotateAnim = false;
     private TabLayout mTabLayout;
-
-
-
+  public static  ArrayList<GameDescription> finalStringListstrlist=new ArrayList<>();
+    /**
+     * 输入框
+     */
+    private EditText etInput;
+    private Button search_btn_backs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 //        startActivity(new Intent(GalleryActivity.this, DemoActivity.class));
 //        finish();
         UnityAds.initialize(GalleryActivity.this,"4072917",true);
@@ -83,8 +104,6 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         });
 
 
-
-
         //Network Connectivity Statu
         dbHelper = new DatabaseHelper(this);
         setContentView(R.layout.activity_gallery);
@@ -94,23 +113,59 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         adapter.onRestoreInstanceState(savedInstanceState);
         pager = findViewById(R.id.game_gallery_pager);
         pager.setAdapter(adapter);
-
         mTabLayout = findViewById(R.id.game_gallery_tab);
         mTabLayout.setupWithViewPager(pager);
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-
         if (savedInstanceState != null) {
             pager.setCurrentItem(savedInstanceState.getInt(EXTRA_TABS_IDX, 0));
         } else {
             pager.setCurrentItem(PreferenceUtil.getLastGalleryTab(this));
         }
-
         exts = getRomExtensions();
         exts.addAll(getArchiveExtensions());
         inZipExts = getRomExtensions();
-
         reloadGames(true, null);
+        etInput = (EditText) findViewById(R.id.search_et_input);
+        search_btn_backs = (Button) findViewById(R.id.search_btn_back);
+        search_btn_backs.setOnClickListener(v -> {
+            setLastGames(finalStringListstrlist);
+                    etInput.getText().clear();
+                    InputMethodManager m = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    m .hideSoftInputFromWindow(etInput.getWindowToken(), 0);//比如EditView
+        }
+        );
+        etInput.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                Log.d(TAG,"输入："+ textView.getText());
+            }
+            return true;
+        });
 
+      etInput.addTextChangedListener(new TextWatcher() {
+          @Override
+          public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+          }
+
+          @Override
+          public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+          }
+
+          @Override
+          public void afterTextChanged(Editable s) {
+              ArrayList<GameDescription> games=  new ArrayList();
+                if (!TextUtils.isEmpty(etInput.getText()) && etInput.getText().length() == s.length()) {
+                    if (finalStringListstrlist!=null&& finalStringListstrlist.size()>0) {
+                        games = LocalGroupSearch.searchGroup(s.toString(), finalStringListstrlist);
+                    }else
+                    {
+                        games=finalStringListstrlist;
+                    }
+                    setLastGames(games);
+                }
+          }
+      });
     }
 
     @Override
@@ -121,6 +176,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //菜单
         int itemId = item.getItemId();
         if (itemId == R.id.gallery_menu_pref) {
             Intent i = new Intent(this, GeneralPreferenceActivity.class);
@@ -142,7 +198,6 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
     protected void onResume() {
         super.onResume();
 
-
         if (rotateAnim) {
             rotateAnim = false;
         }
@@ -156,8 +211,6 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
     @Override
     protected void onPause() {
         super.onPause();
-
-
         PreferenceUtil.saveLastGalleryTab(this, pager.getCurrentItem());
     }
 
@@ -169,7 +222,6 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         }
         File gameFile = new File(game.path);
         NLog.i(TAG, "select " + game);
-
         if (game.isInArchive()) {
             gameFile = new File(getExternalCacheDir(), game.checksum);
             game.path = gameFile.getAbsolutePath();

@@ -178,17 +178,7 @@ public class PopupMenu {
         }
     }
 
-    /**
-     * Sets the popup menu header's title.
-     *
-     * @param title
-     */
-    public void setHeaderTitle(CharSequence title) {
-        mHeaderTitleView.setText(title);
-        mHeaderTitleView.setVisibility(View.VISIBLE);
-        mHeaderTitleView.requestFocus();
-        mHeaderTitleView.setTypeface(font);
-    }
+
 
     /**
      * Change the popup's width.

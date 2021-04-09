@@ -255,6 +255,7 @@ public abstract class EmulatorActivity extends Activity
         }
     }
 
+    @Override
     public void onNotResponding() {
         synchronized (warningShowing) {
             if (!warningShowing) {
