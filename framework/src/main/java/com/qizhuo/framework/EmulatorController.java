@@ -2,7 +2,8 @@ package com.qizhuo.framework;
 
 import android.view.View;
 
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
+
 
 public interface EmulatorController {
 
@@ -27,9 +28,9 @@ public interface EmulatorController {
 
     void onWindowFocusChanged(boolean hasFocus);
 
-    void onGameStarted(GameDescription game);
+    void onGameStarted(GameEntity game);
 
-    void onGamePaused(GameDescription game);
+    void onGamePaused(GameEntity game);
 
     void connectToEmulator(int port, Emulator emulator);
 

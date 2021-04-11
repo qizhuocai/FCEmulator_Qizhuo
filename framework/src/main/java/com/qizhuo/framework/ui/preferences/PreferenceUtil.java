@@ -19,7 +19,8 @@ import com.qizhuo.framework.Emulator;
 import com.qizhuo.framework.GfxProfile;
 import com.qizhuo.framework.base.EmulatorHolder;
 import com.qizhuo.framework.base.ViewPort;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
+
 
 public class PreferenceUtil {
 
@@ -303,7 +304,7 @@ public class PreferenceUtil {
         return pref.getInt("game_pref_ui_strong_vibration", 0) * 10;
     }
 
-    public static GfxProfile getVideoProfile(Context context, Emulator emulator, GameDescription game) {
+    public static GfxProfile getVideoProfile(Context context, Emulator emulator, GameEntity game) {
         String gfxProfileName = getVideoMode(context, emulator, game.checksum);
         GfxProfile gfx = null;
         if (gfxProfileName != null) {

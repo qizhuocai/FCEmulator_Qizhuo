@@ -14,7 +14,8 @@ import com.qizhuo.framework.SfxProfile;
 import com.qizhuo.framework.SfxProfile.SoundEncoding;
 import com.qizhuo.framework.base.JniBridge;
 import com.qizhuo.framework.base.JniEmulator;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
+
 
 public class NesEmulator extends JniEmulator {
 
@@ -54,7 +55,7 @@ public class NesEmulator extends JniEmulator {
     }
 
     @Override
-    public GfxProfile autoDetectGfx(GameDescription game) {
+    public GfxProfile autoDetectGfx(GameEntity game) {
         String name = game.getCleanName();
         name = name.toLowerCase();
         if (name.contains("(e)") || name.contains("(europe)")
@@ -93,7 +94,7 @@ public class NesEmulator extends JniEmulator {
     }
 
     @Override
-    public SfxProfile autoDetectSfx(GameDescription game) {
+    public SfxProfile autoDetectSfx(GameEntity game) {
         return getInfo().getDefaultSfxProfile();
     }
 

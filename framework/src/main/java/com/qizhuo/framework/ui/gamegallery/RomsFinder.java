@@ -17,7 +17,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import com.qizhuo.framework.utils.DatabaseHelper;
+import com.qizhuo.framework.gamedata.dao.GameDbUtil;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
+//import com.qizhuo.framework.utils.DatabaseHelper;
 import com.qizhuo.framework.utils.EmuUtils;
 import com.qizhuo.framework.utils.NLog;
 import com.qizhuo.framework.utils.SDCardUtil;
@@ -29,9 +31,9 @@ public class RomsFinder extends Thread {
     private FilenameExtFilter filenameExtFilter;
     private FilenameExtFilter inZipFileNameExtFilter;
     private String androidAppDataFolder = "";
-    private HashMap<String, GameDescription> oldGames = new HashMap<>();
-    private DatabaseHelper dbHelper;
-    private ArrayList<GameDescription> games = new ArrayList<>();
+    private HashMap<String, GameEntity> oldGames = new HashMap<>();
+//    private DatabaseHelper dbHelper;
+    private ArrayList<GameEntity> games = new ArrayList<>();
     private OnRomsFinderListener listener;
     private BaseGameGalleryActivity activity;
     private boolean searchNew = true;
@@ -47,12 +49,12 @@ public class RomsFinder extends Thread {
         filenameExtFilter = new FilenameExtFilter(exts, true, false);
         inZipFileNameExtFilter = new FilenameExtFilter(inZipExts, true, false);
         androidAppDataFolder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android";
-        dbHelper = new DatabaseHelper(activity);
+//        dbHelper = new DatabaseHelper(activity);
     }
 
-    public static ArrayList<GameDescription> getAllGames(DatabaseHelper helper) {
-        return helper.selectObjsFromDb(GameDescription.class, false, "GROUP BY checksum", null);
-    }
+//    public static ArrayList<GameEntity> getAllGames(DatabaseHelper helper) {
+//        return helper.selectObjsFromDb(GameEntity.class, false, "GROUP BY checksum", null);
+//    }
 
     private void getRomAndPackedFiles(File root, List<File> result, HashSet<String> usedPaths) {
         String dirPath = null;
@@ -108,127 +110,135 @@ public class RomsFinder extends Thread {
         running.set(true);
         NLog.i(TAG, "start");
         activity.runOnUiThread(() -> listener.onRomsFinderStart(searchNew));
-        ArrayList<GameDescription> oldRoms = getAllGames(dbHelper);
-        oldRoms = removeNonExistRoms(oldRoms);
-        final ArrayList<GameDescription> roms = oldRoms;
+
+//        ArrayList<GameEntity> oldRoms = getAllGames(dbHelper);
+        ArrayList<GameEntity> oldRoms =new ArrayList<>();
+        List<GameEntity>   oldRomslist =  GameDbUtil.getInstance().GetGameEntityList();
+        oldRoms.addAll(oldRomslist);
+//        oldRoms = removeNonExistRoms(oldRoms);
+        final ArrayList<GameEntity> roms = oldRoms;
         NLog.i(TAG, "old games " + oldRoms.size());
+        finalStringListstrlist=oldRoms;
         activity.runOnUiThread(() -> listener.onRomsFinderFoundGamesInCache(roms));
-        finalStringListstrlist.clear();
+        //finalStringListstrlist.clear();
         if (searchNew) {
-            for (GameDescription desc : oldRoms) {
-                oldGames.put(desc.path, desc);
-                finalStringListstrlist.add(desc);
+
+         //   if (oldRoms!=null&&oldRoms.size()>0) {
+            try {
+                //全盘查找
+                startFileSystemMode(oldRoms);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            startFileSystemMode(oldRoms);
+            //  }
         } else {
             activity.runOnUiThread(() -> listener.onRomsFinderEnd(false));
         }
     }
 
-    private void checkZip(File zipFile) {
-        File externalCache = activity.getExternalCacheDir();
+//    private void checkZip(File zipFile) {
+//        File externalCache = activity.getExternalCacheDir();
+//
+//        if (externalCache != null) {
+//            String cacheDir = externalCache.getAbsolutePath();
+//            NLog.i(TAG, "check zip" + zipFile.getAbsolutePath());
+//            String hash = ZipRomFile.computeZipHash(zipFile);
+//            ZipRomFile zipRomFile = dbHelper.selectObjFromDb(ZipRomFile.class,
+//                    "WHERE hash=\"" + hash + "\"");
+//            ZipFile zip = null;
+//
+//            if (zipRomFile == null) {
+//                zipRomFile = new ZipRomFile();
+//                zipRomFile.path = zipFile.getAbsolutePath();
+//                zipRomFile.hash = hash;
+//
+//                try {
+//                    ZipEntry ze;
+//                    File dir = new File(cacheDir);
+//                    int counterRoms = 0;
+//                    int counterEntry = 0;
+//                    zip = new ZipFile(zipFile);
+//                    int max = zip.size();
+//                    Enumeration<? extends ZipEntry> entries = zip.entries();
+//
+//                    while (entries.hasMoreElements()) {
+//
+//                        try {
+//                            ze = entries.nextElement();
+//                            counterEntry++;
+//
+//                            if (running.get() && (!ze.isDirectory())) {
+//                                String filename = ze.getName();
+//                                if (inZipFileNameExtFilter.accept(dir, filename)) {
+//                                    counterRoms++;
+//                                    InputStream is = zip.getInputStream(ze);
+//                                    String checksum = EmuUtils.getMD5Checksum(is);
+//                                    try {
+//                                        if (is != null) {
+//                                            is.close();
+//                                        }
+//                                    } catch (Exception ignored) {
+//                                    }
+//                                    GameEntity game = new GameEntity(ze.getName(), "", checksum);
+//                                    game.inserTime = System.currentTimeMillis();
+//                                    zipRomFile.games.add(game);
+//                                    games.add(game);
+//                                }
+//                            }
+//
+//                            if (counterEntry > 20 && counterRoms == 0) {
+//                                listener.onRomsFinderFoundZipEntry(zipFile.getName() + "\n" + ze.getName(),
+//                                        max - 20 - 1);
+//                                NLog.i(TAG, "Predcasne ukonceni prohledavani zipu. V prvnich 20 zaznamech v zipu neni ani jeden rom");
+//                                break;
+//                            } else {
+//                                String name = ze.getName();
+//                                int idx = name.lastIndexOf('/');
+//                                if (idx != -1) {
+//                                    name = name.substring(idx + 1);
+//                                }
+//                                if (name.length() > 20) {
+//                                    name = name.substring(0, 20);
+//                                }
+//                                listener.onRomsFinderFoundZipEntry(zipFile.getName() + "\n" + name, 0);
+//                            }
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    if (running.get()) {
+//                        dbHelper.insertObjToDb(zipRomFile);
+//                    }
+//                } catch (Exception e) {
+//                    NLog.e(TAG, "", e);
+//                } finally {
+//                    try {
+//                        if (zip != null) {
+//                            zip.close();
+//                        }
+//                    } catch (IOException e) {
+//                        NLog.e(TAG, "", e);
+//                    }
+//                }
+//            } else {
+//                games.addAll(zipRomFile.games);
+//                listener.onRomsFinderFoundZipEntry(zipFile.getName(), zipRomFile.games.size());
+//                NLog.i(TAG, "found zip in cache " + zipRomFile.games.size());
+//            }
+//        } else {
+//            NLog.e(TAG, "external cache dir is null");
+//            activity.showSDCardFailed();
+//        }
+//    }
 
-        if (externalCache != null) {
-            String cacheDir = externalCache.getAbsolutePath();
-            NLog.i(TAG, "check zip" + zipFile.getAbsolutePath());
-            String hash = ZipRomFile.computeZipHash(zipFile);
-            ZipRomFile zipRomFile = dbHelper.selectObjFromDb(ZipRomFile.class,
-                    "WHERE hash=\"" + hash + "\"");
-            ZipFile zip = null;
-
-            if (zipRomFile == null) {
-                zipRomFile = new ZipRomFile();
-                zipRomFile.path = zipFile.getAbsolutePath();
-                zipRomFile.hash = hash;
-
-                try {
-                    ZipEntry ze;
-                    File dir = new File(cacheDir);
-                    int counterRoms = 0;
-                    int counterEntry = 0;
-                    zip = new ZipFile(zipFile);
-                    int max = zip.size();
-                    Enumeration<? extends ZipEntry> entries = zip.entries();
-
-                    while (entries.hasMoreElements()) {
-
-                        try {
-                            ze = entries.nextElement();
-                            counterEntry++;
-
-                            if (running.get() && (!ze.isDirectory())) {
-                                String filename = ze.getName();
-                                if (inZipFileNameExtFilter.accept(dir, filename)) {
-                                    counterRoms++;
-                                    InputStream is = zip.getInputStream(ze);
-                                    String checksum = EmuUtils.getMD5Checksum(is);
-                                    try {
-                                        if (is != null) {
-                                            is.close();
-                                        }
-                                    } catch (Exception ignored) {
-                                    }
-                                    GameDescription game = new GameDescription(ze.getName(), "", checksum);
-                                    game.inserTime = System.currentTimeMillis();
-                                    zipRomFile.games.add(game);
-                                    games.add(game);
-                                }
-                            }
-
-                            if (counterEntry > 20 && counterRoms == 0) {
-                                listener.onRomsFinderFoundZipEntry(zipFile.getName() + "\n" + ze.getName(),
-                                        max - 20 - 1);
-                                NLog.i(TAG, "Predcasne ukonceni prohledavani zipu. V prvnich 20 zaznamech v zipu neni ani jeden rom");
-                                break;
-                            } else {
-                                String name = ze.getName();
-                                int idx = name.lastIndexOf('/');
-                                if (idx != -1) {
-                                    name = name.substring(idx + 1);
-                                }
-                                if (name.length() > 20) {
-                                    name = name.substring(0, 20);
-                                }
-                                listener.onRomsFinderFoundZipEntry(zipFile.getName() + "\n" + name, 0);
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (running.get()) {
-                        dbHelper.insertObjToDb(zipRomFile);
-                    }
-                } catch (Exception e) {
-                    NLog.e(TAG, "", e);
-                } finally {
-                    try {
-                        if (zip != null) {
-                            zip.close();
-                        }
-                    } catch (IOException e) {
-                        NLog.e(TAG, "", e);
-                    }
-                }
-            } else {
-                games.addAll(zipRomFile.games);
-                listener.onRomsFinderFoundZipEntry(zipFile.getName(), zipRomFile.games.size());
-                NLog.i(TAG, "found zip in cache " + zipRomFile.games.size());
-            }
-        } else {
-            NLog.e(TAG, "external cache dir is null");
-            activity.showSDCardFailed();
-        }
-    }
-
-    private void startFileSystemMode(ArrayList<GameDescription> oldRoms) {
+    private void startFileSystemMode(ArrayList<GameEntity> oldRoms) {
         HashSet<File> roots = new HashSet<>();
-
+        //
         if (selectedFolder == null) {
             roots = SDCardUtil.getAllStorageLocations();
         } else {
             roots.add(selectedFolder);
         }
-
         ArrayList<File> result = new ArrayList<>();
         long startTime = System.currentTimeMillis();
         NLog.i(TAG, "start searching in file system");
@@ -258,15 +268,24 @@ public class RomsFinder extends Thread {
                     }
                     continue;
                 }
-                GameDescription game;
+                GameEntity game;
                 if (oldGames.containsKey(path)) {
                     game = oldGames.get(path);
                 } else {
-                    game = new GameDescription(file);
+                    game = new GameEntity(file);
                     game.inserTime = System.currentTimeMillis();
-                    dbHelper.insertObjToDb(game);
-                    listener.onRomsFinderFoundFile(game.name);
+                    game._id = System.currentTimeMillis();
+                    game.setId(System.currentTimeMillis());
+                    GameDbUtil.getInstance().setGameEntity( game);
+                 //   dbHelper.insertObjToDb(game);
+                    listener.onRomsFinderFoundFile(game.getName());
+                    if (!finalStringListstrlist.contains(game)) {
+                        finalStringListstrlist.add(game);
+                    }
+
                 }
+//
+              //  finalStringListstrlist.add(game);
                 games.add(game);
             }
         }
@@ -274,7 +293,7 @@ public class RomsFinder extends Thread {
         for (File zip : zips) {
             if (running.get()) {
                 listener.onRomsFinderZipPartStart(zipEntriesCount);
-                checkZip(zip);
+                //checkZip(zip);
             }
         }
 
@@ -291,7 +310,6 @@ public class RomsFinder extends Thread {
                 listener.onRomsFinderEnd(true);
             });
         }
-
         NLog.i(TAG, "time:" + ((System.currentTimeMillis() - startTime) / 1000));
     }
 
@@ -304,49 +322,49 @@ public class RomsFinder extends Thread {
         NLog.i(TAG, "cancel search");
     }
 
-    private ArrayList<GameDescription> removeNonExistRoms(ArrayList<GameDescription> roms) {
+    private ArrayList<GameEntity> removeNonExistRoms(ArrayList<GameEntity> roms) {
         HashSet<String> hashs = new HashSet<>();
-        ArrayList<GameDescription> newRoms = new ArrayList<>(roms.size());
-        Map<Long, ZipRomFile> zipsMap = new HashMap<>();
+        ArrayList<GameEntity> newRoms = new ArrayList<>(roms.size());
+//        Map<Long, ZipRomFile> zipsMap = new HashMap<>();
+//
+//        for (ZipRomFile zip : dbHelper.selectObjsFromDb(ZipRomFile.class,
+//                false, null, null)) {
+//            File zipFile = new File(zip.path);
+//
+//            if (zipFile.exists()) {
+//                zipsMap.put(zip._id, zip);
+//
+//            } else {
+//                dbHelper.deleteObjFromDb(zip);
+//                dbHelper.deleteObjsFromDb(GameEntity.class, "where zipfile_id=" + zip._id);
+//            }
+//        }
 
-        for (ZipRomFile zip : dbHelper.selectObjsFromDb(ZipRomFile.class,
-                false, null, null)) {
-            File zipFile = new File(zip.path);
-
-            if (zipFile.exists()) {
-                zipsMap.put(zip._id, zip);
-
-            } else {
-                dbHelper.deleteObjFromDb(zip);
-                dbHelper.deleteObjsFromDb(GameDescription.class, "where zipfile_id=" + zip._id);
-            }
-        }
-
-        for (GameDescription game : roms) {
-            if (!game.isInArchive()) {
-                File path = new File(game.path);
-
-                if (path.exists()) {
-                    if (!hashs.contains(game.checksum)) {
-                        newRoms.add(game);
-                        hashs.add(game.checksum);
-                    }
-
-                } else {
-                    dbHelper.deleteObjFromDb(game);
-                }
-
-            } else {
-                ZipRomFile zip = zipsMap.get(game.zipfile_id);
-
-                if (zip != null) {
-                    if (!hashs.contains(game.checksum)) {
-                        newRoms.add(game);
-                        hashs.add(game.checksum);
-                    }
-                }
-            }
-        }
+//        for (GameEntity game : roms) {
+//            if (!game.isInArchive()) {
+//                File path = new File(game.path);
+//
+//                if (path.exists()) {
+//                    if (!hashs.contains(game.checksum)) {
+//                        newRoms.add(game);
+//                        hashs.add(game.checksum);
+//                    }
+//
+//                } else {
+//                    dbHelper.deleteObjFromDb(game);
+//                }
+//
+//            } else {
+//                ZipRomFile zip = zipsMap.get(game.zipfile_id);
+//
+//                if (zip != null) {
+//                    if (!hashs.contains(game.checksum)) {
+//                        newRoms.add(game);
+//                        hashs.add(game.checksum);
+//                    }
+//                }
+//            }
+//        }
         return newRoms;
     }
 
@@ -354,7 +372,7 @@ public class RomsFinder extends Thread {
 
         void onRomsFinderStart(boolean searchNew);
 
-        void onRomsFinderFoundGamesInCache(ArrayList<GameDescription> oldRoms);
+        void onRomsFinderFoundGamesInCache(ArrayList<GameEntity> oldRoms);
 
         void onRomsFinderFoundFile(String name);
 
@@ -362,7 +380,7 @@ public class RomsFinder extends Thread {
 
         void onRomsFinderFoundZipEntry(String message, int skipEntries);
 
-        void onRomsFinderNewGames(ArrayList<GameDescription> roms);
+        void onRomsFinderNewGames(ArrayList<GameEntity> roms);
 
         void onRomsFinderEnd(boolean searchNew);
 

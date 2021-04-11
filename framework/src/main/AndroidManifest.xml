@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -32,7 +32,8 @@
         </activity>
 
         <activity android:name="com.qizhuo.framework.ui.gamegallery.SlotSelectionActivity" />
-        <activity android:name="com.qizhuo.framework.ui.SearchGameActivity" />
+        <activity android:name="com.qizhuo.framework.ui.gamegallery.GalleryActivity" />
+        <activity android:name="com.qizhuo.framework.ui.gamegallery.BaseGameGalleryActivity" />
 
         <activity
             android:name="com.qizhuo.framework.ui.preferences.GamePreferenceActivity"
@@ -53,7 +54,6 @@
             android:name="com.qizhuo.framework.base.RestarterActivity"
             android:configChanges="orientation|screenSize"
             android:process=":restarter" />
-        <activity android:name=".ui.SearchGameActivity" />
 
 
     </application>

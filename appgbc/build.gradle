@@ -13,7 +13,7 @@ android {
 
     }
     defaultConfig {
-        applicationId "nostalgia.appgbc"
+        applicationId "com.qizhuo.appgbc"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1401

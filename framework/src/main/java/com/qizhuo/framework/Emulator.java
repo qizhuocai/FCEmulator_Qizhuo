@@ -3,7 +3,8 @@ package com.qizhuo.framework;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
+
 
 public interface Emulator {
 
@@ -75,8 +76,8 @@ public interface Emulator {
 
     boolean isReady();
 
-    GfxProfile autoDetectGfx(GameDescription game);
+    GfxProfile autoDetectGfx(GameEntity game);
 
-    SfxProfile autoDetectSfx(GameDescription game);
+    SfxProfile autoDetectSfx(GameEntity game);
 
 }

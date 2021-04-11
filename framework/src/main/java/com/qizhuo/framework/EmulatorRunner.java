@@ -12,7 +12,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.qizhuo.framework.base.BatterySaveUtils;
 import com.qizhuo.framework.base.Benchmark;
 import com.qizhuo.framework.base.EmulatorUtils;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.preferences.PreferenceUtil;
 import com.qizhuo.framework.utils.FileUtils;
 import com.qizhuo.framework.utils.NLog;
@@ -133,7 +134,7 @@ public class EmulatorRunner {
         }
     }
 
-    public void startGame(GameDescription game) {
+    public void startGame(GameEntity game) {
         isPaused.set(false);
 
         if (updater != null) {

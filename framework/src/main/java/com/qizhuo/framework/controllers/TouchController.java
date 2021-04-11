@@ -15,7 +15,8 @@ import com.qizhuo.framework.EmulatorController;
 import com.qizhuo.framework.GfxProfile;
 import com.qizhuo.framework.R;
 import com.qizhuo.framework.base.EmulatorActivity;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.multitouchbutton.MultitouchBtnInterface;
 import com.qizhuo.framework.ui.multitouchbutton.MultitouchButton;
 import com.qizhuo.framework.ui.multitouchbutton.MultitouchImageButton;
@@ -208,7 +209,7 @@ public class TouchController implements EmulatorController, OnMultitouchEventLis
     }
 
     @Override
-    public void onGameStarted(GameDescription game) {
+    public void onGameStarted(GameEntity game) {
         GfxProfile gfxProfile = emulator.getActiveGfxProfile();
         zapperIc.setVisibility(PreferenceUtil.isZapperEnabled(emulatorActivity, game.checksum) ? View.VISIBLE : View.GONE);
         palIc.setVisibility("PAL".equals(gfxProfile.name) ? View.VISIBLE : View.GONE);
@@ -246,7 +247,7 @@ public class TouchController implements EmulatorController, OnMultitouchEventLis
     }
 
     @Override
-    public void onGamePaused(GameDescription game) {
+    public void onGamePaused(GameEntity game) {
     }
 
     public void hide() {

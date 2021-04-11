@@ -24,18 +24,20 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
-import scut.carson_ho.searchview.ICallBack;
-import scut.carson_ho.searchview.bCallBack;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import com.qizhuo.framework.base.Character.LocalGroupSearch;
+
+import com.qizhuo.framework.gamedata.dao.GameDbUtil;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.unity3d.ads.IUnityAdsListener;
 import com.unity3d.ads.UnityAds;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -45,28 +47,28 @@ import com.qizhuo.framework.ui.gamegallery.GalleryPagerAdapter.OnItemClickListen
 import com.qizhuo.framework.ui.preferences.GeneralPreferenceActivity;
 import com.qizhuo.framework.ui.preferences.GeneralPreferenceFragment;
 import com.qizhuo.framework.ui.preferences.PreferenceUtil;
-import com.qizhuo.framework.utils.DatabaseHelper;
+
 import com.qizhuo.framework.utils.DialogUtils;
 import com.qizhuo.framework.utils.EmuUtils;
 import com.qizhuo.framework.utils.NLog;
 
-import static com.qizhuo.framework.ui.gamegallery.RomsFinder.getAllGames;
 
 public abstract class GalleryActivity extends BaseGameGalleryActivity
         implements OnItemClickListener  {
 
     public static final String EXTRA_TABS_IDX = "EXTRA_TABS_IDX";
 
-    private static final String TAG = "mytest";
+    private static final String TAG = "GalleryActivity";
 
     ProgressDialog searchDialog = null;
     private ViewPager pager = null;
-    private DatabaseHelper dbHelper;
+   // private DatabaseHelper dbHelper;
     private GalleryPagerAdapter adapter;
     private boolean importing = false;
     private boolean rotateAnim = false;
     private TabLayout mTabLayout;
-  public static  ArrayList<GameDescription> finalStringListstrlist=new ArrayList<>();
+//  public static  ArrayList<GameEntity> finalStringListstrlist=new ArrayList<>();
+  public static  ArrayList<GameEntity> finalStringListstrlist=new ArrayList<>();
     /**
      * 输入框
      */
@@ -76,8 +78,8 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        startActivity(new Intent(GalleryActivity.this, DemoActivity.class));
+       // DbManager.init(this,"gamedb");
+      //  startActivity(new Intent(GalleryActivity.this, DemoActivity.class));
 //        finish();
         UnityAds.initialize(GalleryActivity.this,"4072917",true);
         //Network Connectivity Status
@@ -87,16 +89,27 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
             }
 
+            /**
+             * @param s
+             */
             @Override
             public void onUnityAdsStart(String s) {
 
             }
 
+            /**
+             * @param s
+             * @param finishState
+             */
             @Override
             public void onUnityAdsFinish(String s, UnityAds.FinishState finishState) {
 
             }
 
+            /**
+             * @param unityAdsError
+             * @param s
+             */
             @Override
             public void onUnityAdsError(UnityAds.UnityAdsError unityAdsError, String s) {
 
@@ -105,7 +118,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
 
         //Network Connectivity Statu
-        dbHelper = new DatabaseHelper(this);
+      //  dbHelper = new DatabaseHelper(this);
         setContentView(R.layout.activity_gallery);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -136,7 +149,10 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         );
         etInput.setOnEditorActionListener((textView, actionId, keyEvent) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                Log.d(TAG,"输入："+ textView.getText());
+              //  Log.d(TAG,"输入："+ textView.getText());
+                Log.d(TAG,"输入数据回车："+finalStringListstrlist.size());
+                setLastGames(finalStringListstrlist);
+
             }
             return true;
         });
@@ -154,7 +170,8 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
           @Override
           public void afterTextChanged(Editable s) {
-              ArrayList<GameDescription> games=  new ArrayList();
+              ArrayList<GameEntity> games;
+              Log.d(TAG,"输入数据："+finalStringListstrlist.size());
                 if (!TextUtils.isEmpty(etInput.getText()) && etInput.getText().length() == s.length()) {
                     if (finalStringListstrlist!=null&& finalStringListstrlist.size()>0) {
                         games = LocalGroupSearch.searchGroup(s.toString(), finalStringListstrlist);
@@ -163,6 +180,9 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
                         games=finalStringListstrlist;
                     }
                     setLastGames(games);
+                }else
+                {
+                    setLastGames(finalStringListstrlist);
                 }
           }
       });
@@ -203,8 +223,10 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         }
         adapter.notifyDataSetChanged();
         if (reloadGames && !importing) {
-            boolean isDBEmpty = dbHelper.countObjsInDb(GameDescription.class, null) == 0;
-            reloadGames(isDBEmpty, null);
+           // GameEntity games =   DbUtil.getInstance(). GetGameEntityService().queryBuilder().where( GameEntityDao.Properties.LastGameTime.notIn(0)).unique();
+
+          //  boolean isDBEmpty = dbHelper.countObjsInDb(GameEntity.class, null) == 0;
+            reloadGames(false, null);
         }
     }
 
@@ -215,7 +237,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
     }
 
     @Override
-    public void onItemClick(GameDescription game) {
+    public void onItemClick(GameEntity game) {
 
         if(UnityAds.isReady("qizhuorewardedVideo")){
             UnityAds.show(GalleryActivity.this);
@@ -225,22 +247,29 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         if (game.isInArchive()) {
             gameFile = new File(getExternalCacheDir(), game.checksum);
             game.path = gameFile.getAbsolutePath();
-            ZipRomFile zipRomFile = dbHelper.selectObjFromDb(ZipRomFile.class,
-                    "WHERE _id=" + game.zipfile_id, false);
-            File zipFile = new File(zipRomFile.path);
-            if (!gameFile.exists()) {
-                try {
-                    EmuUtils.extractFile(zipFile, game.name, gameFile);
-                } catch (IOException e) {
-                    NLog.e(TAG, "", e);
-                }
-            }
+
+//            ZipRomFile zipRomFile = dbHelper.selectObjFromDb(ZipRomFile.class,
+//                    "WHERE _id=" + game.zipfile_id, false);
+//            File zipFile = new File(zipRomFile.path);
+//            if (!gameFile.exists()) {
+//                try {
+//                    EmuUtils.extractFile(zipFile, game.getName(), gameFile);
+//                } catch (IOException e) {
+//                    NLog.e(TAG, "", e);
+//                }
+//            }
         }
 
         if (gameFile.exists()) {
             game.lastGameTime = System.currentTimeMillis();
+            game._id = System.currentTimeMillis();
+            game.set_id(System.currentTimeMillis());
             game.runCount++;
-            dbHelper.updateObjToDb(game, new String[]{"lastGameTime", "runCount"});
+            GameDbUtil.getInstance().setGameEntity( game);
+            if (!finalStringListstrlist.contains(game)) {
+                finalStringListstrlist.add(game);
+            }
+      //      dbHelper.updateObjToDb(game, new String[]{"lastGameTime", "runCount"});
             onGameSelected(game, 0);
         } else {
             NLog.w(TAG, "rom file:" + gameFile.getAbsolutePath() + " does not exist");
@@ -257,9 +286,9 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         }
     }
 
-    public boolean onGameSelected(GameDescription game, int slot) {
+    public boolean onGameSelected(GameEntity game, int slot) {
         Intent intent = new Intent(this, getEmulatorActivityClass());
-        intent.putExtra(EmulatorActivity.EXTRA_GAME, game);
+        intent.putExtra(EmulatorActivity.EXTRA_GAME, (Serializable) game);
         intent.putExtra(EmulatorActivity.EXTRA_SLOT, slot);
         intent.putExtra(EmulatorActivity.EXTRA_FROM_GALLERY, true);
         startActivity(intent);
@@ -267,14 +296,14 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
     }
 
     @Override
-    public void setLastGames(ArrayList<GameDescription> games) {
+    public void setLastGames(ArrayList<GameEntity> games) {
         adapter.setGames(games);
         pager.setVisibility(games.isEmpty() ? View.INVISIBLE : View.VISIBLE);
 
     }
 
     @Override
-    public void setNewGames(ArrayList<GameDescription> games) {
+    public void setNewGames(ArrayList<GameEntity> games) {
         boolean isListEmpty = adapter.addGames(games) == 0;
         pager.setVisibility(isListEmpty ? View.INVISIBLE : View.VISIBLE);
     }
@@ -348,7 +377,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
     }
 
     @Override
-    public void onRomsFinderNewGames(ArrayList<GameDescription> roms) {
+    public void onRomsFinderNewGames(ArrayList<GameEntity> roms) {
         super.onRomsFinderNewGames(roms);
         onSearchingEnd(roms.size(), true);
     }

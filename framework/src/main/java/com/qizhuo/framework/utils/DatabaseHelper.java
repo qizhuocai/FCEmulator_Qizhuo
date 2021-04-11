@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.gamegallery.ZipRomFile;
 import com.qizhuo.framework.utils.annotations.Column;
 import com.qizhuo.framework.utils.annotations.ObjectFromOtherTable;
@@ -28,13 +28,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
     private static int DB_VERSION_CODE = 21;
     private Class<?>[] classes = new Class<?>[]{
-            GameDescription.class,
+            GameEntity.class,
             ZipRomFile.class
     };
     private HashMap<Class<?>, ClassItem> classItems = new HashMap<>();
 
     public DatabaseHelper(Context context) {
-        super(context, "db", null, DB_VERSION_CODE);
+        super(context, "qizhuodb", null, DB_VERSION_CODE);
         for (Class<?> cls : classes) {
             classItems.put(cls, new ClassItem(cls));
         }

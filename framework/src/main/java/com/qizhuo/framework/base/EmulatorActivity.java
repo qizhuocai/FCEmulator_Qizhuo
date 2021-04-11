@@ -29,6 +29,7 @@ import com.blankj.utilcode.util.PermissionUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,8 +47,9 @@ import com.qizhuo.framework.controllers.KeyboardController;
 import com.qizhuo.framework.controllers.QuickSaveController;
 import com.qizhuo.framework.controllers.TouchController;
 import com.qizhuo.framework.controllers.ZapperGun;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.cheats.CheatsActivity;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
 import com.qizhuo.framework.ui.gamegallery.SlotSelectionActivity;
 import com.qizhuo.framework.ui.preferences.GamePreferenceActivity;
 import com.qizhuo.framework.ui.preferences.GamePreferenceFragment;
@@ -81,7 +83,7 @@ public abstract class EmulatorActivity extends Activity
     boolean runTimeMachine = false;
     TimeTravelDialog dialog;
     private GameMenu gameMenu = null;
-    private GameDescription game = null;
+    private GameEntity game = null;
     private DynamicDPad dynamic;
     private TouchController touchController = null;
     private boolean autoHide;
@@ -171,7 +173,7 @@ public abstract class EmulatorActivity extends Activity
         NLog.d(TAG, "onCreate - BaseActivity");
         boolean hasOpenGL20 = EmuUtils.checkGL20Support(getApplicationContext());
         gameMenu = new GameMenu(this, this);
-        game = (GameDescription) getIntent().getSerializableExtra(EXTRA_GAME);
+        game = (GameEntity) getIntent().getSerializableExtra(EXTRA_GAME);
         slotToRun = -1;
         WindowManager.LayoutParams wParams = getWindow().getAttributes();
         wParams.flags |= WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
@@ -316,6 +318,8 @@ public abstract class EmulatorActivity extends Activity
                     slotToRun = slotIdx;
                     slotToSave = null;
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + requestCode);
             }
         }
     }
@@ -481,6 +485,8 @@ public abstract class EmulatorActivity extends Activity
             case LAND:
                 this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + PreferenceUtil.getDisplayRotation(this));
         }
         manager.setFastForwardFrameCount(PreferenceUtil.getFastForwardFrameCount(this));
         if (PreferenceUtil.isDynamicDPADEnable(this)) {
@@ -657,14 +663,14 @@ public abstract class EmulatorActivity extends Activity
                 enableCheats();
             } else if (item.id == R.string.game_menu_save) {
                 Intent i = new Intent(this, SlotSelectionActivity.class);
-                i.putExtra(SlotSelectionActivity.EXTRA_GAME, game);
+                i.putExtra(SlotSelectionActivity.EXTRA_GAME, (Serializable) game);
                 i.putExtra(SlotSelectionActivity.EXTRA_BASE_DIRECTORY, baseDir);
                 i.putExtra(SlotSelectionActivity.EXTRA_DIALOG_TYPE_INT,
                         SlotSelectionActivity.DIALOAG_TYPE_SAVE);
                 freeStartActivityForResult(this, i, REQUEST_SAVE);
             } else if (item.id == R.string.game_menu_load) {
                 Intent i = new Intent(this, SlotSelectionActivity.class);
-                i.putExtra(SlotSelectionActivity.EXTRA_GAME, game);
+                i.putExtra(SlotSelectionActivity.EXTRA_GAME, (Serializable) game);
                 i.putExtra(SlotSelectionActivity.EXTRA_BASE_DIRECTORY, baseDir);
                 i.putExtra(SlotSelectionActivity.EXTRA_DIALOG_TYPE_INT,
                         SlotSelectionActivity.DIALOAG_TYPE_LOAD);
@@ -678,7 +684,7 @@ public abstract class EmulatorActivity extends Activity
                 i.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
                 i.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT,
                         GamePreferenceFragment.class.getName());
-                i.putExtra(GamePreferenceActivity.EXTRA_GAME, game);
+                i.putExtra(GamePreferenceActivity.EXTRA_GAME, (Serializable) game);
                 startActivity(i);
             } else if (item.id == R.string.gallery_menu_pref) {
                 Intent i = new Intent(this, GeneralPreferenceActivity.class);

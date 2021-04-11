@@ -21,7 +21,7 @@ import java.util.Locale;
 
 import com.qizhuo.framework.R;
 import com.qizhuo.framework.base.EmulatorHolder;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
 
 
 public class CheatsActivity extends AppCompatActivity {
@@ -100,11 +100,11 @@ public class CheatsActivity extends AppCompatActivity {
 
         chars.addTextChangedListener(new TextWatcher() {
 //            @Override
-//            public void onTextChanged(GameDescription arg0, int arg1, int arg2, int arg3) {
+//            public void onTextChanged(GameEntity arg0, int arg1, int arg2, int arg3) {
 //            }
 //
 //            @Override
-//            public void beforeTextChanged(GameDescription arg0, int arg1, int arg2, int arg3) {
+//            public void beforeTextChanged(GameEntity arg0, int arg1, int arg2, int arg3) {
 //            }
 
             @Override

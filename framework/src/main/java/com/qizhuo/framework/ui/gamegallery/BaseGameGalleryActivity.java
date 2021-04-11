@@ -20,8 +20,9 @@ import java.util.Set;
 import com.qizhuo.framework.Emulator;
 import com.qizhuo.framework.R;
 import com.qizhuo.framework.base.EmulatorActivity;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.gamegallery.RomsFinder.OnRomsFinderListener;
-import com.qizhuo.framework.utils.DatabaseHelper;
+
 import com.qizhuo.framework.utils.DialogUtils;
 import com.qizhuo.framework.utils.FileUtils;
 import com.qizhuo.framework.utils.NLog;
@@ -36,7 +37,7 @@ abstract public class BaseGameGalleryActivity extends AppCompatActivity
     protected boolean reloadGames = true;
     protected boolean reloading = false;
     private RomsFinder romsFinder = null;
-    private DatabaseHelper dbHelper = null;
+   // private DatabaseHelper dbHelper = null;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -44,19 +45,20 @@ abstract public class BaseGameGalleryActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         HashSet<String> exts = new HashSet<>(getRomExtensions());
         exts.addAll(getArchiveExtensions());
-        dbHelper = new DatabaseHelper(this);
-        SharedPreferences pref = getSharedPreferences("android50comp", Context.MODE_PRIVATE);
-        String androidVersion = Build.VERSION.RELEASE;
-
-        if (!pref.getString("androidVersion", "").equals(androidVersion)) {
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            dbHelper.onUpgrade(db, Integer.MAX_VALUE - 1, Integer.MAX_VALUE);
-            db.close();
-            Editor editor = pref.edit();
-            editor.putString("androidVersion", androidVersion);
-            editor.apply();
-            NLog.i(TAG, "Reinit DB " + androidVersion);
-        }
+        //创建表
+//        dbHelper = new DatabaseHelper(this);
+//        SharedPreferences pref = getSharedPreferences("android50comp", Context.MODE_PRIVATE);
+//        String androidVersion = Build.VERSION.RELEASE;
+//
+//        if (!pref.getString("androidVersion", "").equals(androidVersion)) {
+//            SQLiteDatabase db = dbHelper.getWritableDatabase();
+//            dbHelper.onUpgrade(db, Integer.MAX_VALUE - 1, Integer.MAX_VALUE);
+//            db.close();
+//            Editor editor = pref.edit();
+//            editor.putString("androidVersion", androidVersion);
+//            editor.apply();
+//            NLog.i(TAG, "Reinit DB " + androidVersion);
+//        }
         reloadGames = true;
     }
 
@@ -75,7 +77,7 @@ abstract public class BaseGameGalleryActivity extends AppCompatActivity
             romsFinder.stopSearch();
         }
     }
-
+//开启游戏
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void reloadGames(boolean searchNew, File selectedFolder) {
         if (romsFinder == null) {
@@ -87,12 +89,12 @@ abstract public class BaseGameGalleryActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRomsFinderFoundGamesInCache(ArrayList<GameDescription> oldRoms) {
+    public void onRomsFinderFoundGamesInCache(ArrayList<GameEntity> oldRoms) {
         setLastGames(oldRoms);
     }
 
     @Override
-    public void onRomsFinderNewGames(ArrayList<GameDescription> roms) {
+    public void onRomsFinderNewGames(ArrayList<GameEntity> roms) {
         setNewGames(roms);
     }
 
@@ -128,9 +130,9 @@ abstract public class BaseGameGalleryActivity extends AppCompatActivity
 
     public abstract Class<? extends EmulatorActivity> getEmulatorActivityClass();
 
-    abstract public void setLastGames(ArrayList<GameDescription> games);
+    abstract public void setLastGames(ArrayList<GameEntity> games);
 
-    abstract public void setNewGames(ArrayList<GameDescription> games);
+    abstract public void setNewGames(ArrayList<GameEntity> games);
 
     abstract protected Set<String> getRomExtensions();
 

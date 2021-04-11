@@ -39,7 +39,7 @@ import com.qizhuo.framework.KeyboardProfile;
 import com.qizhuo.framework.R;
 import com.qizhuo.framework.base.EmulatorHolder;
 import com.qizhuo.framework.controllers.KeyboardController;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
 import com.qizhuo.framework.utils.NLog;
 
 public class KeyboardSettingsActivity extends AppCompatActivity

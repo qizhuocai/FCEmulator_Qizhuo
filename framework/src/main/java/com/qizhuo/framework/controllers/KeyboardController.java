@@ -9,7 +9,8 @@ import com.qizhuo.framework.Emulator;
 import com.qizhuo.framework.EmulatorController;
 import com.qizhuo.framework.KeyboardProfile;
 import com.qizhuo.framework.base.EmulatorActivity;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.utils.NLog;
 
 public class KeyboardController implements EmulatorController {
@@ -76,11 +77,11 @@ public class KeyboardController implements EmulatorController {
     }
 
     @Override
-    public void onGameStarted(GameDescription game) {
+    public void onGameStarted(GameEntity game) {
     }
 
     @Override
-    public void onGamePaused(GameDescription game) {
+    public void onGamePaused(GameEntity game) {
     }
 
     @Override

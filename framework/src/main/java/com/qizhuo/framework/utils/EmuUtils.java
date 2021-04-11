@@ -43,7 +43,8 @@ import javax.microedition.khronos.egl.EGLDisplay;
 
 import com.qizhuo.framework.base.EmulatorUtils;
 import com.qizhuo.framework.base.SlotUtils;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
+
 
 public class EmuUtils {
 
@@ -288,7 +289,7 @@ public class EmuUtils {
         return getIP().sAddress;
     }
 
-    public static Bitmap createScreenshotBitmap(Context context, GameDescription game) {
+    public static Bitmap createScreenshotBitmap(Context context, GameEntity game) {
         String path = SlotUtils.getScreenshotPath(EmulatorUtils.getBaseDir(context), game.checksum, 0);
         Bitmap bitmap = BitmapFactory.decodeFile(path);
         int w = bitmap.getWidth();

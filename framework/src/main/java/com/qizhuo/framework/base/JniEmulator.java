@@ -24,7 +24,8 @@ import com.qizhuo.framework.GfxProfile;
 import com.qizhuo.framework.KeyboardProfile;
 import com.qizhuo.framework.R;
 import com.qizhuo.framework.SfxProfile;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.utils.NLog;
 import com.qizhuo.framework.utils.EmuUtils;
 
@@ -70,10 +71,10 @@ public abstract class JniEmulator implements Emulator {
     public abstract JniBridge getBridge();
 
     @Override
-    public abstract GfxProfile autoDetectGfx(GameDescription game);
+    public abstract GfxProfile autoDetectGfx(GameEntity game);
 
     @Override
-    public abstract SfxProfile autoDetectSfx(GameDescription game);
+    public abstract SfxProfile autoDetectSfx(GameEntity game);
 
     @Override
     public int getHistoryItemCount() {

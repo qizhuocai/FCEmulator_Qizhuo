@@ -8,7 +8,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
 import com.qizhuo.framework.R;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 
 
 public class GamePreferenceFragment extends PreferenceFragment {
@@ -16,7 +16,7 @@ public class GamePreferenceFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GameDescription game = (GameDescription) getActivity().getIntent()
+        GameEntity game = (GameEntity) getActivity().getIntent()
                 .getSerializableExtra(GamePreferenceActivity.EXTRA_GAME);
         PreferenceManager prefMgr = getPreferenceManager();
         prefMgr.setSharedPreferencesName(game.checksum + ".gamepref");

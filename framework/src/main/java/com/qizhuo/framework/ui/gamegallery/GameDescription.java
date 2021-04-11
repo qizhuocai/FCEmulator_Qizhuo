@@ -11,7 +11,7 @@ import com.qizhuo.framework.utils.annotations.Column;
 import com.qizhuo.framework.utils.annotations.Table;
 
 @Table
-public class GameDescription implements Serializable, Comparable<GameDescription> {
+ public class GameDescription implements Serializable, Comparable<GameDescription> {
 
     private static final long serialVersionUID = -4166819653487858374L;
 
@@ -20,6 +20,7 @@ public class GameDescription implements Serializable, Comparable<GameDescription
 
     @Column
     public String path = "";
+
 
     @Column(hasIndex = true)
     public String checksum = "";

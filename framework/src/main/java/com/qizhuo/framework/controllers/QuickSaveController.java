@@ -9,7 +9,8 @@ import androidx.core.view.GestureDetectorCompat;
 import com.qizhuo.framework.Emulator;
 import com.qizhuo.framework.EmulatorController;
 import com.qizhuo.framework.base.EmulatorActivity;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.preferences.PreferenceUtil;
 
 public class QuickSaveController implements EmulatorController {
@@ -41,11 +42,11 @@ public class QuickSaveController implements EmulatorController {
     }
 
     @Override
-    public void onGameStarted(GameDescription game) {
+    public void onGameStarted(GameEntity game) {
     }
 
     @Override
-    public void onGamePaused(GameDescription game) {
+    public void onGamePaused(GameEntity game) {
     }
 
     @Override

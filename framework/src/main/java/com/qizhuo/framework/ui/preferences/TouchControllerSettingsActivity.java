@@ -14,17 +14,20 @@ import com.qizhuo.framework.base.GameMenu;
 import com.qizhuo.framework.base.GameMenu.GameMenuItem;
 import com.qizhuo.framework.base.GameMenu.OnGameMenuListener;
 import com.qizhuo.framework.base.SlotUtils;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
+import com.qizhuo.framework.gamedata.dao.GameDbUtil;
+import com.qizhuo.framework.gamedata.dao.GameEntityDao;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.multitouchbutton.MultitouchLayer;
 import com.qizhuo.framework.ui.multitouchbutton.MultitouchLayer.EDIT_MODE;
-import com.qizhuo.framework.utils.DatabaseHelper;
+//import com.qizhuo.framework.utils.DatabaseHelper;
 
 public class TouchControllerSettingsActivity extends AppCompatActivity implements
         OnGameMenuListener {
 
     MultitouchLayer mtLayer;
     String gameHash = "";
-    DatabaseHelper dbHelper;
+//    DatabaseHelper dbHelper;
     Bitmap lastGameScreenshot;
     private GameMenu gameMenu;
 
@@ -34,15 +37,17 @@ public class TouchControllerSettingsActivity extends AppCompatActivity implement
         setContentView(R.layout.controler_layout);
         gameMenu = new GameMenu(this, this);
         mtLayer = findViewById(R.id.touch_layer);
-        dbHelper = new DatabaseHelper(this);
+//        dbHelper = new DatabaseHelper(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mtLayer.setEditMode(EDIT_MODE.TOUCH);
-        GameDescription games = dbHelper.selectObjFromDb(GameDescription.class,
-                "where lastGameTime!=0 ORDER BY lastGameTime DESC LIMIT 1");
+        GameEntity games =   GameDbUtil.getInstance(). GetGameEntityService().queryBuilder().where( GameEntityDao.Properties.LastGameTime.notIn(0)).unique();
+           //     GameEntity  GameEntity_entity =GetGameEntityService().queryBuilder().where( GameEntityDao.Properties.Id.eq(item.getId())).unique();
+//        GameEntity games = dbHelper.selectObjFromDb(GameEntity.class,
+//                "where lastGameTime!=0 ORDER BY lastGameTime DESC LIMIT 1");
         GfxProfile gfxProfile;
         lastGameScreenshot = null;
 

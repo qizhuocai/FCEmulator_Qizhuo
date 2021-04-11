@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.blankj.utilcode.util.Utils;
 
+import com.qizhuo.framework.gamedata.dao.DbManager;
 import com.qizhuo.framework.utils.EmuUtils;
 import com.qizhuo.framework.utils.NLog;
 
@@ -18,6 +19,7 @@ abstract public class BaseApplication extends Application {
         Utils.init(this);
         boolean debug = EmuUtils.isDebuggable(this);
         NLog.setDebugMode(debug);
+        DbManager.init(this,"gamename");
     }
 
     public abstract boolean hasGameMenu();

@@ -17,7 +17,8 @@ import java.util.Locale;
 import com.qizhuo.framework.EmulatorException;
 import com.qizhuo.framework.R;
 import com.qizhuo.framework.base.Manager;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
+
 
 public class TimeTravelDialog extends Dialog implements OnSeekBarChangeListener {
 
@@ -25,11 +26,11 @@ public class TimeTravelDialog extends Dialog implements OnSeekBarChangeListener 
     private TextView label;
     private Manager manager;
     private Bitmap bitmap;
-    private GameDescription game;
+    private GameEntity game;
     private int max = 0;
 
     public TimeTravelDialog(final Context context, Manager manager,
-                            GameDescription game) {
+                            GameEntity game) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         this.manager = manager;
         this.game = game;

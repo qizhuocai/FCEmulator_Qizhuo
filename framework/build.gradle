@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 30
     repositories {
@@ -20,11 +20,20 @@ android {
     lintOptions {
         abortOnError false
     }
+    //  name 'MYDB99'
+    greendao {
+        schemaVersion 18 //数据库版本号
+        daoPackage 'com.qizhuo.framework.gamedata.dao'
+        // 设置DaoMaster、DaoSession、Dao 包名
+        targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录,请注意，这里路径用/不要用.
+        generateTests false //设置为true以自动生成单元测试。
+        targetGenDirTests 'src/main/java' //应存储生成的单元测试的基本目录。默认为 src / androidTest / java。
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-//    implementation files('libs/unity-ads.aar')
+    implementation  fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation files('libs/greendao-generator-3.3.1.jar')
     implementation project(":unity-ads")
     api 'androidx.appcompat:appcompat:1.2.0'
     api 'com.google.android.material:material:1.3.0'
@@ -32,4 +41,6 @@ dependencies {
     api 'com.google.firebase:firebase-storage:19.2.1'
     api 'com.karumi:dexter:6.2.2'
     api "com.tonyodev.fetch2:fetch2:3.0.12"
+//    api 'org.greenrobot:greendao-generator:3.3.0'
+    api 'org.greenrobot:greendao:3.3.0'
 }

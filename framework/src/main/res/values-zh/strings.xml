@@ -34,7 +34,7 @@
     <string name="app_name">模拟器</string>
     <string name="gallery_menu_pref">设置</string>
     <string name="gallery_menu_reload">在设备上搜索ROM</string>
-    <string name="gallery_menu_download">下载网上 Roms </string>
+    <string name="gallery_menu_download">收集的 ROM  </string>
     <string name="gallery_menu_remote_control">远程控制</string>
     <string name="gallery_menu_wifi_off">打开wifi控制</string>
     <string name="gallery_menu_wifi_on">关闭wifi控制</string>

@@ -32,8 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ScheduledExecutorService;
 
 import com.qizhuo.framework.R;
+
 
 /**
  * Created by huzongyao on 2018/6/4.
@@ -45,9 +47,9 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_splash);
         startWithPermission();
-
 
     }
 
@@ -56,7 +58,6 @@ public class SplashActivity extends Activity {
 /**
  *Ad Units should be in the type of IronSource.Ad_Unit.AdUnitName, example
  */
-
         Dexter.withContext(SplashActivity.this).withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
@@ -71,6 +72,7 @@ public class SplashActivity extends Activity {
                         {
                             filesFolder.add(files[i].getName());
                         }
+                     //   ScheduledExecutorService scheduledExecutorService=new ScheduledExecutorService();
                         Timer timer = new Timer();
                         timer.schedule(new TimerTask() {
                             @Override
@@ -80,43 +82,46 @@ public class SplashActivity extends Activity {
                                 startActivity(intent);
                                 finish();
                             }
-                        }, 7000L);
-                        StorageReference storageReference=FirebaseStorage.getInstance().getReference();
-                        storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-                            @Override
-                            public void onSuccess(ListResult listResult) {
-                                if(listResult.getItems().size()>0){
-                                    for(StorageReference storageReference:listResult.getItems()){
-                                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                            @Override
-                                            public void onSuccess(Uri uri) {
+                        }, 3000L);
 
-                                                if(!filesFolder.contains(uri.getLastPathSegment())){
-                                                    Log.d(TAG, "onSuccess: "+uri.getLastPathSegment());
-                                                    DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                                                    DownloadManager.Request request = new DownloadManager.Request(uri);
-                                                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                                                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, uri.getLastPathSegment());
-                                                    downloadManager.enqueue(request);
-                                                }
+//gs://fcemulator-5b6f4.appspot.com/
+//                        StorageReference storageReference;
+//                        storageReference = FirebaseStorage.getInstance().getReference();
+//                        storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+//                            @Override
+//                            public void onSuccess(ListResult listResult) {
+//                                if(listResult.getItems().size()>0){
+//                                    for(StorageReference storageReference:listResult.getItems()){
+//                                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                            @Override
+//                                            public void onSuccess(Uri uri) {
 //
-                                            }
-                                        });
-                                    }
-
-                                }else {
-                                    Intent intent = new Intent();
-                                    intent.setAction(getString(R.string.action_gallery_page));
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "onFailure: "+e);
-                            }
-                        });
+//                                                if(!filesFolder.contains(uri.getLastPathSegment())){
+//                                                    Log.d(TAG, "onSuccess: "+uri.getLastPathSegment());
+//                                                    DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+//                                                    DownloadManager.Request request = new DownloadManager.Request(uri);
+//                                                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//                                                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, uri.getLastPathSegment());
+//                                                    downloadManager.enqueue(request);
+//                                                }
+////
+//                                            }
+//                                        });
+//                                    }
+//
+//                                }else {
+//                                    Intent intent = new Intent();
+//                                    intent.setAction(getString(R.string.action_gallery_page));
+//                                    startActivity(intent);
+//                                    finish();
+//                                }
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.d(TAG, "onFailure: "+e);
+//                            }
+//                        });
                     }
 
                     @Override

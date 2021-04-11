@@ -13,6 +13,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import java.util.ArrayList;
 
 import com.qizhuo.framework.R;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.gamegallery.GalleryAdapter.RowItem;
 import com.qizhuo.framework.utils.NLog;
 
@@ -24,6 +25,7 @@ public class GalleryPagerAdapter extends PagerAdapter {
             GalleryAdapter.SORT_BY_LAST_PLAYED,
             GalleryAdapter.SORT_BY_MOST_PLAYED,
     };
+    private static String TAG="GalleryPagerAdapter";
     private final String[] mTabTitles;
     private int[] yOffsets = new int[SORT_TYPES.length];
     private ListView[] lists = new ListView[SORT_TYPES.length];
@@ -92,14 +94,14 @@ public class GalleryPagerAdapter extends PagerAdapter {
         container.removeView((View) object);
     }
 
-    public void setGames(ArrayList<GameDescription> games) {
+    public void setGames(ArrayList<GameEntity> games) {
         for (GalleryAdapter adapter : listAdapters) {
             adapter.setGames(new ArrayList<>(games));
         }
     }
 
 
-    public int addGames(ArrayList<GameDescription> newGames) {
+    public int addGames(ArrayList<GameEntity> newGames) {
         int result = 0;
         for (GalleryAdapter adapter : listAdapters) {
             result = adapter.addGames(new ArrayList<>(newGames));
@@ -139,7 +141,7 @@ public class GalleryPagerAdapter extends PagerAdapter {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(GameDescription game);
+        void onItemClick(GameEntity game);
     }
 
 }

@@ -2,7 +2,8 @@ package com.qizhuo.framework.base.Character;
 
 import android.text.TextUtils;
 
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -15,31 +16,31 @@ public class LocalGroupSearch {
      *
      * @param str
      */
-    public static ArrayList<GameDescription> searchGroup(String str, ArrayList<GameDescription> allContacts) {
-        ArrayList<GameDescription> groupList = new ArrayList<GameDescription>();
+    public static ArrayList<GameEntity> searchGroup(String str, ArrayList<GameEntity> allContacts) {
+        ArrayList<GameEntity> groupList = new ArrayList<GameEntity>();
         // 如果搜索条件以0 1 +开头则按号码搜索
-        if (str.toString().startsWith("0") || str.toString().startsWith("1")
-                || str.toString().startsWith("+")) {
-            for (GameDescription group : allContacts) {
-                if (getGroupName(group) != null
-                        && group.name.toString() + "" != null) {
-                    if ((group.name.toString()+ "").contains(str)
-                            || group.name.toString().contains(str)) {
-                        groupList.add(group);
-                    }
-                }
-            }
-            return groupList;
-        }
+//        if (str.toString().startsWith("0") || str.toString().startsWith("1")
+//                || str.toString().startsWith("+")) {
+//            for (GameEntity group : allContacts) {
+//                if (getGroupName(group) != null
+//                        && group.getName().toString() + "" != null) {
+//                    if ((group.getName().toString()+ "").contains(str)
+//                            || group.getName().toString().contains(str)) {
+//                        groupList.add(group);
+//                    }
+//                }
+//            }
+//            return groupList;
+//        }
         CharacterParser finder = CharacterParser.getInstance();
         String result = "";
-        for (GameDescription group : allContacts) {
+        for (GameEntity group : allContacts) {
             // 先将输入的字符串转换为拼音
             finder.setResource(str.toString());
             result = finder.getSpelling();
             if (contains(group, result)) {
                 groupList.add(group);
-            } else if ((group.name + "").contains(str)) {
+            } else if ((group.getName() + "").contains(str)) {
                 groupList.add(group);
             }
         }
@@ -57,8 +58,8 @@ public class LocalGroupSearch {
 //     *            搜索条件是否大于6个字符
 //     * @return
 //     */
-    private static boolean contains(GameDescription group, String search) {
-        if (TextUtils.isEmpty(group.name.toString()) && TextUtils.isEmpty(group.  name.toString()) ){
+    private static boolean contains(GameEntity group, String search) {
+        if (TextUtils.isEmpty(group.getName().toString()) && TextUtils.isEmpty(group.  getName().toString()) ){
             return false;
         }
         boolean flag = false;
@@ -85,12 +86,12 @@ public class LocalGroupSearch {
         return flag;
     }
 
-    private static String getGroupName(GameDescription group) {
+    private static String getGroupName(GameEntity group) {
         String strName = null;
-        if (!TextUtils.isEmpty(group.name.toString())) {
-            strName = group.name.toString();
-        } else if (!TextUtils.isEmpty(group.name.toString())) {
-            strName =group.name.toString();
+        if (!TextUtils.isEmpty(group.getName().toString())) {
+            strName = group.getName().toString();
+        } else if (!TextUtils.isEmpty(group.getName().toString())) {
+            strName =group.getName().toString();
         } else {
             strName = "";
         }

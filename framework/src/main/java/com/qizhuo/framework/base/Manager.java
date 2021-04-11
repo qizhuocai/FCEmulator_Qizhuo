@@ -8,8 +8,9 @@ import com.qizhuo.framework.Emulator;
 import com.qizhuo.framework.EmulatorException;
 import com.qizhuo.framework.EmulatorRunner;
 import com.qizhuo.framework.R;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.cheats.Cheat;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
 import com.qizhuo.framework.utils.FileUtils;
 import com.qizhuo.framework.utils.NLog;
 
@@ -48,7 +49,7 @@ public class Manager extends EmulatorRunner {
         }
     }
 
-    public int enableCheats(Context ctx, GameDescription game) {
+    public int enableCheats(Context ctx, GameEntity game) {
         int numCheats = 0;
 
         for (String cheatChars : Cheat.getAllEnableCheats(ctx, game.checksum)) {

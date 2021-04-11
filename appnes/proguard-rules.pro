@@ -16,7 +16,7 @@
 #   public *;
 #}
 
--keepclasseswithmembers class com.qizhuo.framework.ui.gamegallery.GameDescription{*;}
+-keepclasseswithmembers class com.qizhuo.framework.gamedata.dao.entity.GameEntity{*;}
 -keepclasseswithmembers class com.qizhuo.framework.ui.gamegallery.ZipRomFile{*;}
 -keepclassmembers class * extends com.qizhuo.framework.base.JniEmulator{public ** getInstance();}
 

@@ -8,7 +8,8 @@ import com.qizhuo.framework.Emulator;
 import com.qizhuo.framework.EmulatorController;
 import com.qizhuo.framework.base.EmulatorActivity;
 import com.qizhuo.framework.base.ViewPort;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.preferences.PreferenceUtil;
 
 public class ZapperGun implements EmulatorController {
@@ -111,12 +112,12 @@ public class ZapperGun implements EmulatorController {
     }
 
     @Override
-    public void onGameStarted(GameDescription game) {
+    public void onGameStarted(GameEntity game) {
         isEnabled = PreferenceUtil.isZapperEnabled(context, game.checksum);
     }
 
     @Override
-    public void onGamePaused(GameDescription game) {
+    public void onGamePaused(GameEntity game) {
     }
 
 }

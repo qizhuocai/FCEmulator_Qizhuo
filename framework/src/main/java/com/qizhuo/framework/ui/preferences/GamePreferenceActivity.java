@@ -14,12 +14,13 @@ import java.util.List;
 import com.qizhuo.framework.GfxProfile;
 import com.qizhuo.framework.R;
 import com.qizhuo.framework.base.EmulatorHolder;
-import com.qizhuo.framework.ui.gamegallery.GameDescription;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
+
 
 public class GamePreferenceActivity extends AppCompatPreferenceActivity {
 
     public static final String EXTRA_GAME = "EXTRA_GAME";
-    private GameDescription game;
+    private GameEntity game;
 
     static void initZapper(Preference zapper, PreferenceCategory zapperCategory) {
         if (!EmulatorHolder.getInfo().hasZapper()) {
@@ -45,7 +46,7 @@ public class GamePreferenceActivity extends AppCompatPreferenceActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        game = (GameDescription) getIntent().getSerializableExtra(EXTRA_GAME);
+        game = (GameEntity) getIntent().getSerializableExtra(EXTRA_GAME);
     }
 
     @Override

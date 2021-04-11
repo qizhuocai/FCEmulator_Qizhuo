@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
 import com.qizhuo.framework.R;
 import com.qizhuo.framework.SlotInfo;
 import com.qizhuo.framework.base.SlotUtils;
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.widget.PopupMenu;
 import com.qizhuo.framework.utils.NLog;
 
@@ -40,7 +42,7 @@ public class SlotSelectionActivity extends AppCompatActivity {
     private final static int REMOVE_SLOT = 1;
     View[] slots = new View[8];
     Drawable clearIcon, sendIcon;
-    GameDescription game;
+    GameEntity game;
     int type;
     int loadFocusIdx = 0;
     int saveFocusIdx = 0;
@@ -82,13 +84,13 @@ public class SlotSelectionActivity extends AppCompatActivity {
         }
     }
 
-    private void onSelected(GameDescription game, int slot, boolean isUsed) {
+    private void onSelected(GameEntity game, int slot, boolean isUsed) {
         if (type == DIALOAG_TYPE_LOAD && (!isUsed)) {
             return;
         }
 
         Intent data = new Intent();
-        data.putExtra(EXTRA_GAME, game);
+        data.putExtra(EXTRA_GAME, (Serializable) game);
         data.putExtra(EXTRA_SLOT, slot);
         setResult(RESULT_OK, data);
         finish();
@@ -99,7 +101,7 @@ public class SlotSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         clearIcon = getResources().getDrawable(R.drawable.ic_clear_slot);
         sendIcon = getResources().getDrawable(R.drawable.ic_send_slot);
-        game = (GameDescription) getIntent().getSerializableExtra(EXTRA_GAME);
+        game = (GameEntity) getIntent().getSerializableExtra(EXTRA_GAME);
         String baseDir = getIntent().getStringExtra(EXTRA_BASE_DIRECTORY);
         List<SlotInfo> slotInfos = SlotUtils.getSlots(baseDir, game.checksum);
         type = getIntent().getIntExtra(EXTRA_DIALOG_TYPE_INT, DIALOAG_TYPE_LOAD);

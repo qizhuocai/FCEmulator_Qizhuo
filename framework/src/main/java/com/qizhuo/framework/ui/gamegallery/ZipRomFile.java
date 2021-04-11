@@ -3,6 +3,7 @@ package com.qizhuo.framework.ui.gamegallery;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.utils.annotations.Column;
 import com.qizhuo.framework.utils.annotations.ObjectFromOtherTable;
 import com.qizhuo.framework.utils.annotations.Table;
@@ -20,7 +21,7 @@ public class ZipRomFile {
     public String path;
 
     @ObjectFromOtherTable(columnName = "zipfile_id")
-    public ArrayList<GameDescription> games = new ArrayList<>();
+    public ArrayList<GameEntity> games = new ArrayList<>();
 
     public ZipRomFile() {
     }

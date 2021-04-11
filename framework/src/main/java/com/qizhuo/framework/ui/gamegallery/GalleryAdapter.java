@@ -19,7 +19,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 import com.qizhuo.framework.R;
-
+import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
+//
 public class GalleryAdapter extends BaseAdapter implements SectionIndexer {
 
     public static final int SORT_BY_NAME_ALPHA = 0;
@@ -33,18 +34,18 @@ public class GalleryAdapter extends BaseAdapter implements SectionIndexer {
     private LayoutInflater inflater;
     private Context context;
     private int mainColor;
-    private ArrayList<GameDescription> games = new ArrayList<>();
+    private ArrayList<GameEntity> games = new ArrayList<>();
     private ArrayList<RowItem> filterGames = new ArrayList<>();
     private int sumRuns = 0;
     private int sortType = SORT_BY_NAME_ALPHA;
 
-    private Comparator<GameDescription> nameComparator = (lhs, rhs) ->
+    private Comparator<GameEntity> nameComparator = (lhs, rhs) ->
             lhs.getSortName().compareTo(rhs.getSortName());
 
-    private Comparator<GameDescription> insertDateComparator = (lhs, rhs) ->
+    private Comparator<GameEntity> insertDateComparator = (lhs, rhs) ->
             (int) (-lhs.inserTime + rhs.inserTime);
 
-    private Comparator<GameDescription> lastPlayedDateComparator = (lhs, rhs) -> {
+    private Comparator<GameEntity> lastPlayedDateComparator = (lhs, rhs) -> {
         long dif = lhs.lastGameTime - rhs.lastGameTime;
         if (dif == 0) {
             return 0;
@@ -54,7 +55,7 @@ public class GalleryAdapter extends BaseAdapter implements SectionIndexer {
             return -1;
         }
     };
-    private Comparator<GameDescription> playedCountComparator = (lhs, rhs) ->
+    private Comparator<GameEntity> playedCountComparator = (lhs, rhs) ->
             -lhs.runCount + rhs.runCount;
 
     public GalleryAdapter(Context context) {
@@ -84,13 +85,13 @@ public class GalleryAdapter extends BaseAdapter implements SectionIndexer {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.row_game_list, null);//游戲列表
         }
-        GameDescription game = item.game;
+        GameEntity game = item.game;
         TextView name = convertView.findViewById(R.id.row_game_item_name);
         ImageView arrowIcon = convertView.findViewById(R.id.game_item_arrow);
         ImageView bck = convertView.findViewById(R.id.game_item_bck);
         ProgressBar runIndicator = convertView.findViewById(R.id.row_game_item_progressBar);
         runIndicator.setMax(sumRuns);
-        name.setText(game.getCleanName());
+        name.setText("【"+position+"】"+game.getCleanName());
         arrowIcon.setImageResource(R.drawable.ic_next_arrow);
         arrowIcon.clearAnimation();
         name.setTextColor(mainColor);
@@ -104,13 +105,13 @@ public class GalleryAdapter extends BaseAdapter implements SectionIndexer {
         filterGames();
     }
 
-    public void setGames(ArrayList<GameDescription> games) {
+    public void setGames(ArrayList<GameEntity> games) {
         this.games = new ArrayList<>(games);
         filterGames();
     }
 
-    public int addGames(ArrayList<GameDescription> newGames) {
-        for (GameDescription game : newGames) {
+    public int addGames(ArrayList<GameEntity> newGames) {
+        for (GameEntity game : newGames) {
             if (!games.contains(game)) {
                 games.add(game);
             }
@@ -139,7 +140,7 @@ public class GalleryAdapter extends BaseAdapter implements SectionIndexer {
         }
         String containsFilter = " " + filter;
         sumRuns = 0;
-        for (GameDescription game : games) {
+        for (GameEntity game : games) {
             sumRuns = game.runCount > sumRuns ? game.runCount : sumRuns;
             String name = game.getCleanName().toLowerCase();
             boolean secondCondition = true;
@@ -218,7 +219,7 @@ public class GalleryAdapter extends BaseAdapter implements SectionIndexer {
     }
 
     public class RowItem {
-        GameDescription game;
+        GameEntity game;
         char firstLetter;
     }
 
