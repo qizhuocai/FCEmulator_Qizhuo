@@ -11,7 +11,7 @@ import com.qizhuo.framework.R;
 import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.cheats.Cheat;
 
-import com.qizhuo.framework.utils.FileUtils;
+import com.qizhuo.framework.utils.FileUtilsa;
 import com.qizhuo.framework.utils.NLog;
 
 public class Manager extends EmulatorRunner {
@@ -41,8 +41,8 @@ public class Manager extends EmulatorRunner {
         String targetPng = SlotUtils.getScreenshotPath(base, md5, slot);
 
         try {
-            FileUtils.copyFile(new File(source), new File(target));
-            FileUtils.copyFile(new File(sourcePng), new File(targetPng));
+            FileUtilsa.copyFile(new File(source), new File(target));
+            FileUtilsa.copyFile(new File(sourcePng), new File(targetPng));
 
         } catch (Exception e) {
             throw new EmulatorException(R.string.act_emulator_save_state_failed);

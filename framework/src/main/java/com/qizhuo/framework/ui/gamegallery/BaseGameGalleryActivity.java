@@ -3,10 +3,6 @@ package com.qizhuo.framework.ui.gamegallery;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -24,8 +20,7 @@ import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.gamegallery.RomsFinder.OnRomsFinderListener;
 
 import com.qizhuo.framework.utils.DialogUtils;
-import com.qizhuo.framework.utils.FileUtils;
-import com.qizhuo.framework.utils.NLog;
+import com.qizhuo.framework.utils.FileUtilsa;
 
 abstract public class BaseGameGalleryActivity extends AppCompatActivity
         implements OnRomsFinderListener {
@@ -65,7 +60,7 @@ abstract public class BaseGameGalleryActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (!FileUtils.isSDCardRWMounted()) {
+        if (!FileUtilsa.isSDCardRWMounted()) {
             showSDCardFailed();
         }
     }

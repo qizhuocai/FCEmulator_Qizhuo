@@ -3,16 +3,24 @@ package com.qizhuo.framework.utils;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import static com.blankj.utilcode.util.ViewUtils.runOnUiThread;
 
 public class DownloadFileUtil {
     /**
@@ -86,4 +94,10 @@ public class DownloadFileUtil {
         }
         return file;
     }
+
+
+
+
+
+
 }

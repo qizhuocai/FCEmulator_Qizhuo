@@ -160,7 +160,7 @@
     <string name="control_select">SELECT</string>
     <string name="control_start">START</string>
     <string name="control_menu">MENU</string>
-    <string name="control_cleartext">clear</string>
+    <string name="control_cleartext">Refresh</string>
 
     <string name="now_loading">Loading, Please Wait…</string>
 </resources>

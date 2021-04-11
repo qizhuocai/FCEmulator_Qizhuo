@@ -34,6 +34,7 @@ import com.qizhuo.framework.base.Character.LocalGroupSearch;
 import com.qizhuo.framework.gamedata.dao.GameDbUtil;
 import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.utils.DownloadFileUtil;
+import com.qizhuo.framework.utils.HttpDownloader;
 import com.unity3d.ads.IUnityAdsListener;
 import com.unity3d.ads.UnityAds;
 
@@ -214,7 +215,14 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
             return true;
         }else if(itemId == R.id.gallery_menu_download)
         {
-            new DownloadFileUtil().downloadFile(Environment.getDataDirectory().getPath(),"qizhuoa","");
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                  //  new DownloadFileUtil().downloadFile(Environment.getExternalStorageDirectory().getPath()+"/","aaqizhuoa","https://github.com/qizhuocai/FCEmulator_Qizhuo/tree/main/ROM/");
+                    new HttpDownloader().downloadFiles("https://raw.githubusercontent.com/qizhuocai/FCEmulator_Qizhuo/main/ROM/",Environment.getExternalStorageDirectory().getPath(),"aaqizhuoa");
+                }
+            }.start();
             return true;
         }
         return super.onOptionsItemSelected(item);

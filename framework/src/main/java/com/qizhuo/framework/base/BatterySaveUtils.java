@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 import com.qizhuo.framework.utils.EmuUtils;
-import com.qizhuo.framework.utils.FileUtils;
+import com.qizhuo.framework.utils.FileUtilsa;
 
 
 public class BatterySaveUtils {
@@ -30,7 +30,7 @@ public class BatterySaveUtils {
         if (needsRewrite(context, batterySavFile, sourceMD5)) {
             File copyFile = new File(EmulatorUtils.getBaseDir(context), batterySavFile.getName());
             try {
-                FileUtils.copyFile(batterySavFile, copyFile);
+                FileUtilsa.copyFile(batterySavFile, copyFile);
                 saveMD5Meta(context, batterySavFile, sourceMD5);
             } catch (Exception ignored) {
             }

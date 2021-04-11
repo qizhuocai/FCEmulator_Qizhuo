@@ -128,6 +128,6 @@
     <string name="rvButtonState">rvButtonState</string>
     <string name="isButtonState">isButtonState</string>
     <string name="owButtonState">owButtonState</string>
-    <string name="control_cleartext">清除</string>
+    <string name="control_cleartext">刷新</string>
 
 </resources>

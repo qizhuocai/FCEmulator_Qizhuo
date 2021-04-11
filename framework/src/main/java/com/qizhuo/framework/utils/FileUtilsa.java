@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class FileUtils {
+public class FileUtilsa {
 
     public static String readAsset(Context context, String asset) throws IOException {
         InputStream is = context.getAssets().open(asset);

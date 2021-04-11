@@ -15,7 +15,7 @@ import com.qizhuo.framework.base.EmulatorUtils;
 
 import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.ui.preferences.PreferenceUtil;
-import com.qizhuo.framework.utils.FileUtils;
+import com.qizhuo.framework.utils.FileUtilsa;
 import com.qizhuo.framework.utils.NLog;
 
 public class EmulatorRunner {
@@ -64,7 +64,7 @@ public class EmulatorRunner {
             File dest = new File(baseDir, filename);
 
             try {
-                FileUtils.copyFile(source, dest);
+                FileUtilsa.copyFile(source, dest);
                 source.delete();
                 NLog.d("SAV", "copying: " + source + " " + dest);
 
@@ -171,7 +171,7 @@ public class EmulatorRunner {
             BatterySaveUtils.createSavFileCopyIfNeeded(context, game.path);
             String batteryDir = BatterySaveUtils.getBatterySaveDir(context, game.path);
             String possibleBatteryFileFullPath = batteryDir + "/"
-                    + FileUtils.getFileNameWithoutExt(new File(game.path))
+                    + FileUtilsa.getFileNameWithoutExt(new File(game.path))
                     + ".sav";
             emulator.loadGame(game.path, batteryDir,
                     possibleBatteryFileFullPath);
