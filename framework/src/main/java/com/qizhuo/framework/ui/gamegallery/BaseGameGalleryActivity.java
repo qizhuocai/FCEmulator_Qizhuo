@@ -77,7 +77,7 @@ abstract public class BaseGameGalleryActivity extends AppCompatActivity
             romsFinder.stopSearch();
         }
     }
-//开启游戏
+//开始游戏
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void reloadGames(boolean searchNew, File selectedFolder) {
         if (romsFinder == null) {

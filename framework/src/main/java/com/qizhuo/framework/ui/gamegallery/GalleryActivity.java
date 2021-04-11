@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -32,6 +33,7 @@ import com.qizhuo.framework.base.Character.LocalGroupSearch;
 
 import com.qizhuo.framework.gamedata.dao.GameDbUtil;
 import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
+import com.qizhuo.framework.utils.DownloadFileUtil;
 import com.unity3d.ads.IUnityAdsListener;
 import com.unity3d.ads.UnityAds;
 
@@ -210,6 +212,10 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         } else if (itemId == R.id.gallery_menu_exit) {
             finish();
             return true;
+        }else if(itemId == R.id.gallery_menu_download)
+        {
+            new DownloadFileUtil().downloadFile(Environment.getDataDirectory().getPath(),"qizhuoa","");
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -226,7 +232,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
            // GameEntity games =   DbUtil.getInstance(). GetGameEntityService().queryBuilder().where( GameEntityDao.Properties.LastGameTime.notIn(0)).unique();
 
           //  boolean isDBEmpty = dbHelper.countObjsInDb(GameEntity.class, null) == 0;
-            reloadGames(false, null);
+            reloadGames(true, null);
         }
     }
 
