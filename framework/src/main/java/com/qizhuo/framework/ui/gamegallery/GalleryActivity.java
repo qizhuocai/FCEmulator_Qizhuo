@@ -273,16 +273,18 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
             gameFile = new File(getExternalCacheDir(), game.checksum);
             game.path = gameFile.getAbsolutePath();
 
-//            ZipRomFile zipRomFile = dbHelper.selectObjFromDb(ZipRomFile.class,
-//                    "WHERE _id=" + game.zipfile_id, false);
-//            File zipFile = new File(zipRomFile.path);
-//            if (!gameFile.exists()) {
-//                try {
-//                    EmuUtils.extractFile(zipFile, game.getName(), gameFile);
-//                } catch (IOException e) {
-//                    NLog.e(TAG, "", e);
-//                }
-//            }
+            ZipRomFile zipRomFile =
+
+                    dbHelper.selectObjFromDb(ZipRomFile.class,
+                    "WHERE _id=" + game.zipfile_id, false);
+            File zipFile = new File(zipRomFile.path);
+            if (!gameFile.exists()) {
+                try {
+                    EmuUtils.extractFile(zipFile, game.getName(), gameFile);
+                } catch (IOException e) {
+                    NLog.e(TAG, "", e);
+                }
+            }
         }
 
         if (gameFile.exists()) {

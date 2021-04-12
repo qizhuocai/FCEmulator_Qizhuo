@@ -1,0 +1,162 @@
+FC 热血系列游戏 所有版本 详细列表+打包下载 补全中
+
+R1：所有ROM文件不重复
+R2：为了防止游戏联机时由于文件名问题而不正常，以前为中文名的ROM均未改名，原始名字见后面。
+R3：(GOOD ROM)代表原版卡带的ROM，A1 B1 P1 O1:非GOOD ROM；未注明语言的为日文
+R4：部分比较bt的修改rom，未加进列表
+R5：蓝色部分ROM为6.30日更新的
+R6：有些基本相同（只有1个字节或者注释部分不同）的同名ROM没放上，模拟器play的效果是一样的
+R7：- 热血联盟 Nekketsu Advanced , .转载请说明..
+
+
+游戏列表
+
+
+热血新纪录
+(GOODROM)
+   Nekketsu shin kiroku! - harukanaru kin medal (j).nes
+(P1 ROM)
+   热血新纪录     .nes
+(A1 ROM)
+   Nekketsu Shin Kiroku! - Harukanaru Kin Medal (J) (a1).nes
+(英文版 GOODROM)
+   Nekketsu CrashBoy (E).nes
+(汉化版)
+   热血新记录     FC中文版   by空气  .nes
+
+
+热血躲避球
+英文版(Header有问题)
+   Nekketsu Dodgeball (E).nes
+(GOOD ROM)
+   Nekketsu Dodgeball (J).nes
+(P1 ROM)
+   热血躲避球     .nes
+(FFE ROM)
+   Nekketsu Dodgeball (J)(FFE).nes
+(汉化 ROM)
+   热血躲避球     OLD LIU汉化  .nes
+
+热血时代剧
+(GOOD ROM)
+   热血时代剧     .nes
+(英文 GOOD ROM)
+   NEKKETSU Downtown Special (E).nes
+
+
+热血冰球
+(GOOD ROM)
+   Nekketsu ice Hockey - Subette Koronde Dai Rantou (J).NES
+(P1 ROM)
+   热血曲棍球     .nes
+(英文 GOODROM)
+   Nekketsu ice Hockey - Subette Koronde Dai Rantou (E).nes
+(英文 A1 ROM)
+   NEKKETSU Ice Hockey (E).nes
+(另一个翻译版,和上一个完全不同)
+   Nekketsu ice Hockey - Subette Koronde Dai Rantou (T-Eng0.99).nes
+
+
+热血格斗
+(GOOD ROM)
+   Nekketsu Kakutou Densetsu (J).nes
+(P1 O1 ROM)
+   Nekketsu Kakutou Densetsu (J) [p1][o1].nes
+(P1 ROM)
+   热血格斗    .nes
+(英文翻译版 0.xx)
+   Nekketsu Kakutou Densetsu (Riki Kunio) (J) (T-Eng0.xx).nes
+(英文翻译版 0.9?)
+   Nekketsu Kakutou Densetsu (Riki Kunio) (T+Eng).nes
+(英文翻译版 0.95)
+   Nekketsu Kakutou Densetsu (Riki Kunio) (T-Eng0.95) [o1].nes
+(汉化版)
+   热血格斗汉化版       by OLD LIU.nes
+
+
+热血硬派
+(GOOD ROM)
+   热血硬派    .nes
+(英文 GOOD ROM)
+   Nekketsu Kosha - Kunio Kun (E).nes
+(a1,b1 ROM)
+   Nekketsu Kosha - Kunio Kun (J) [a1].nes
+   Nekketsu Kouha - Kunio Kun (J) [b1].nes
+(翻译 ROM)
+   Nekketsu Kouha - Kunio Kun (J) [T-Eng0.95].nes
+   Nekketsu Kouha - Kunio Kun (T+Eng0.95_oRdErEDchaos][a1].nes
+
+
+热血进行曲
+(GOOD ROM)
+   Nekketsu Koushin Kyoku - Soreyuke Dai Undoukai (J).nes
+(英文翻译版)
+   Nekketsu Koushin Kyoku - Soreyuke Daiundoukai (T+Eng.15_Disconnected).nes
+(P1 O1 ROM)
+   热血进行曲     .nes
+(PL (波兰语？) 翻译版)
+   Nekketsu Cross Country(PL).nes
+(汉化版)
+   热血进行曲汉化版.nes
+
+热血物语
+(GOOD ROM)
+   Nekketsu Monogatari (J).nes
+(P1 ROM)
+   热血物语    .nes
+(A1 ROM)
+   Nekketsu Monogatari (J) (a1quest).nes
+(英文版.改)
+   Nekketsu River City Brawl (E) [gai].nes
+(汉化版)
+   热血物语    FC中文版   by空气  .nes
+
+热血高校足球
+(GOOD ROM)
+   Nekketsu Soccer 1 (J).nes
+(P1 ROM)
+   热血高校足球      .nes
+
+热血高校足球（WORLDCUP）
+(GOOD ROM)
+   NEKKETSU SOCCER 2 (E).NES
+
+
+热血篮球
+(GOOD ROM)
+   Nekketsu! Street Basket - Ganbare Dunk Heroes (J).nes
+(P1 O1 ROM)
+   热血篮球    .nes
+(英文翻译版，先后顺序未知)
+   Nekketsu! Street Basket - Ganbare Dunk Heroes (J) (T+Eng.75).nes
+   Nekketsu! Street Basket - Ganbare Dunk Heroes (T-Eng).nes
+(??拉丁语？ 翻译版)
+   Nekketsu! Street Basket - Ganbare Dunk Heroes (r).nes
+
+热血足球III
+(GOOD ROM)
+   热血足球    .nes
+(P1 ROM)
+   Nekketsu Soccer League (J)[goal3 p1].nes
+(P1 O1 ROM)
+   热血足球    3代 .nes
+(ICE 英文翻译版 0.25)
+   Nekketsu Soccer League (T+Eng ice 0.25).nes
+(p 英文翻译版 1.0-1.2，1.2为最后版本)
+   Nekketsu Soccer League (T+Eng pentarouzero 1.0).nes
+   Nekketsu Soccer League (T+Eng pentarouzero 1.1).nes
+   Nekketsu Soccer League (T+Eng pentarouzero 1.2).nes
+(汉化版)
+   热血足球    3不完全汉化版      .NES
+(修改版)
+   热血足球    3——  热血全员集合      .nes
+   热血足球    3-热血最强    .NES
+   热血足球    3代 -MTV专用  .nes
+热血足球3-本站人物版.NES
+
+
+ROM的原始英文名：
+
+Nekketsu Koushin Kyoku - Soreyuke Dai undoukai (J) [o1].nes = 热血进行曲.nes
+Nekketsu Soccer League (J).nes = 热血足球.nes
+Nekketsu Kosha - Kunio Kun (J).nes = 热血硬派.nes
