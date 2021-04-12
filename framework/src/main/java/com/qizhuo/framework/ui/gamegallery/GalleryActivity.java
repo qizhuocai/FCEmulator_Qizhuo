@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceActivity;
@@ -215,14 +216,25 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
             return true;
         }else if(itemId == R.id.gallery_menu_download)
         {
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                  //  new DownloadFileUtil().downloadFile(Environment.getExternalStorageDirectory().getPath()+"/","aaqizhuoa","https://github.com/qizhuocai/FCEmulator_Qizhuo/tree/main/ROM/");
-                    new HttpDownloader().downloadFiles("https://raw.githubusercontent.com/qizhuocai/FCEmulator_Qizhuo/main/ROM/",Environment.getExternalStorageDirectory().getPath(),"aaqizhuoa");
-                }
-            }.start();
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    super.run();
+//                  //  new DownloadFileUtil().downloadFile(Environment.getExternalStorageDirectory().getPath()+"/","aaqizhuoa","https://github.com/qizhuocai/FCEmulator_Qizhuo/tree/main/ROM/");
+//                  //  new HttpDownloader().downloadFiles("https://raw.githubusercontent.com/qizhuocai/FCEmulator_Qizhuo/main/ROM/",Environment.getExternalStorageDirectory().getPath(),"aaqizhuoa");
+//                }
+//            }.start();
+            try {
+                Uri uri = Uri.parse("https://github.com/qizhuocai/FCEmulator_Qizhuo/tree/main/ROM");
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                intent.setData(uri);
+                startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
             return true;
         }
         return super.onOptionsItemSelected(item);

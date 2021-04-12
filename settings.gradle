@@ -1,2 +1,4 @@
+include ':app'
 include ':unity-ads'
 include ':framework', ':appnes', ':appgbc', ':appgg'
+
