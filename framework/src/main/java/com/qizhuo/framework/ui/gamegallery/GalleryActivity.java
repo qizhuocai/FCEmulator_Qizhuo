@@ -37,6 +37,7 @@ import com.qizhuo.framework.gamedata.dao.GameEntityDao;
 import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.utils.DownloadFileUtil;
 import com.qizhuo.framework.utils.HttpDownloader;
+import com.qizhuo.framework.utils.ZipUtil;
 import com.unity3d.ads.IUnityAdsListener;
 import com.unity3d.ads.UnityAds;
 
@@ -87,6 +88,36 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
        // DbManager.init(this,"gamedb");
       //  startActivity(new Intent(GalleryActivity.this, DemoActivity.class));
 //        finish();
+
+        try {
+            if (!ZipUtil.checkInit())
+            {
+                ZipUtil.Init(this);
+                try {
+                    if (ZipUtil.fileIsExists())
+                    {
+                        ZipUtil.deletefile();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        try {
+                            new  ZipUtil().unzipFileer();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         UnityAds.initialize(GalleryActivity.this,"4072917",true);
         //Network Connectivity Status
         UnityAds.addListener(new IUnityAdsListener() {
@@ -147,18 +178,29 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         etInput = (EditText) findViewById(R.id.search_et_input);
         search_btn_backs = (Button) findViewById(R.id.search_btn_back);
         search_btn_backs.setOnClickListener(v -> {
-            setLastGames(finalStringListstrlist);
-                    etInput.getText().clear();
-                    InputMethodManager m = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    m .hideSoftInputFromWindow(etInput.getWindowToken(), 0);//比如EditView
-        }
+                    try {
+                        if (finalStringListstrlist!=null&&finalStringListstrlist.size()>0) {
+                            setLastGames(finalStringListstrlist);
+                            etInput.getText().clear();
+                            InputMethodManager m = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            m.hideSoftInputFromWindow(etInput.getWindowToken(), 0);//比如EditView
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
         );
         etInput.setOnEditorActionListener((textView, actionId, keyEvent) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
               //  Log.d(TAG,"输入："+ textView.getText());
-                Log.d(TAG,"输入数据回车："+finalStringListstrlist.size());
-                setLastGames(finalStringListstrlist);
-
+                try {
+                    if (finalStringListstrlist!=null&&finalStringListstrlist.size()>0) {
+                        Log.d(TAG, "输入数据回车：" + finalStringListstrlist.size());
+                        setLastGames(finalStringListstrlist);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return true;
         });
@@ -176,22 +218,28 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
           @Override
           public void afterTextChanged(Editable s) {
-              ArrayList<GameEntity> games;
-              Log.d(TAG,"输入数据："+finalStringListstrlist.size());
-                if (!TextUtils.isEmpty(etInput.getText()) && etInput.getText().length() == s.length()) {
-                    if (finalStringListstrlist!=null&& finalStringListstrlist.size()>0) {
-                        games = LocalGroupSearch.searchGroup(s.toString(), finalStringListstrlist);
-                    }else
-                    {
-                        games=finalStringListstrlist;
-                    }
-                    setLastGames(games);
-                }else
-                {
-                    setLastGames(finalStringListstrlist);
-                }
+              try {
+                  if (finalStringListstrlist!=null&&finalStringListstrlist.size()>0) {
+                  ArrayList<GameEntity> games;
+                  Log.d(TAG,"输入数据："+finalStringListstrlist.size());
+                  if (!TextUtils.isEmpty(etInput.getText()) && etInput.getText().length() == s.length()) {
+                      if (finalStringListstrlist!=null&& finalStringListstrlist.size()>0) {
+                          games = LocalGroupSearch.searchGroup(s.toString(), finalStringListstrlist);
+                      }else
+                      {
+                          games=finalStringListstrlist;
+                      }
+                      setLastGames(games);
+                  }else
+                  {
+                      setLastGames(finalStringListstrlist);
+                  }}
+              } catch (Exception e) {
+                  e.printStackTrace();
+              }
           }
       });
+
     }
 
     @Override
@@ -219,14 +267,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
             return true;
         }else if(itemId == R.id.gallery_menu_download)
         {
-//            new Thread() {
-//                @Override
-//                public void run() {
-//                    super.run();
-//                  //  new DownloadFileUtil().downloadFile(Environment.getExternalStorageDirectory().getPath()+"/","aaqizhuoa","https://github.com/qizhuocai/FCEmulator_Qizhuo/tree/main/ROM/");
-//                  //  new HttpDownloader().downloadFiles("https://raw.githubusercontent.com/qizhuocai/FCEmulator_Qizhuo/main/ROM/",Environment.getExternalStorageDirectory().getPath(),"aaqizhuoa");
-//                }
-//            }.start();
+
             try {
                 Uri uri = Uri.parse("https://github.com/qizhuocai/FCEmulator_Qizhuo/tree/main/ROM");
                 Intent intent = new Intent();
@@ -267,12 +308,13 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         super.onPause();
         PreferenceUtil.saveLastGalleryTab(this, pager.getCurrentItem());
     }
-
+  static int resnum=0;
     @Override
     public void onItemClick(GameEntity game) {
 
-        if(UnityAds.isReady("qizhuorewardedVideo")){
+        if(UnityAds.isReady("qizhuorewardedVideo")&&resnum % 10 == 0){
             UnityAds.show(GalleryActivity.this);
+            resnum++;
         }
         File gameFile = new File(game.path);
         NLog.i(TAG, "select " + game);

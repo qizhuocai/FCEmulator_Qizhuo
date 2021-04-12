@@ -61,6 +61,30 @@ public class GameDbUtil {
                }
     }
     /**
+     * GameEntity保存单个dev
+     */
+    public void setGameEntityer(GameEntity item) {
+        if (null == item) {
+            return;
+        }
+        try {
+            GameEntity  GameEntity_entity =GetGameEntityService().queryBuilder().where( GameEntityDao.Properties.Path.eq(item.getPath())).unique();
+            if (GameEntity_entity != null) {
+               //替换主键
+                //item.setId(GameEntity_entity.getId());
+                GameEntity_entity.setChecksum(item.getChecksum());
+                GameEntity_entity.setName(item.getName());
+                GameEntity_entity.setInserTime(item.getInserTime());
+                //更新
+               GetGameEntityService().update(GameEntity_entity);
+             } else {
+               GetGameEntityService().saveOrUpdate(item);
+            }
+         } catch (Exception e) {
+                   e.printStackTrace();
+               }
+    }
+    /**
      * GameEntity批量保存 dev
      */
     public void setGameEntityList(List<GameEntity> list) {
