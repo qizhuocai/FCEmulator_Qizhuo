@@ -103,3 +103,9 @@ lint/tmp/
 .idea/codeStyles/codeStyleConfig.xml
 .idea/codeStyles/Project.xml
 .idea/inspectionProfiles/Project_Default.xml
+libs/greendao-generator-3.3.1.jar
+src/main/java/com/qizhuo/framework/gamedata/dao/DaoMaster.java
+src/main/java/com/qizhuo/framework/gamedata/dao/DaoSession.java
+src/main/java/com/qizhuo/framework/gamedata/dao/GameEntityDao.java
+src/main/java/com/qizhuo/framework/gamedata/dao/RecentGameEntityDao.java
+/.idea/
