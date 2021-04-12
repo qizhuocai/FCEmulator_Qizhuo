@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.qizhuo.framework.utils.EmuUtils;
 import com.qizhuo.framework.utils.annotations.Column;
+import com.qizhuo.framework.utils.annotations.ObjectFromOtherTable;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
@@ -14,6 +15,7 @@ import org.greenrobot.greendao.annotation.Property;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @Entity(nameInDb = "rom", createInDb = true)
 public class GameEntity  implements Serializable {
@@ -56,14 +58,22 @@ public class GameEntity  implements Serializable {
     public int runCount = 0;
     @Property(nameInDb = "cleanNameCache")
     private String cleanNameCache = null;
+
     @Property(nameInDb = "sortNameCache")
     private String sortNameCache = null;
 
-    @Generated(hash = 60185921)
+    @Property(nameInDb = "hash")
+    private String hash = "";
+
+
+
+
+    @Generated(hash = 344939995)
     public GameEntity(Long id, String name, String enname, String chname,
             String pinyin, int visiable, String type, String path, String checksum,
             long _id, long zipfile_id, long inserTime, long lastGameTime,
-            int runCount, String cleanNameCache, String sortNameCache) {
+            int runCount, String cleanNameCache, String sortNameCache,
+            String hash) {
         this.id = id;
         this.name = name;
         this.enname = enname;
@@ -80,6 +90,7 @@ public class GameEntity  implements Serializable {
         this.runCount = runCount;
         this.cleanNameCache = cleanNameCache;
         this.sortNameCache = sortNameCache;
+        this.hash = hash;
     }
 
     @Generated(hash = 854974668)
@@ -226,6 +237,8 @@ public class GameEntity  implements Serializable {
         this.checksum = checksum;
     }
 
+  //  public ArrayList<GameEntity> games = new ArrayList<>();
+
     public GameEntity(String name, String path, String checksum) {
         this.name = name;
         this.path = path;
@@ -274,5 +287,13 @@ public class GameEntity  implements Serializable {
             GameEntity gd = (GameEntity) o;
             return gd.checksum != null && checksum.equals(gd.checksum);
         }
+    }
+
+    public String getHash() {
+        return this.hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 }

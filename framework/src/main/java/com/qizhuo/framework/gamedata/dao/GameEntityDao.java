@@ -40,6 +40,7 @@ public class GameEntityDao extends AbstractDao<GameEntity, Long> {
         public final static Property RunCount = new Property(13, int.class, "runCount", false, "runCount");
         public final static Property CleanNameCache = new Property(14, String.class, "cleanNameCache", false, "cleanNameCache");
         public final static Property SortNameCache = new Property(15, String.class, "sortNameCache", false, "sortNameCache");
+        public final static Property Hash = new Property(16, String.class, "hash", false, "hash");
     }
 
 
@@ -70,7 +71,8 @@ public class GameEntityDao extends AbstractDao<GameEntity, Long> {
                 "\"lastGameTime\" INTEGER NOT NULL ," + // 12: lastGameTime
                 "\"runCount\" INTEGER NOT NULL ," + // 13: runCount
                 "\"cleanNameCache\" TEXT," + // 14: cleanNameCache
-                "\"sortNameCache\" TEXT);"); // 15: sortNameCache
+                "\"sortNameCache\" TEXT," + // 15: sortNameCache
+                "\"hash\" TEXT);"); // 16: hash
     }
 
     /** Drops the underlying database table. */
@@ -138,6 +140,11 @@ public class GameEntityDao extends AbstractDao<GameEntity, Long> {
         if (sortNameCache != null) {
             stmt.bindString(16, sortNameCache);
         }
+ 
+        String hash = entity.getHash();
+        if (hash != null) {
+            stmt.bindString(17, hash);
+        }
     }
 
     @Override
@@ -199,6 +206,11 @@ public class GameEntityDao extends AbstractDao<GameEntity, Long> {
         if (sortNameCache != null) {
             stmt.bindString(16, sortNameCache);
         }
+ 
+        String hash = entity.getHash();
+        if (hash != null) {
+            stmt.bindString(17, hash);
+        }
     }
 
     @Override
@@ -224,7 +236,8 @@ public class GameEntityDao extends AbstractDao<GameEntity, Long> {
             cursor.getLong(offset + 12), // lastGameTime
             cursor.getInt(offset + 13), // runCount
             cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // cleanNameCache
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // sortNameCache
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // sortNameCache
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16) // hash
         );
         return entity;
     }
@@ -247,6 +260,7 @@ public class GameEntityDao extends AbstractDao<GameEntity, Long> {
         entity.setRunCount(cursor.getInt(offset + 13));
         entity.setCleanNameCache(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
         entity.setSortNameCache(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setHash(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
      }
     
     @Override

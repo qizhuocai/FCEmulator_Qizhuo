@@ -22,7 +22,7 @@ android {
     }
     //  name 'MYDB99'
     greendao {
-        schemaVersion 19 //数据库版本号
+        schemaVersion 21 //数据库版本号
         daoPackage 'com.qizhuo.framework.gamedata.dao'
         // 设置DaoMaster、DaoSession、Dao 包名
         targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录,请注意，这里路径用/不要用.
@@ -33,8 +33,8 @@ android {
 
 dependencies {
     implementation  fileTree(dir: 'libs', include: ['*.jar'])
-    compile files('libs/greendao-3.3.0.jar')
-    compile files('libs/greendao-api-3.3.0.jar')
+    implementation files('libs/greendao-3.3.0.jar')
+    implementation files('libs/greendao-api-3.3.0.jar')
     implementation project(":unity-ads")
     api 'androidx.appcompat:appcompat:1.2.0'
     api 'com.google.android.material:material:1.3.0'

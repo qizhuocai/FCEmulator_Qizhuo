@@ -33,6 +33,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.qizhuo.framework.base.Character.LocalGroupSearch;
 
 import com.qizhuo.framework.gamedata.dao.GameDbUtil;
+import com.qizhuo.framework.gamedata.dao.GameEntityDao;
 import com.qizhuo.framework.gamedata.dao.entity.GameEntity;
 import com.qizhuo.framework.utils.DownloadFileUtil;
 import com.qizhuo.framework.utils.HttpDownloader;
@@ -272,12 +273,12 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         if (game.isInArchive()) {
             gameFile = new File(getExternalCacheDir(), game.checksum);
             game.path = gameFile.getAbsolutePath();
-
-            ZipRomFile zipRomFile =
-
-                    dbHelper.selectObjFromDb(ZipRomFile.class,
-                    "WHERE _id=" + game.zipfile_id, false);
-            File zipFile = new File(zipRomFile.path);
+            GameEntity games =   GameDbUtil.getInstance(). GetGameEntityService().queryBuilder().where( GameEntityDao.Properties.Zipfile_id.eq( game.zipfile_id)).unique();
+//
+//            ZipRomFile zipRomFile =GameDbUtil.getInstance().
+//                    dbHelper.selectObjFromDb(ZipRomFile.class,
+//                    "WHERE _id=" + game.zipfile_id, false);
+            File zipFile = new File(games.path);
             if (!gameFile.exists()) {
                 try {
                     EmuUtils.extractFile(zipFile, game.getName(), gameFile);
