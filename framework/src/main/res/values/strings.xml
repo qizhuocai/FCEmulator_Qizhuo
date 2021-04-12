@@ -153,9 +153,11 @@
     <string name="ok">OK</string>
     <string name="about">About</string>
     <string name="other_pref">Others</string>
-    <string name="about_content" translatable="false">
-
-    </string>
+    <string name="about_content">"   \n  About me:   \n
+        come from: https://github.com/qizhuocai/FCEmulator_ Qizhuo  \n
+        ROM warehouse: https://github.com/qizhuocai/FCEmulator_ Qizhuo/tree/main/ROM   \n
+        If there is no game you like, please contact me!  \n
+        Email: qizhuocai2@gmail.com  \n   "</string>
     <string name="gallery_menu_exit">Exit</string>
     <string name="control_select">SELECT</string>
     <string name="control_start">START</string>

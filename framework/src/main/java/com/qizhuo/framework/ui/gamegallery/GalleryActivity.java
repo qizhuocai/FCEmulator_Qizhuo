@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.qizhuo.framework.R;
 import com.qizhuo.framework.base.EmulatorActivity;
@@ -210,6 +211,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
             startActivity(i);
             return true;
         } else if (itemId == R.id.gallery_menu_reload) {
+            GameDbUtil.getInstance().GetGameEntityService().deleteAll();
             reloadGames(true, null);
             return true;
         } else if (itemId == R.id.gallery_menu_exit) {
@@ -249,8 +251,12 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         }
         adapter.notifyDataSetChanged();
         if (reloadGames && !importing) {
-           // GameEntity games =   DbUtil.getInstance(). GetGameEntityService().queryBuilder().where( GameEntityDao.Properties.LastGameTime.notIn(0)).unique();
-
+//         List<GameEntity> games =   GameDbUtil.getInstance().GetGameEntityList();
+//            boolean isDBEmpty =false;
+//         if (games!=null&&games.size()>0)
+//            {
+//                isDBEmpty=true;
+//            }
           //  boolean isDBEmpty = dbHelper.countObjsInDb(GameEntity.class, null) == 0;
             reloadGames(true, null);
         }

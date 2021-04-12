@@ -129,5 +129,10 @@
     <string name="isButtonState">isButtonState</string>
     <string name="owButtonState">owButtonState</string>
     <string name="control_cleartext">刷新</string>
+    <string name="about_content">\n关于我：\n
+        来自：https://github.com/qizhuocai/FCEmulator_Qizhuo \n
+        ROM 仓库：https://github.com/qizhuocai/FCEmulator_Qizhuo/tree/main/ROM \n
+        如果没有你喜欢的游戏，请联系我！\n
+        邮箱：qizhuocai2@gmail.com</string>
 
 </resources>
