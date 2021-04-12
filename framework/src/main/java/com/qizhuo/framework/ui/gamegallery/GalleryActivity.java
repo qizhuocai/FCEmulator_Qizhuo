@@ -234,7 +234,6 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
                 e.printStackTrace();
             }
 
-
             return true;
         }
         return super.onOptionsItemSelected(item);
