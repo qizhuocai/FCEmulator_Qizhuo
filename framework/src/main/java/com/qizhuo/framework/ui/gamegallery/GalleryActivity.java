@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceActivity;
@@ -101,18 +102,6 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        try {
-                            new  ZipUtil().unzipFileer();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -250,35 +239,57 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         //菜单
         int itemId = item.getItemId();
-        if (itemId == R.id.gallery_menu_pref) {
-            Intent i = new Intent(this, GeneralPreferenceActivity.class);
-            i.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, GeneralPreferenceFragment.class.getName());
-            i.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
-            startActivity(i);
-            return true;
-        } else if (itemId == R.id.gallery_menu_reload) {
-            GameDbUtil.getInstance().GetGameEntityService().deleteAll();
-            reloadGames(true, null);
-            return true;
-        } else if (itemId == R.id.gallery_menu_exit) {
-            finish();
-            return true;
-        }else if(itemId == R.id.gallery_menu_download)
-        {
+        try {
+            if (itemId == R.id.gallery_menu_pref) {
+                try {
+                    Intent i = new Intent(this, GeneralPreferenceActivity.class);
+                    i.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, GeneralPreferenceFragment.class.getName());
+                    i.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
+                    startActivity(i);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return true;
+            } else if (itemId == R.id.gallery_menu_reload) {
+                try {
 
-            try {
-                Uri uri = Uri.parse("https://github.com/qizhuocai/FCEmulator_Qizhuo/tree/main/ROM");
-                Intent intent = new Intent();
-                intent.setAction("android.intent.action.VIEW");
-                intent.setData(uri);
-                startActivity(intent);
-            } catch (Exception e) {
-                e.printStackTrace();
+                    reloadGames(true, null);
+                    try {
+                        GameDbUtil.getInstance().GetGameEntityService().deleteAll();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return true;
+            } else if (itemId == R.id.gallery_menu_exit) {
+                finish();
+                return true;
+            }else if(itemId == R.id.gallery_menu_download)
+            {
+
+                try {
+                    try {
+                        Uri uri = Uri.parse("https://github.com/qizhuocai/FCEmulator_Qizhuo/tree/main/ROM");
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.VIEW");
+                        intent.setData(uri);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return true;
             }
-
-            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -319,20 +330,25 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         File gameFile = new File(game.path);
         NLog.i(TAG, "select " + game);
         if (game.isInArchive()) {
-            gameFile = new File(getExternalCacheDir(), game.checksum);
-            game.path = gameFile.getAbsolutePath();
-            GameEntity games =   GameDbUtil.getInstance(). GetGameEntityService().queryBuilder().where( GameEntityDao.Properties.Zipfile_id.eq( game.zipfile_id)).unique();
+
+            try {
+                gameFile = new File(getExternalCacheDir(), game.checksum);
+                game.path = gameFile.getAbsolutePath();
+                GameEntity games =   GameDbUtil.getInstance(). GetGameEntityService().queryBuilder().where( GameEntityDao.Properties.Zipfile_id.eq( game.zipfile_id)).unique();
 //
 //            ZipRomFile zipRomFile =GameDbUtil.getInstance().
 //                    dbHelper.selectObjFromDb(ZipRomFile.class,
 //                    "WHERE _id=" + game.zipfile_id, false);
-            File zipFile = new File(games.path);
-            if (!gameFile.exists()) {
-                try {
-                    EmuUtils.extractFile(zipFile, game.getName(), gameFile);
-                } catch (IOException e) {
-                    NLog.e(TAG, "", e);
+                File zipFile = new File(games.path);
+                if (!gameFile.exists()) {
+                    try {
+                        EmuUtils.extractFile(zipFile, game.getName(), gameFile);
+                    } catch (IOException e) {
+                        NLog.e(TAG, "", e);
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
@@ -373,9 +389,8 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
     @Override
     public void setLastGames(ArrayList<GameEntity> games) {
-        adapter.setGames(games);
-        pager.setVisibility(games.isEmpty() ? View.INVISIBLE : View.VISIBLE);
-
+            adapter.setGames(games);
+            pager.setVisibility(games.isEmpty() ? View.INVISIBLE : View.VISIBLE);
     }
 
     @Override
@@ -454,6 +469,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
     @Override
     public void onRomsFinderNewGames(ArrayList<GameEntity> roms) {
+
         super.onRomsFinderNewGames(roms);
         onSearchingEnd(roms.size(), true);
     }

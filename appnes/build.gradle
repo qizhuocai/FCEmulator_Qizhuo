@@ -18,13 +18,12 @@ android {
         applicationId 'com.qizhuo.fcnes'
         minSdkVersion 19
         targetSdkVersion 30
-//        versionCode 1401
-//        versionName "1.4.1"
-//        resConfigs "zh"
+       versionCode 1005
+        versionName "1.0.05"
+        resConfigs "zh","en"
         ndk {
             abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a'
         }
-
         externalNativeBuild {
             cmake {
                 arguments '-DANDROID_STL=c++_static'

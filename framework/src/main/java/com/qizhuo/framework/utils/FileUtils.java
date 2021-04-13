@@ -80,6 +80,7 @@ public class FileUtils {
                 if (!file.exists()) {
                     file.mkdirs();
                 }
+
                 for (String fileName : fileNames) {
                     if (!"".equals(srcPath)) { // assets 文件夹下的目录
                         copyAssetsToDst(context, srcPath + File.separator + fileName, dstPath + File.separator + fileName);

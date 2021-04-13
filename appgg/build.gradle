@@ -16,8 +16,8 @@ android {
         applicationId "com.qizhuo.appgg"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 1401
-        versionName "1.4.1"
+        versionCode 1001
+        versionName "1.0.01"
         resConfigs "zh"
         ndk {
             abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a'

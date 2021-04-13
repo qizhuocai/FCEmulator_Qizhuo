@@ -30,7 +30,9 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipUtil  {
     private static final String SD_PATH = Environment.getExternalStorageDirectory().getPath();
-    static  String versionstr="version:1.23";
+   // private static final String SD_PATH = Environment.getDataDirectory().getPath();
+    //Environment.getExternalStorageDirectory()
+    static  String versionstr="version:1.33";
     public static void Init(Context context) {
         try {
             FileUtils.getInstance(context).copyAssetsToSD("fcgamezip","fcgamezip");
@@ -40,10 +42,16 @@ public class ZipUtil  {
                         public void onSuccess () {
                             FileOutputStream fout = null;
                             try {
+
                                 fout = new FileOutputStream(SD_PATH + "/fcgamezip/flag");
                                 byte[] bytes = versionstr.getBytes();
                                 fout.write(bytes);
                                 fout.close();
+                                try {
+                                    unzipFileer();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             } catch (IOException e) {
@@ -134,8 +142,8 @@ public class ZipUtil  {
             ZipFile zfile = null;
             try {
                 zfile = new ZipFile(zipFile);
-               // String fileEncode = EncodeUtil.getEncode(zipFile);
-          //      zfile= new ZipFile(new File(zipFile), Charset.forName(fileEncode));
+                // String fileEncode = EncodeUtil.getEncode(zipFile);
+                //      zfile= new ZipFile(new File(zipFile), Charset.forName(fileEncode));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -207,17 +215,19 @@ public class ZipUtil  {
         return ret;
     }
 
-    public  void unzipFileer()  {
+    public static void unzipFileer()  {
         // 打开压缩文件
-     //   InputStream inputStream = new FileInputStream(SD_PATH + "/fcgamezip/Classified.zip");
+        //   InputStream inputStream = new FileInputStream(SD_PATH + "/fcgamezip/Classified.zip");
         try {
-           // UnZipFolderzip(SD_PATH + "/fcgamezip/Classified.zip",SD_PATH + "/fcgamedata/");
-            UnZipFolderzip(SD_PATH + "/fcgamezip/Classified.zip",SD_PATH + "/fcgamedata/");
+            // UnZipFolderzip(SD_PATH + "/fcgamezip/Classified.zip",SD_PATH + "/fcgamedata/");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                UnZipFolderzip(SD_PATH + "/fcgamezip/Classified.zip",SD_PATH + "/fcgamezip/");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         // upZipFile(new File(SD_PATH + "/fcgamezip/Classified.zip"),SD_PATH + "/fcgamedata/");
-     //   UnZipFoldera(inputStream,SD_PATH + "/fcgamedata/");
+        //   UnZipFoldera(inputStream,SD_PATH + "/fcgamedata/");
     }
     public static void unzipFile(String zipPtath, String outputDirectory)throws IOException {
         /**
@@ -351,7 +361,7 @@ public class ZipUtil  {
     }
     public static boolean deletefile(){
         try{
-            File f=new File(SD_PATH + "/fcgamedata/");//文件绝对路径
+            File f=new File(SD_PATH + "/fcgamezip/");//文件绝对路径
             clearFolder(f);
 //            if(!f.exists()){
 //                return false;

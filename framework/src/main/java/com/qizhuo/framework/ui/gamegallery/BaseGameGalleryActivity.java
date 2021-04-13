@@ -38,8 +38,8 @@ abstract public class BaseGameGalleryActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HashSet<String> exts = new HashSet<>(getRomExtensions());
-        exts.addAll(getArchiveExtensions());
+//        HashSet<String> exts = new HashSet<>(getRomExtensions());
+//        exts.addAll(getArchiveExtensions());
         //创建表
 //        dbHelper = new DatabaseHelper(this);
 //        SharedPreferences pref = getSharedPreferences("android50comp", Context.MODE_PRIVATE);

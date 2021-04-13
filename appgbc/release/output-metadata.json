@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.qizhuo.fcnes",
+  "variantName": "processReleaseResources",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "versionCode": 1005,
+      "versionName": "1.0.05",
+      "outputFile": "appnes-release-V1005.apk"
+    }
+  ]
+}

@@ -44,21 +44,25 @@ public class ScreenViewPortSettingsActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         mtLayer.setEditMode(EDIT_MODE.SCREEN);
-        GameEntity games =   GameDbUtil.getInstance(). GetGameEntityService().queryBuilder().where( GameEntityDao.Properties.LastGameTime.notIn(0)).unique();
+        try {
+            GameEntity games =   GameDbUtil.getInstance(). GetGameEntityService().queryBuilder().where( GameEntityDao.Properties.LastGameTime.notIn(0)).unique();
 //        GameEntity games = dbHelper.selectObjFromDb(GameEntity.class,
 //                "where lastGameTime!=0 ORDER BY lastGameTime DESC LIMIT 1");
-        GfxProfile gfxProfile;
-        lastGameScreenshot = null;
+            GfxProfile gfxProfile;
+            lastGameScreenshot = null;
 
-        if (games != null) {
-            SlotInfo info = SlotUtils.getSlot(EmulatorUtils.getBaseDir(this),
-                    games.checksum, 0);
-            lastGameScreenshot = info.screenShot;
+            if (games != null) {
+                SlotInfo info = SlotUtils.getSlot(EmulatorUtils.getBaseDir(this),
+                        games.checksum, 0);
+                lastGameScreenshot = info.screenShot;
+            }
+
+            gfxProfile = PreferenceUtil.getLastGfxProfile(this);
+            mtLayer.setLastgameScreenshot(lastGameScreenshot,
+                    gfxProfile == null ? null : gfxProfile.name);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        gfxProfile = PreferenceUtil.getLastGfxProfile(this);
-        mtLayer.setLastgameScreenshot(lastGameScreenshot,
-                gfxProfile == null ? null : gfxProfile.name);
     }
 
     @Override

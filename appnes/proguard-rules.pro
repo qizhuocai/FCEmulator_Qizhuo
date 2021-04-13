@@ -20,7 +20,7 @@
 -keepclasseswithmembers class com.qizhuo.framework.ui.gamegallery.ZipRomFile{*;}
 -keepclassmembers class * extends com.qizhuo.framework.base.JniEmulator{public ** getInstance();}
 
--keep class com.blankj.utilcode.** { *; }
--keepclassmembers class com.blankj.utilcode.** { *; }
+#-keep class com.blankj.utilcode.** { *; }
+#-keepclassmembers class com.blankj.utilcode.** { *; }
 -dontwarn com.blankj.utilcode.**
 
