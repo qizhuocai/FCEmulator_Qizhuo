@@ -1,6 +1,8 @@
 # FCEmulator_Qizhuo FC游戏模拟器（包括FC(Nes), GG, GBC）
 基于[NostalgiaLite](https://github.com/huzongyao/NostalgiaLite.git) 项目重新构建
 
+内置游戏262个游戏 需android 6.0以上才能自行解压 （以下版本或者打开查找不到游戏的，可到手机文件 fcgamezip自行解压)）
+
 
 工程包含三个运行在安卓平台的游戏模拟器，FC(Nes)模拟器，GG模拟器，GBC模拟器
 
