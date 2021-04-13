@@ -1,5 +1,5 @@
 # FCEmulator_Qizhuo FC游戏模拟器（包括FC(Nes), GG, GBC）
-基于 https://github.com/huzongyao/NostalgiaLite.git 项目重新构建
+基于[NostalgiaLite](https://github.com/huzongyao/NostalgiaLite.git) 项目重新构建
 
 
 工程包含三个运行在安卓平台的游戏模拟器，FC(Nes)模拟器，GG模拟器，GBC模拟器
