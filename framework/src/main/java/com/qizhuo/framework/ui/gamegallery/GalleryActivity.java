@@ -302,16 +302,16 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
             rotateAnim = false;
         }
         adapter.notifyDataSetChanged();
-        if (reloadGames && !importing) {
-//         List<GameEntity> games =   GameDbUtil.getInstance().GetGameEntityList();
-//            boolean isDBEmpty =false;
-//         if (games!=null&&games.size()>0)
-//            {
-//                isDBEmpty=true;
-//            }
-          //  boolean isDBEmpty = dbHelper.countObjsInDb(GameEntity.class, null) == 0;
-            reloadGames(true, null);
-        }
+//        if (reloadGames && !importing) {
+////         List<GameEntity> games =   GameDbUtil.getInstance().GetGameEntityList();
+////            boolean isDBEmpty =false;
+////         if (games!=null&&games.size()>0)
+////            {
+////                isDBEmpty=true;
+////            }
+//          //  boolean isDBEmpty = dbHelper.countObjsInDb(GameEntity.class, null) == 0;
+//         //   reloadGames(true, null);
+//        }
     }
 
     @Override
@@ -323,7 +323,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
     @Override
     public void onItemClick(GameEntity game) {
 
-        if(UnityAds.isReady("qizhuorewardedVideo")&&resnum % 10 == 0){
+        if(UnityAds.isReady("qizhuorewardedVideo")&&resnum % 7 == 0){
             UnityAds.show(GalleryActivity.this);
             resnum++;
         }
@@ -364,17 +364,17 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
       //      dbHelper.updateObjToDb(game, new String[]{"lastGameTime", "runCount"});
             onGameSelected(game, 0);
         } else {
-            NLog.w(TAG, "rom file:" + gameFile.getAbsolutePath() + " does not exist");
-            AlertDialog dialog = new AlertDialog.Builder(this)
-                    .setMessage(getString(R.string.gallery_rom_not_found))
-                    .setTitle(R.string.error)
-                    .setPositiveButton(R.string.gallery_rom_not_found_reload, (dialog1, which)
-                            -> reloadGames(true, null))
-                    .setCancelable(false)
-                    .create();
-            dialog.setOnDismissListener(dialog12 ->
-                    reloadGames(true, null));
-            dialog.show();
+//            NLog.w(TAG, "rom file:" + gameFile.getAbsolutePath() + " does not exist");
+//            AlertDialog dialog = new AlertDialog.Builder(this)
+//                    .setMessage(getString(R.string.gallery_rom_not_found))
+//                    .setTitle(R.string.error)
+//                    .setPositiveButton(R.string.gallery_rom_not_found_reload, (dialog1, which)
+//                            -> reloadGames(true, null))
+//                    .setCancelable(false)
+//                    .create();
+//            dialog.setOnDismissListener(dialog12 ->
+//                    reloadGames(true, null));
+//            dialog.show();
         }
     }
 

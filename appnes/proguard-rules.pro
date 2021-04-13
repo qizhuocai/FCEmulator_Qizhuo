@@ -20,7 +20,12 @@
 -keepclasseswithmembers class com.qizhuo.framework.ui.gamegallery.ZipRomFile{*;}
 -keepclassmembers class * extends com.qizhuo.framework.base.JniEmulator{public ** getInstance();}
 
-#-keep class com.blankj.utilcode.** { *; }
-#-keepclassmembers class com.blankj.utilcode.** { *; }
--dontwarn com.blankj.utilcode.**
+-keep class com.qizhuo.framework.ui** { *; }
+-keep class com.qizhuo.framework** { *; }
+-keep class com.qizhuo.framework.gamedata** { *; }
+-keepclassmembers class com.qizhuo.framework.ui** { *; }
+-keepclassmembers class com.qizhuo.framework.gamedata** { *; }
+-keepclassmembers class com.qizhuo.framework** { *; }
+
+-dontwarn com.qizhuo.framework.**
 
