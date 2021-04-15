@@ -126,11 +126,11 @@
     <string name="time_travel">Rewind</string>
 
     <!-- Preference item itentn action -->
-    <string name="action_general_pref" translatable="false">nostalgia.framework.GENERALPREF</string>
-    <string name="action_keyboard_pref" translatable="false">nostalgia.framework.KEYBOARDPREF</string>
-    <string name="action_touch_pref" translatable="false">nostalgia.framework.TOUCHPREF</string>
-    <string name="action_screen_pref" translatable="false">nostalgia.framework.SCREENPREF</string>
-    <string name="action_gallery_page" translatable="false">nostalgia.framework.GALLERY</string>
+    <string name="action_general_pref" translatable="false">com.qizhuo.framework.GENERALPREF</string>
+    <string name="action_keyboard_pref" translatable="false">com.qizhuo.framework.KEYBOARDPREF</string>
+    <string name="action_touch_pref" translatable="false">com.qizhuo.framework.TOUCHPREF</string>
+    <string name="action_screen_pref" translatable="false">com.qizhuo.framework.SCREENPREF</string>
+    <string name="action_gallery_page" translatable="false">com.qizhuo.framework.GALLERY</string>
 
     <string name="export_lite_ok">Data from the Lite version successfully imported.</string>
     <string name="export_lite_error">An error has occurred while importing data from the Lite version.</string>

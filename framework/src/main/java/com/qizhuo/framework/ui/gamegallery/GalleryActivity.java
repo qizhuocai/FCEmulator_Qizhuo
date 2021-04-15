@@ -323,7 +323,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
     @Override
     public void onItemClick(GameEntity game) {
 
-        if(UnityAds.isReady("qizhuorewardedVideo")&&resnum % 7 == 0){
+        if(UnityAds.isReady("qizhuorewardedVideo")&&resnum % 7 == 0&&resnum!=0&&resnum!=1){
             UnityAds.show(GalleryActivity.this);
             resnum++;
         }
@@ -440,20 +440,20 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         }
     }
 
-    @Override
-    public void onRomsFinderZipPartStart(final int countEntries) {
-        if (searchDialog != null) {
-            runOnUiThread(() -> {
-                if (searchDialog != null) {
-                    searchDialog.setProgressNumberFormat("%1d/%2d");
-                    searchDialog.setProgressPercentFormat(NumberFormat.getPercentInstance());
-                    searchDialog.setMessage(getString(R.string.gallery_start_sip_search_label));
-                    searchDialog.setIndeterminate(false);
-                    searchDialog.setMax(countEntries);
-                }
-            });
-        }
-    }
+//    @Override
+//    public void onRomsFinderZipPartStart(final int countEntries) {
+//        if (searchDialog != null) {
+//            runOnUiThread(() -> {
+//                if (searchDialog != null) {
+//                    searchDialog.setProgressNumberFormat("%1d/%2d");
+//                    searchDialog.setProgressPercentFormat(NumberFormat.getPercentInstance());
+//                    searchDialog.setMessage(getString(R.string.gallery_start_sip_search_label));
+//                    searchDialog.setIndeterminate(false);
+//                    searchDialog.setMax(countEntries);
+//                }
+//            });
+//        }
+//    }
 
     @Override
     public void onRomsFinderCancel(boolean searchNew) {
@@ -474,17 +474,17 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         onSearchingEnd(roms.size(), true);
     }
 
-    @Override
-    public void onRomsFinderFoundZipEntry(final String message, final int skipEntries) {
-        if (searchDialog != null) {
-            runOnUiThread(() -> {
-                if (searchDialog != null) {
-                    searchDialog.setMessage(message);
-                    searchDialog.setProgress(searchDialog.getProgress() + 1 + skipEntries);
-                }
-            });
-        }
-    }
+//    @Override
+//    public void onRomsFinderFoundZipEntry(final String message, final int skipEntries) {
+//        if (searchDialog != null) {
+//            runOnUiThread(() -> {
+//                if (searchDialog != null) {
+//                    searchDialog.setMessage(message);
+//                    searchDialog.setProgress(searchDialog.getProgress() + 1 + skipEntries);
+//                }
+//            });
+//        }
+//    }
 
     @Override
     public void onRomsFinderFoundFile(final String name) {

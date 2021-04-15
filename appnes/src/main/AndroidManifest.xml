@@ -11,26 +11,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-<!--        <activity-->
-<!--            android:name="com.ironsource.sdk.controller.ControllerActivity"-->
-<!--            android:configChanges="orientation|screenSize"-->
-<!--            android:hardwareAccelerated="true" />-->
-<!--        <activity-->
-<!--            android:name="com.ironsource.sdk.controller.InterstitialActivity"-->
-<!--            android:configChanges="orientation|screenSize"-->
-<!--            android:hardwareAccelerated="true"-->
-<!--            android:theme="@android:style/Theme.Translucent" />-->
-<!--        <activity-->
-<!--            android:name="com.ironsource.sdk.controller.OpenUrlActivity"-->
-<!--            android:configChanges="orientation|screenSize"-->
-<!--            android:hardwareAccelerated="true"-->
-<!--            android:theme="@android:style/Theme.Translucent" />-->
+
         <activity
             android:name=".NesGalleryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <action android:name="nostalgia.nes.GALLERY" />
+                <action android:name="com.qizhuo.framework.GALLERY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -43,9 +30,10 @@
         <activity
             android:name="com.qizhuo.framework.ui.preferences.GeneralPreferenceActivity"
             android:label="@string/general_pref"
+            android:exported="false"
             android:theme="@style/PrefTheme">
             <intent-filter>
-                <action android:name="nostalgia.nes.GENERALPREF" />
+                <action android:name="com.qizhuo.framework.GENERALPREF" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -54,9 +42,10 @@
         <activity
             android:name="com.qizhuo.framework.ui.preferences.KeyboardSettingsActivity"
             android:label="@string/key_pref"
+
             android:theme="@style/PrefTheme">
             <intent-filter>
-                <action android:name="nostalgia.nes.KEYBOARDPREF" />
+                <action android:name="com.qizhuo.framework.KEYBOARDPREF" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -65,9 +54,10 @@
         <activity
             android:name="com.qizhuo.framework.ui.preferences.TouchControllerSettingsActivity"
             android:label="@string/game_pref"
+
             android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
-                <action android:name="nostalgia.nes.TOUCHPREF" />
+                <action android:name="com.qizhuo.framework.TOUCHPREF" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -76,9 +66,10 @@
         <activity
             android:name="com.qizhuo.framework.ui.preferences.ScreenViewPortSettingsActivity"
             android:label="@string/game_pref"
+
             android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
-                <action android:name="nostalgia.nes.SCREENPREF" />
+                <action android:name="com.qizhuo.framework.SCREENPREF" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

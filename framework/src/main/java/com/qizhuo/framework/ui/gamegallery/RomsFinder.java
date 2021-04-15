@@ -196,7 +196,7 @@ public class RomsFinder extends Thread {
                             }
 
                             if (counterEntry > 20 && counterRoms == 0) {
-                                listener.onRomsFinderFoundZipEntry(zipFile.getName() + "\n" + ze.getName(), max - 20 - 1);
+                            //    listener.onRomsFinderFoundZipEntry(zipFile.getName() + "\n" + ze.getName(), max - 20 - 1);
                                 NLog.i(TAG, "Predcasne ukonceni prohledavani zipu. V prvnich 20 zaznamech v zipu neni ani jeden rom"+zipFile.getName()+"   :"+ ze.getName());
                                 break;
                             } else {
@@ -209,7 +209,7 @@ public class RomsFinder extends Thread {
                                     name = name.substring(0, 20);
                                 }
                                 zipRomFile.setName(name);
-                                listener.onRomsFinderFoundZipEntry(zipFile.getName() + "\n" + name, 0);
+                           //     listener.onRomsFinderFoundZipEntry(zipFile.getName() + "\n" + name, 0);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -235,7 +235,7 @@ public class RomsFinder extends Thread {
                 }
             } else {
                 games.addAll(gameslis);
-                listener.onRomsFinderFoundZipEntry(zipFile.getName(),gameslis.size());
+             //   listener.onRomsFinderFoundZipEntry(zipFile.getName(),gameslis.size());
                 NLog.i(TAG, "found zip in cache " + gameslis.size());
             }
         } else {
@@ -306,13 +306,14 @@ public class RomsFinder extends Thread {
                     e.printStackTrace();
                 }
             }
-
-            for (File zip : zips) {
-                if (running.get()) {
-                    listener.onRomsFinderZipPartStart(zipEntriesCount);
-                  //  checkZip(zip);
-                }
-            }
+//if(zips!=null) {
+//    for (File zip : zips) {
+//        if (running.get()) {
+//            listener.onRomsFinderZipPartStart(zipEntriesCount);
+//            //  checkZip(zip);
+//        }
+//    }
+//}
 
             if (running.get()) {
                 NLog.i(TAG, "found games: " + games.size());
@@ -410,9 +411,9 @@ public class RomsFinder extends Thread {
 
         void onRomsFinderFoundFile(String name);
 
-        void onRomsFinderZipPartStart(int countEntries);
+       // void onRomsFinderZipPartStart(int countEntries);
 
-        void onRomsFinderFoundZipEntry(String message, int skipEntries);
+     //   void onRomsFinderFoundZipEntry(String message, int skipEntries);
 
         void onRomsFinderNewGames(ArrayList<GameEntity> roms);
 

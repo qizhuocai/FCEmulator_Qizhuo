@@ -34,10 +34,18 @@ public class GamePreferenceActivity extends AppCompatPreferenceActivity {
 
     }
 
-    @Override
+        @Override
     protected boolean isValidFragment(String fragmentName) {
-        return true;
+
+                return true;
+
+
     }
+//    @Override
+//    public boolean isValidFragment(String fragmentName)  {
+//        return GamePreferenceActivity.class.getName().equals(fragmentName);
+//
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
