@@ -18,8 +18,8 @@ android {
         applicationId 'com.qizhuo.fcnes'
         minSdkVersion 19
         targetSdkVersion 30
-       versionCode 1009
-        versionName "1.0.09"
+       versionCode 1010
+        versionName "1.0.10"
         resConfigs "zh","en"
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'

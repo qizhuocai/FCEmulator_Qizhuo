@@ -2,6 +2,7 @@
 
     <PreferenceCategory
         android:key="game_pref_ui_pal_ntsc_switch_category"
+android:enabled="false"
         android:title="@string/pref_video_settings">
         <com.qizhuo.framework.ui.preferences.ControllableListPreference
             android:key="game_pref_ui_pal_ntsc_switch"
