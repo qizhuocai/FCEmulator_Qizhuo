@@ -70,13 +70,13 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
     ProgressDialog searchDialog = null;
     private ViewPager pager = null;
-   // private DatabaseHelper dbHelper;
+    // private DatabaseHelper dbHelper;
     private GalleryPagerAdapter adapter;
     private boolean importing = false;
     private boolean rotateAnim = false;
     private TabLayout mTabLayout;
-//  public static  ArrayList<GameEntity> finalStringListstrlist=new ArrayList<>();
-  public static  ArrayList<GameEntity> finalStringListstrlist=new ArrayList<>();
+    //  public static  ArrayList<GameEntity> finalStringListstrlist=new ArrayList<>();
+    public static  ArrayList<GameEntity> finalStringListstrlist=new ArrayList<>();
     /**
      * 输入框
      */
@@ -86,8 +86,8 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // DbManager.init(this,"gamedb");
-      //  startActivity(new Intent(GalleryActivity.this, DemoActivity.class));
+        // DbManager.init(this,"gamedb");
+        //  startActivity(new Intent(GalleryActivity.this, DemoActivity.class));
 //        finish();
 
         try {
@@ -144,7 +144,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
 
         //Network Connectivity Statu
-      //  dbHelper = new DatabaseHelper(this);
+        //  dbHelper = new DatabaseHelper(this);
         setContentView(R.layout.activity_gallery);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -181,7 +181,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         );
         etInput.setOnEditorActionListener((textView, actionId, keyEvent) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-              //  Log.d(TAG,"输入："+ textView.getText());
+                //  Log.d(TAG,"输入："+ textView.getText());
                 try {
                     if (finalStringListstrlist!=null&&finalStringListstrlist.size()>0) {
                         Log.d(TAG, "输入数据回车：" + finalStringListstrlist.size());
@@ -194,40 +194,40 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
             return true;
         });
 
-      etInput.addTextChangedListener(new TextWatcher() {
-          @Override
-          public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        etInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-          }
+            }
 
-          @Override
-          public void onTextChanged(CharSequence s, int start, int before, int count) {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-          }
+            }
 
-          @Override
-          public void afterTextChanged(Editable s) {
-              try {
-                  if (finalStringListstrlist!=null&&finalStringListstrlist.size()>0) {
-                  ArrayList<GameEntity> games;
-                  Log.d(TAG,"输入数据："+finalStringListstrlist.size());
-                  if (!TextUtils.isEmpty(etInput.getText()) && etInput.getText().length() == s.length()) {
-                      if (finalStringListstrlist!=null&& finalStringListstrlist.size()>0) {
-                          games = LocalGroupSearch.searchGroup(s.toString(), finalStringListstrlist);
-                      }else
-                      {
-                          games=finalStringListstrlist;
-                      }
-                      setLastGames(games);
-                  }else
-                  {
-                      setLastGames(finalStringListstrlist);
-                  }}
-              } catch (Exception e) {
-                  e.printStackTrace();
-              }
-          }
-      });
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    if (finalStringListstrlist!=null&&finalStringListstrlist.size()>0) {
+                        ArrayList<GameEntity> games;
+                        Log.d(TAG,"输入数据："+finalStringListstrlist.size());
+                        if (!TextUtils.isEmpty(etInput.getText()) && etInput.getText().length() == s.length()) {
+                            if (finalStringListstrlist!=null&& finalStringListstrlist.size()>0) {
+                                games = LocalGroupSearch.searchGroup(s.toString(), finalStringListstrlist);
+                            }else
+                            {
+                                games=finalStringListstrlist;
+                            }
+                            setLastGames(games);
+                        }else
+                        {
+                            setLastGames(finalStringListstrlist);
+                        }}
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -319,7 +319,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         super.onPause();
         PreferenceUtil.saveLastGalleryTab(this, pager.getCurrentItem());
     }
-  static int resnum=0;
+    static int resnum=0;
     @Override
     public void onItemClick(GameEntity game) {
 
@@ -361,7 +361,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
             if (!finalStringListstrlist.contains(game)) {
                 finalStringListstrlist.add(game);
             }
-      //      dbHelper.updateObjToDb(game, new String[]{"lastGameTime", "runCount"});
+            //      dbHelper.updateObjToDb(game, new String[]{"lastGameTime", "runCount"});
             onGameSelected(game, 0);
         } else {
 //            NLog.w(TAG, "rom file:" + gameFile.getAbsolutePath() + " does not exist");
@@ -389,8 +389,8 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
     @Override
     public void setLastGames(ArrayList<GameEntity> games) {
-            adapter.setGames(games);
-            pager.setVisibility(games.isEmpty() ? View.INVISIBLE : View.VISIBLE);
+        adapter.setGames(games);
+        pager.setVisibility(games.isEmpty() ? View.INVISIBLE : View.VISIBLE);
     }
 
     @Override

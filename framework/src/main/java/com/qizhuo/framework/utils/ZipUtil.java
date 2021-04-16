@@ -22,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -402,7 +403,16 @@ public class ZipUtil  {
         }
     }
 
+    private static Pattern FilePattern = Pattern.compile("[\\\\/:*?\"<>|]");
 
+    /**
+     * 路径遍历 漏洞修复
+     * @param str
+     * @return
+     */
+    public static String filenameFilter(String str) {
+        return str==null?null:FilePattern.matcher(str).replaceAll("");
+    }
     /**
      * DeCompress the ZIP to the path
      * @param zipFileString  name of ZIP
@@ -412,20 +422,24 @@ public class ZipUtil  {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void UnZipFolderzip(String zipFileString, String outPathString) throws Exception {
         try {
-
             String fileEncode = EncodeUtil.getEncode(zipFileString,true);
             ZipInputStream inZip = new ZipInputStream(new FileInputStream(zipFileString),Charset.forName(fileEncode));
             ZipEntry zipEntry;
             String szName = "";
-            while ((zipEntry = inZip.getNextEntry()) != null) {
+                while ((zipEntry = inZip.getNextEntry()) != null) {
                 szName = zipEntry.getName();
-                if (zipEntry.isDirectory()) {
+                String strfile=outPathString  ;
+               // if (zipEntry.isDirectory()) {
+                   // File f = new File( strfile);
+                  //  String canonicalPath = f.getCanonicalPath();
+              if (filenameFilter(szName)==null) {
+                   //if (!canonicalPath.startsWith(strfile)) {
                     // get the folder name of the widget
-                    szName = szName.substring(0, szName.length() - 1);
+              //    szName = szName.substring(0, szName.length() - 1);
+                //    szName = szName.substring(0, szName.length());
                     File folder = new File(outPathString + File.separator + szName);
                     folder.mkdirs();
                 } else {
-
                     File file = new File(outPathString + File.separator + szName);
                     file.createNewFile();
                     // get the output stream of the file
@@ -442,6 +456,7 @@ public class ZipUtil  {
                 }
             }
             inZip.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
