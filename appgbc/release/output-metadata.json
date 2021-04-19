@@ -10,9 +10,9 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 1010,
-      "versionName": "1.0.10",
-      "outputFile": "appnes-release-V1010.apk"
+      "versionCode": 1013,
+      "versionName": "1.0.13",
+      "outputFile": "appnes-release-V1013.apk"
     }
   ]
 }
