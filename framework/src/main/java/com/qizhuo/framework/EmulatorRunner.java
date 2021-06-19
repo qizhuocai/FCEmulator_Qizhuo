@@ -146,36 +146,41 @@ public class EmulatorRunner {
         }
 
         synchronized (lock) {
-            GfxProfile gfx = PreferenceUtil.getVideoProfile(context, emulator, game);
-            PreferenceUtil.setLastGfxProfile(context, gfx);
-            EmulatorSettings settings = new EmulatorSettings();
-            settings.zapperEnabled = PreferenceUtil.isZapperEnabled(context, game.checksum);
-            settings.historyEnabled = PreferenceUtil.isTimeshiftEnabled(context);
-            settings.loadSavFiles = PreferenceUtil.isLoadSavFiles(context);
-            settings.saveSavFiles = PreferenceUtil.isSaveSavFiles(context);
-            List<SfxProfile> profiles = emulator.getInfo().getAvailableSfxProfiles();
-            SfxProfile sfx;
-            int desiredQuality = PreferenceUtil.getEmulationQuality(context);
-            settings.quality = desiredQuality;
-            desiredQuality = Math.min(profiles.size() - 1, desiredQuality);
-            sfx = profiles.get(desiredQuality);
 
-            if (!PreferenceUtil.isSoundEnabled(context)) {
-                sfx = null;
+            try {
+                GfxProfile gfx = PreferenceUtil.getVideoProfile(context, emulator, game);
+                PreferenceUtil.setLastGfxProfile(context, gfx);
+                EmulatorSettings settings = new EmulatorSettings();
+                settings.zapperEnabled = PreferenceUtil.isZapperEnabled(context, game.checksum);
+                settings.historyEnabled = PreferenceUtil.isTimeshiftEnabled(context);
+                settings.loadSavFiles = PreferenceUtil.isLoadSavFiles(context);
+                settings.saveSavFiles = PreferenceUtil.isSaveSavFiles(context);
+                List<SfxProfile> profiles = emulator.getInfo().getAvailableSfxProfiles();
+                SfxProfile sfx;
+                int desiredQuality = PreferenceUtil.getEmulationQuality(context);
+                settings.quality = desiredQuality;
+                desiredQuality = Math.min(profiles.size() - 1, desiredQuality);
+                sfx = profiles.get(desiredQuality);
+
+                if (!PreferenceUtil.isSoundEnabled(context)) {
+                    sfx = null;
+                }
+
+                audioEnabled = sfx != null;
+                emulator.start(gfx, sfx, settings);
+                String battery = context.getExternalCacheDir().getAbsolutePath();
+                NLog.e("bat", battery);
+                BatterySaveUtils.createSavFileCopyIfNeeded(context, game.path);
+                String batteryDir = BatterySaveUtils.getBatterySaveDir(context, game.path);
+                String possibleBatteryFileFullPath = batteryDir + "/"
+                        + FileUtilsa.getFileNameWithoutExt(new File(game.path))
+                        + ".sav";
+                emulator.loadGame(game.path, batteryDir,
+                        possibleBatteryFileFullPath);
+                emulator.emulateFrame(0);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            audioEnabled = sfx != null;
-            emulator.start(gfx, sfx, settings);
-            String battery = context.getExternalCacheDir().getAbsolutePath();
-            NLog.e("bat", battery);
-            BatterySaveUtils.createSavFileCopyIfNeeded(context, game.path);
-            String batteryDir = BatterySaveUtils.getBatterySaveDir(context, game.path);
-            String possibleBatteryFileFullPath = batteryDir + "/"
-                    + FileUtilsa.getFileNameWithoutExt(new File(game.path))
-                    + ".sav";
-            emulator.loadGame(game.path, batteryDir,
-                    possibleBatteryFileFullPath);
-            emulator.emulateFrame(0);
         }
 
         updater = new EmulatorThread();

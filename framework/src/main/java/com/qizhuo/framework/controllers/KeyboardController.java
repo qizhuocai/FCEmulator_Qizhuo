@@ -63,9 +63,10 @@ public class KeyboardController implements EmulatorController {
     public void onResume() {
         profile = KeyboardProfile.getSelectedProfile(gameHash, context);
         emulator.resetKeys();
+        if (null!= loadingOrSaving ){
         for (int i = 0; i < loadingOrSaving.length; i++) {
             loadingOrSaving[i] = false;
-        }
+        }}
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.preference.PreferenceActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -82,13 +83,30 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
      */
     private EditText etInput;
     private Button search_btn_backs;
-
+    private boolean DEV_MODE = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // DbManager.init(this,"gamedb");
         //  startActivity(new Intent(GalleryActivity.this, DemoActivity.class));
 //        finish();
+        if (DEV_MODE) {
+//            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+//                    .detectCustomSlowCalls() //API等级11，使用StrictMode.noteSlowCode
+//                    .detectDiskReads()
+//                    .detectDiskWrites()
+//                    .detectNetwork()   // or .detectAll() for all detectable problems
+//                    .penaltyDialog() //弹出违规提示对话框
+//                    .penaltyLog() //在Logcat 中打印违规异常信息
+//                    .penaltyFlashScreen() //API等级11
+//                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects() //API等级11
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
+        }
 
         try {
             if (!ZipUtil.checkInit())

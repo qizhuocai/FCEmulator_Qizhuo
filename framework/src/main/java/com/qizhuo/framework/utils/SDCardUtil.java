@@ -66,6 +66,7 @@ public class SDCardUtil {
                         sdcards.add(path);
                     }
                 }
+                scanner.close();
             }
         } catch (Exception e) {
             NLog.e(TAG, "", e);

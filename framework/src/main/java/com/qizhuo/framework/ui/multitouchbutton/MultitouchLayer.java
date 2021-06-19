@@ -691,10 +691,14 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
     }
 
     private void onTouchInEditMode(MotionEvent event) {
-        if (!isResizing) {
-            onTouchInEditModeMove(event);
-        } else {
-            onTouchInEditModeResize(event);
+        try {
+            if (!isResizing) {
+                onTouchInEditModeMove(event);
+            } else {
+                onTouchInEditModeResize(event);
+            }
+        } finally {
+
         }
     }
 
@@ -731,118 +735,128 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
     }
 
     private void onTouchInEditModeMove(MotionEvent event) {
-        int action = event.getAction();
-        int x = (int) (event.getX() + 0.5f);
-        int y = (int) (event.getY() + 0.5f);
-        switch (action) {
-            case MotionEvent.ACTION_DOWN: {
-                int idx = 0;
-                if (editMode == EDIT_MODE.TOUCH) {
-                    for (EditElement e : editElements) {
-                        if (onTouchCheck(e, idx, x, y)) {
-                            break;
+        try {
+            int action = event.getAction();
+            int x = (int) (event.getX() + 0.5f);
+            int y = (int) (event.getY() + 0.5f);
+            switch (action) {
+                case MotionEvent.ACTION_DOWN: {
+                    int idx = 0;
+                    if (editMode == EDIT_MODE.TOUCH) {
+                        for (EditElement e : editElements) {
+                            if (onTouchCheck(e, idx, x, y)) {
+                                break;
+                            }
+                            idx++;
                         }
-                        idx++;
-                    }
-                } else {
-                    onTouchCheck(screenElement, 0, x, y);
-                    onTouchCheck(menuElement, 0, x, y);
-                }
-                break;
-            }
-            case MotionEvent.ACTION_MOVE:
-                if (selectIdx != -1) {
-                    EditElement element;
-                    if (editMode == EDIT_MODE.TOUCH) {
-                        element = editElements.get(selectIdx);
                     } else {
-                        element = screenElement;
+                        onTouchCheck(screenElement, 0, x, y);
+                        onTouchCheck(menuElement, 0, x, y);
                     }
-                    RectF elementBb = element.boundingbox;
-                    int vx = x - startTouchX;
-                    int vy = y - startTouchY;
-                    RectF r = new RectF(elementBb);
-                    float left = startDragX + vx;
-                    float top = startDragY + vy;
-                    r.set(left - 2, top - 2, left + selectW + 2, top + selectH + 2);
-                    element.validPosition = isRectValid(r, element);
-                    if (element.validPosition) {
-                        lastValidBB.set(left, top, left + selectW, top + selectH);
+                    break;
+                }
+                case MotionEvent.ACTION_MOVE:
+                    if (selectIdx != -1) {
+                        EditElement element;
+                        if (editMode == EDIT_MODE.TOUCH) {
+                            element = editElements.get(selectIdx);
+                        } else {
+                            element = screenElement;
+                        }
+                        RectF elementBb = element.boundingbox;
+                        int vx = x - startTouchX;
+                        int vy = y - startTouchY;
+                        RectF r = new RectF(elementBb);
+                        float left = startDragX + vx;
+                        float top = startDragY + vy;
+                        r.set(left - 2, top - 2, left + selectW + 2, top + selectH + 2);
+                        element.validPosition = isRectValid(r, element);
+                        if (element.validPosition) {
+                            lastValidBB.set(left, top, left + selectW, top + selectH);
+                        }
+                        r.set(left - 10, top - 10, left + selectW + 10, top + selectH + 10);
+                        Rect tempRect = new Rect();
+                        r.round(tempRect);
+                        invalidate(tempRect);
+                        element.boundingbox.set(r.left + 10, r.top + 10, r.right - 10, r.bottom - 10);
+                        if (editMode == EDIT_MODE.TOUCH) {
+                            recomputeBtn(element);
+                        }
                     }
-                    r.set(left - 10, top - 10, left + selectW + 10, top + selectH + 10);
-                    Rect tempRect = new Rect();
-                    r.round(tempRect);
-                    invalidate(tempRect);
-                    element.boundingbox.set(r.left + 10, r.top + 10, r.right - 10, r.bottom - 10);
-                    if (editMode == EDIT_MODE.TOUCH) {
-                        recomputeBtn(element);
-                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_OUTSIDE: {
+                    endMovementCheck();
                 }
                 break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_OUTSIDE: {
-                endMovementCheck();
+                default:
+                    throw new IllegalStateException("Unexpected value: " + action);
             }
-            break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + action);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
     }
 
     private void onTouchInEditModeResize(MotionEvent event) {
-        int action = event.getAction();
-        int x = (int) (event.getX() + 0.5f);
-        lastTouchX = x;
-        lastTouchY = Math.round(event.getY());
+        try {
+            int action = event.getAction();
+            int x = (int) (event.getX() + 0.5f);
+            lastTouchX = x;
+            lastTouchY = Math.round(event.getY());
 
-        switch (action) {
-            case MotionEvent.ACTION_MOVE:
-                if (selectIdx != -1) {
-                    EditElement element = editMode == EDIT_MODE.TOUCH ?
-                            editElements.get(selectIdx) : screenElement;
-                    RectF elementBb = element.boundingbox;
-                    float newW = x - startDragX + startDragXoffset;
-                    float scaleFactorW = (newW / selectW);
-                    elementBb.set(startDragX, startDragY, x + startDragXoffset,
-                            startDragY + selectH * scaleFactorW);
-                    if (editMode == EDIT_MODE.TOUCH) {
-                        recomputeBtn(element);
+            switch (action) {
+                case MotionEvent.ACTION_MOVE:
+                    if (selectIdx != -1) {
+                        EditElement element = editMode == EDIT_MODE.TOUCH ?
+                                editElements.get(selectIdx) : screenElement;
+                        RectF elementBb = element.boundingbox;
+                        float newW = x - startDragX + startDragXoffset;
+                        float scaleFactorW = (newW / selectW);
+                        elementBb.set(startDragX, startDragY, x + startDragXoffset,
+                                startDragY + selectH * scaleFactorW);
+                        if (editMode == EDIT_MODE.TOUCH) {
+                            recomputeBtn(element);
+                        }
+                        element.validPosition = isRectValid(elementBb, element);
+                        if (element.validPosition) {
+                            lastValidBB.set(element.boundingbox);
+                        }
+                        invalidate();
                     }
-                    element.validPosition = isRectValid(elementBb, element);
-                    if (element.validPosition) {
-                        lastValidBB.set(element.boundingbox);
-                    }
-                    invalidate();
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_OUTSIDE: {
+                    isResizing = false;
+                    endMovementCheck();
                 }
                 break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_OUTSIDE: {
-                isResizing = false;
-                endMovementCheck();
             }
-            break;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     private void recomputeBtn(EditElement element) {
-        float scaleFactor = element.boundingbox.width() / element.boundingboxHistory.width();
-        for (int i = 0; i < element.ids.size(); i++) {
-            int id = element.ids.get(i);
-            RectF offset = new RectF(element.offsetshistory.get(i));
-            RectF bb = new RectF(element.boundingboxsHistory.get(i));
-            RectF elemBB = element.boundingboxHistory;
-            bb.offset(-elemBB.left, -elemBB.top);
-            bb.left *= scaleFactor;
-            bb.top *= scaleFactor;
-            bb.right *= scaleFactor;
-            bb.bottom *= scaleFactor;
-            offset.left *= scaleFactor;
-            offset.top *= scaleFactor;
-            element.offsets.get(i).set(offset);
-            bb.offset(element.boundingbox.left, element.boundingbox.top);
-            bb.round(boundingBoxs[id]);
+        if(null!=element&&element.ids!=null) {
+            float scaleFactor = element.boundingbox.width() / element.boundingboxHistory.width();
+            for (int i = 0; i < element.ids.size(); i++) {
+                int id = element.ids.get(i);
+                RectF offset = new RectF(element.offsetshistory.get(i));
+                RectF bb = new RectF(element.boundingboxsHistory.get(i));
+                RectF elemBB = element.boundingboxHistory;
+                bb.offset(-elemBB.left, -elemBB.top);
+                bb.left *= scaleFactor;
+                bb.top *= scaleFactor;
+                bb.right *= scaleFactor;
+                bb.bottom *= scaleFactor;
+                offset.left *= scaleFactor;
+                offset.top *= scaleFactor;
+                element.offsets.get(i).set(offset);
+                bb.offset(element.boundingbox.left, element.boundingbox.top);
+                bb.round(boundingBoxs[id]);
+            }
         }
     }
 
@@ -1081,39 +1095,47 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
     }
 
     public void saveScreenElement() {
-        endMovementCheck();
-        RectF bb = screenElement.boundingbox;
-        RectF env = viewPortsEnvelops.get(EmulatorHolder.getInfo().getDefaultGfxProfile().name);
-        Rect rect = new Rect();
-        rect.left = Math.round(bb.left + env.left * bb.width());
-        rect.top = Math.round(bb.top + env.top * bb.height());
-        rect.right = Math.round(bb.right - env.right * bb.width());
-        rect.bottom = Math.round(bb.bottom - env.bottom * bb.height());
-        int topOffset = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20,
-                getResources().getDisplayMetrics());
-        ViewPort vp = new ViewPort();
-        vp.x = rect.left;
-        vp.y = rect.top + (cacheRotation == 0 ? topOffset : 0);
-        vp.width = rect.width();
-        vp.height = rect.height();
-        NLog.i(TAG, "save screenlayout " + EmulatorHolder.getInfo().getDefaultGfxProfile().name
-                + " vp:" + vp.x + "," + vp.y + "," + vp.width + "," + vp.height);
-        PreferenceUtil.setViewPort(getContext(), vp, cacheW, cacheH);
+        try {
+            endMovementCheck();
+            RectF bb = screenElement.boundingbox;
+            RectF env = viewPortsEnvelops.get(EmulatorHolder.getInfo().getDefaultGfxProfile().name);
+            Rect rect = new Rect();
+            rect.left = Math.round(bb.left + env.left * bb.width());
+            rect.top = Math.round(bb.top + env.top * bb.height());
+            rect.right = Math.round(bb.right - env.right * bb.width());
+            rect.bottom = Math.round(bb.bottom - env.bottom * bb.height());
+            int topOffset = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20,
+                    getResources().getDisplayMetrics());
+            ViewPort vp = new ViewPort();
+            vp.x = rect.left;
+            vp.y = rect.top + (cacheRotation == 0 ? topOffset : 0);
+            vp.width = rect.width();
+            vp.height = rect.height();
+            NLog.i(TAG, "save screenlayout " + EmulatorHolder.getInfo().getDefaultGfxProfile().name
+                    + " vp:" + vp.x + "," + vp.y + "," + vp.width + "," + vp.height);
+            PreferenceUtil.setViewPort(getContext(), vp, cacheW, cacheH);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveEditElements() {
-        endMovementCheck();
-        SharedPreferences pref = getPref();
-        Editor editor = pref.edit();
+        try {
+            endMovementCheck();
+            SharedPreferences pref = getPref();
+            Editor editor = pref.edit();
 
-        for (int i = 0; i < btns.size(); i++) {
-            View btn = btns.get(i);
-            Rect offset = boundingBoxs[i];
-            String s = offset.left + "-" + offset.top + "-" + offset.right + "-" + offset.bottom;
-            int id = btnIdMap.indexOf(btn.getId());
-            editor.putString(id + "", s);
+            for (int i = 0; i < btns.size(); i++) {
+                View btn = btns.get(i);
+                Rect offset = boundingBoxs[i];
+                String s = offset.left + "-" + offset.top + "-" + offset.right + "-" + offset.bottom;
+                int id = btnIdMap.indexOf(btn.getId());
+                editor.putString(id + "", s);
+            }
+            editor.apply();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        editor.apply();
     }
 
     private boolean loadEditElements(String unused) {
@@ -1177,54 +1199,58 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
     }
 
     private void checkFastForwardButton() {
-        if (boundingBoxs != null) {
-            int idx = ridToIdxMap.get(R.id.button_fast_forward);
-            Rect ff_bb = boundingBoxs[idx];
-            //NLog.i(TAG, "fast forward btn " + idx + " rect " + ff_bb);
+        try {
+            if (boundingBoxs != null) {
+                int idx = ridToIdxMap.get(R.id.button_fast_forward);
+                Rect ff_bb = boundingBoxs[idx];
+                //NLog.i(TAG, "fast forward btn " + idx + " rect " + ff_bb);
 
-            for (Rect bb2 : boundingBoxs) {
-                if (ff_bb != bb2 && Rect.intersects(ff_bb, bb2)) {
-                    //NLog.i(TAG, "colision with " + bb2);
-                    int w = getMeasuredWidth();
-                    int h = getMeasuredHeight();
-                    boolean wrongPosition = false;
+                for (Rect bb2 : boundingBoxs) {
+                    if (ff_bb != bb2 && Rect.intersects(ff_bb, bb2)) {
+                        //NLog.i(TAG, "colision with " + bb2);
+                        int w = getMeasuredWidth();
+                        int h = getMeasuredHeight();
+                        boolean wrongPosition = false;
 
-                    for (int i = 0; i < 300; i++) {
-                        wrongPosition = false;
-                        ff_bb.offset(10, 0);
+                        for (int i = 0; i < 300; i++) {
+                            wrongPosition = false;
+                            ff_bb.offset(10, 0);
 
-                        if (ff_bb.right >= w) {
-                            ff_bb.offsetTo(0, ff_bb.top + 10);
-                            if (ff_bb.bottom >= h) {
+                            if (ff_bb.right >= w) {
+                                ff_bb.offsetTo(0, ff_bb.top + 10);
+                                if (ff_bb.bottom >= h) {
+                                    break;
+                                }
+                            }
+                            //NLog.i(TAG, i + " new rect " + ff_bb);
+                            for (Rect bb3 : boundingBoxs) {
+                                if (ff_bb != bb3 && Rect.intersects(ff_bb, bb3)) {
+                                    //NLog.i(TAG, "colision with " + bb3);
+                                    wrongPosition = true;
+                                    break;
+                                }
+                            }
+                            if (!wrongPosition) {
                                 break;
                             }
                         }
-                        //NLog.i(TAG, i + " new rect " + ff_bb);
-                        for (Rect bb3 : boundingBoxs) {
-                            if (ff_bb != bb3 && Rect.intersects(ff_bb, bb3)) {
-                                //NLog.i(TAG, "colision with " + bb3);
-                                wrongPosition = true;
-                                break;
-                            }
-                        }
-                        if (!wrongPosition) {
-                            break;
-                        }
-                    }
 
-                    if (wrongPosition) {
-                        NLog.i(TAG, "Nepodarilo se najit vhodnou pozici");
-                        resetEditElement("");
-                    } else {
-                        NLog.i(TAG, "Podarilo se najit vhodnou pozici " + ff_bb + " "
-                                + boundingBoxs[btnIdMap.indexOf(R.id.button_fast_forward)]);
-                        for (EditElement elem : editElements) {
-                            elem.computeBoundingBox();
-                            elem.computeOffsets();
+                        if (wrongPosition) {
+                            NLog.i(TAG, "Nepodarilo se najit vhodnou pozici");
+                            resetEditElement("");
+                        } else {
+                            NLog.i(TAG, "Podarilo se najit vhodnou pozici " + ff_bb + " "
+                                    + boundingBoxs[btnIdMap.indexOf(R.id.button_fast_forward)]);
+                            for (EditElement elem : editElements) {
+                                elem.computeBoundingBox();
+                                elem.computeOffsets();
+                            }
                         }
                     }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -1343,12 +1369,14 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
 
             if (isScreenElement) {
             } else {
+                if (offsets != null) {
+
                 for (int i = 0; i < offsets.size(); i++) {
                     int id = ids.get(i);
                     boundingboxsHistory.add(new Rect(boundingBoxs[id]));
                     offsetshistory.add(new RectF(offsets.get(i)));
                 }
-            }
+            }}
             return this;
         }
 

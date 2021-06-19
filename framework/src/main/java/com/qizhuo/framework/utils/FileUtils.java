@@ -92,7 +92,7 @@ public class FileUtils {
                 File outFile = new File(Environment.getExternalStorageDirectory(), dstPath);
                 InputStream is = context.getAssets().open(srcPath);
                 FileOutputStream fos = new FileOutputStream(outFile);
-                Log.e("sout", outFile.getAbsolutePath());
+                Log.e("sout複製鏈接", outFile.getAbsolutePath());
                 byte[] buffer = new byte[1024];
                 int byteCount;
                 while ((byteCount = is.read(buffer)) != -1) {

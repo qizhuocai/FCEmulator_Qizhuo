@@ -210,40 +210,45 @@ public class TouchController implements EmulatorController, OnMultitouchEventLis
 
     @Override
     public void onGameStarted(GameEntity game) {
-        GfxProfile gfxProfile = emulator.getActiveGfxProfile();
-        zapperIc.setVisibility(PreferenceUtil.isZapperEnabled(emulatorActivity, game.checksum) ? View.VISIBLE : View.GONE);
-        palIc.setVisibility("PAL".equals(gfxProfile.name) ? View.VISIBLE : View.GONE);
-        ntscIc.setVisibility("NTSC".equals(gfxProfile.name) ? View.VISIBLE : View.GONE);
-        boolean remoteVisible = PreferenceUtil.isWifiServerEnable(emulatorActivity)
-                && EmuUtils.isWifiAvailable(emulatorActivity);
-        remoteIc.setVisibility(remoteVisible ? View.VISIBLE : View.INVISIBLE);
-        muteIc.setVisibility(PreferenceUtil.isSoundEnabled(emulatorActivity) ? View.GONE : View.VISIBLE);
 
-        if (PreferenceUtil.isTurboEnabled(emulatorActivity)) {
-            aTurbo.setVisibility(View.VISIBLE);
-            bTurbo.setVisibility(View.VISIBLE);
-            aTurbo.setEnabled(true);
-            bTurbo.setEnabled(true);
+        try {
+            GfxProfile gfxProfile = emulator.getActiveGfxProfile();
+            zapperIc.setVisibility(PreferenceUtil.isZapperEnabled(emulatorActivity, game.checksum) ? View.VISIBLE : View.GONE);
+            palIc.setVisibility("PAL".equals(gfxProfile.name) ? View.VISIBLE : View.GONE);
+            ntscIc.setVisibility("NTSC".equals(gfxProfile.name) ? View.VISIBLE : View.GONE);
+            boolean remoteVisible = PreferenceUtil.isWifiServerEnable(emulatorActivity)
+                    && EmuUtils.isWifiAvailable(emulatorActivity);
+            remoteIc.setVisibility(remoteVisible ? View.VISIBLE : View.INVISIBLE);
+            muteIc.setVisibility(PreferenceUtil.isSoundEnabled(emulatorActivity) ? View.GONE : View.VISIBLE);
 
-        } else {
-            aTurbo.setVisibility(View.INVISIBLE);
-            bTurbo.setVisibility(View.INVISIBLE);
-            aTurbo.setEnabled(false);
-            bTurbo.setEnabled(false);
+            if (PreferenceUtil.isTurboEnabled(emulatorActivity)) {
+                aTurbo.setVisibility(View.VISIBLE);
+                bTurbo.setVisibility(View.VISIBLE);
+                aTurbo.setEnabled(true);
+                bTurbo.setEnabled(true);
+
+            } else {
+                aTurbo.setVisibility(View.INVISIBLE);
+                bTurbo.setVisibility(View.INVISIBLE);
+                aTurbo.setEnabled(false);
+                bTurbo.setEnabled(false);
+            }
+
+            if (PreferenceUtil.isFastForwardEnabled(emulatorActivity)) {
+                fastForward.setVisibility(View.VISIBLE);
+                fastForward.setEnabled(true);
+
+            } else {
+                fastForward.setVisibility(View.INVISIBLE);
+                fastForward.setEnabled(false);
+            }
+
+            abButton.setVisibility(PreferenceUtil.isABButtonEnabled(emulatorActivity) ? View.VISIBLE : View.INVISIBLE);
+            abButton.setEnabled(PreferenceUtil.isABButtonEnabled(emulatorActivity));
+            multitouchLayer.invalidate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        if (PreferenceUtil.isFastForwardEnabled(emulatorActivity)) {
-            fastForward.setVisibility(View.VISIBLE);
-            fastForward.setEnabled(true);
-
-        } else {
-            fastForward.setVisibility(View.INVISIBLE);
-            fastForward.setEnabled(false);
-        }
-
-        abButton.setVisibility(PreferenceUtil.isABButtonEnabled(emulatorActivity) ? View.VISIBLE : View.INVISIBLE);
-        abButton.setEnabled(PreferenceUtil.isABButtonEnabled(emulatorActivity));
-        multitouchLayer.invalidate();
     }
 
     @Override

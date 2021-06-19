@@ -568,8 +568,12 @@ public abstract class EmulatorActivity extends Activity
         if (exceptionOccurred) {
             return;
         }
+        if (controllers!=null){
         for (EmulatorController controller : controllers) {
-            controller.onGameStarted(game);
+            if (controller != null) {
+                controller.onGameStarted(game);
+            }
+        }
         }
     }
 

@@ -62,27 +62,33 @@ public class SplashActivity extends Activity {
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        //TODO here is the rom file download code
-                        String path = Environment.getExternalStorageDirectory().toString()+"/"+Environment.DIRECTORY_DOWNLOADS;
-                        Log.d("Files", "Path: " + path);
-                        File directory = new File(path);
-                        File[] files = directory.listFiles();
-                        List<String> filesFolder=new ArrayList<>();
-                        for (int i = 0; i < files.length; i++)
-                        {
-                            filesFolder.add(files[i].getName());
-                        }
-                     //   ScheduledExecutorService scheduledExecutorService=new ScheduledExecutorService();
-                        Timer timer = new Timer();
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent();
-                                intent.setAction(getString(R.string.action_gallery_page));
-                                startActivity(intent);
-                                finish();
+
+                        try {
+                            //TODO here is the rom file download code
+                            String path = Environment.getExternalStorageDirectory().toString()+"/"+Environment.DIRECTORY_DOWNLOADS;
+                            Log.d("Files", "Path: " + path);
+                            File directory = new File(path);
+                            File[] files = directory.listFiles();
+                            List<String> filesFolder=new ArrayList<>();
+                            if  (null!=files) {
+                                for (int i = 0; i < files.length; i++) {
+                                    filesFolder.add(files[i].getName());
+                                }
                             }
-                        }, 3000L);
+                            //   ScheduledExecutorService scheduledExecutorService=new ScheduledExecutorService();
+                            Timer timer = new Timer();
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent();
+                                    intent.setAction(getString(R.string.action_gallery_page));
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }, 3000L);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
 //gs://fcemulator-5b6f4.appspot.com/
 //                        StorageReference storageReference;
