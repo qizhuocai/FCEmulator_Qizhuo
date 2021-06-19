@@ -85,12 +85,20 @@ abstract public class BaseGameGalleryActivity extends AppCompatActivity
 
     @Override
     public void onRomsFinderFoundGamesInCache(ArrayList<GameEntity> oldRoms) {
-        setLastGames(oldRoms);
+        try {
+            setLastGames(oldRoms);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onRomsFinderNewGames(ArrayList<GameEntity> roms) {
-        setNewGames(roms);
+        try {
+            setNewGames(roms);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -113,6 +121,7 @@ abstract public class BaseGameGalleryActivity extends AppCompatActivity
 
     public void showSDCardFailed() {
         runOnUiThread(() -> {
+
             AlertDialog dialog = new Builder(BaseGameGalleryActivity.this)
                     .setTitle(R.string.error)
                     .setMessage(R.string.gallery_sd_card_not_mounted)

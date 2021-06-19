@@ -37,9 +37,17 @@ public class GalleryPagerAdapter extends PagerAdapter {
         this.activity = activity;
         this.listener = listener;
         mTabTitles = activity.getResources().getStringArray(R.array.gallery_page_tab_names);
-        for (int i = 0; i < SORT_TYPES.length; i++) {
-            GalleryAdapter adapter = listAdapters[i] = new GalleryAdapter(activity);
-            adapter.setSortType(SORT_TYPES[i]);
+        if(SORT_TYPES!=null) {
+            if (SORT_TYPES!=null) {
+                for (int i = 0; i < SORT_TYPES.length; i++) {
+                    try {
+                        GalleryAdapter adapter = listAdapters[i] = new GalleryAdapter(activity);
+                        adapter.setSortType(SORT_TYPES[i]);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
 
@@ -95,16 +103,20 @@ public class GalleryPagerAdapter extends PagerAdapter {
     }
 
     public void setGames(ArrayList<GameEntity> games) {
-        for (GalleryAdapter adapter : listAdapters) {
-            adapter.setGames(new ArrayList<>(games));
+        if(listAdapters!=null) {
+            for (GalleryAdapter adapter : listAdapters) {
+                adapter.setGames(new ArrayList<>(games));
+            }
         }
     }
 
 
     public int addGames(ArrayList<GameEntity> newGames) {
         int result = 0;
-        for (GalleryAdapter adapter : listAdapters) {
-            result = adapter.addGames(new ArrayList<>(newGames));
+        if(listAdapters!=null) {
+            for (GalleryAdapter adapter : listAdapters) {
+                result = adapter.addGames(new ArrayList<>(newGames));
+            }
         }
         return result;
     }
@@ -117,13 +129,14 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
     @Override
     public void notifyDataSetChanged() {
+        if (SORT_TYPES!=null ){
         for (int i = 0; i < SORT_TYPES.length; i++) {
             GalleryAdapter adapter = listAdapters[i];
             adapter.notifyDataSetChanged();
             if (lists[i] != null) {
                 lists[i].setSelection(yOffsets[i]);
             }
-        }
+        }}
         super.notifyDataSetChanged();
     }
 

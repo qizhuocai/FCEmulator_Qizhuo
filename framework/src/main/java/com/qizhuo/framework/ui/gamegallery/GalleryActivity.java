@@ -107,58 +107,69 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
                     .penaltyDeath()
                     .build());
         }
-
+//
         try {
-            if (!ZipUtil.checkInit())
-            {
-                ZipUtil.Init(this);
-                try {
-                    if (ZipUtil.fileIsExists())
+            new Thread (){
+                @Override
+                public void run() {
+                    super.run();
+                    if (!ZipUtil.checkInit())
                     {
-                        ZipUtil.deletefile();
+                        ZipUtil.Init(getApplication());
+                        try {
+                            if (ZipUtil.fileIsExists())
+                            {
+                                ZipUtil.deletefile();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
+            }.start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        UnityAds.initialize(GalleryActivity.this,"4072917",true);
-        //Network Connectivity Status
-        UnityAds.addListener(new IUnityAdsListener() {
-            @Override
-            public void onUnityAdsReady(String s) {
+        try {
+            UnityAds.initialize(GalleryActivity.this,"4072917",true);
+            //Network Connectivity Status
+            UnityAds.addListener(new IUnityAdsListener() {
+                @Override
+                public void onUnityAdsReady(String s) {
 
-            }
+                }
 
-            /**
-             * @param s
-             */
-            @Override
-            public void onUnityAdsStart(String s) {
+                /**
+                 * @param s
+                 */
+                @Override
+                public void onUnityAdsStart(String s) {
 
-            }
+                }
 
-            /**
-             * @param s
-             * @param finishState
-             */
-            @Override
-            public void onUnityAdsFinish(String s, UnityAds.FinishState finishState) {
+                /**
+                 * @param s
+                 * @param finishState
+                 */
+                @Override
+                public void onUnityAdsFinish(String s, UnityAds.FinishState finishState) {
 
-            }
+                }
 
-            /**
-             * @param unityAdsError
-             * @param s
-             */
-            @Override
-            public void onUnityAdsError(UnityAds.UnityAdsError unityAdsError, String s) {
+                /**
+                 * @param unityAdsError
+                 * @param s
+                 */
+                @Override
+                public void onUnityAdsError(UnityAds.UnityAdsError unityAdsError, String s) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         //Network Connectivity Statu
@@ -181,7 +192,19 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         exts = getRomExtensions();
         exts.addAll(getArchiveExtensions());
         inZipExts = getRomExtensions();
-        reloadGames(true, null);
+
+        try {
+            new Thread(){
+                @Override
+                public void run() {
+                    super.run();
+                    reloadGames(true, null);
+                }
+            }.start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         etInput = (EditText) findViewById(R.id.search_et_input);
         search_btn_backs = (Button) findViewById(R.id.search_btn_back);
         search_btn_backs.setOnClickListener(v -> {
