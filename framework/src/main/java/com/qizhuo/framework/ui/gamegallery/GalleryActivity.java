@@ -67,7 +67,7 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
 
     public static final String EXTRA_TABS_IDX = "EXTRA_TABS_IDX";
 
-    private static final String TAG = "GalleryActivity";
+    private static final String TAG = GalleryActivity.class.getSimpleName();
 
     ProgressDialog searchDialog = null;
     private ViewPager pager = null;
@@ -90,23 +90,23 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         // DbManager.init(this,"gamedb");
         //  startActivity(new Intent(GalleryActivity.this, DemoActivity.class));
 //        finish();
-        if (DEV_MODE) {
-//            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-//                    .detectCustomSlowCalls() //API等级11，使用StrictMode.noteSlowCode
-//                    .detectDiskReads()
-//                    .detectDiskWrites()
-//                    .detectNetwork()   // or .detectAll() for all detectable problems
-//                    .penaltyDialog() //弹出违规提示对话框
-//                    .penaltyLog() //在Logcat 中打印违规异常信息
-//                    .penaltyFlashScreen() //API等级11
+//        if (DEV_MODE) {
+////            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+////                    .detectCustomSlowCalls() //API等级11，使用StrictMode.noteSlowCode
+////                    .detectDiskReads()
+////                    .detectDiskWrites()
+////                    .detectNetwork()   // or .detectAll() for all detectable problems
+////                    .penaltyDialog() //弹出违规提示对话框
+////                    .penaltyLog() //在Logcat 中打印违规异常信息
+////                    .penaltyFlashScreen() //API等级11
+////                    .build());
+//            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+//                    .detectLeakedSqlLiteObjects()
+//                    .detectLeakedClosableObjects() //API等级11
+//                    .penaltyLog()
+//                    .penaltyDeath()
 //                    .build());
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                    .detectLeakedSqlLiteObjects()
-                    .detectLeakedClosableObjects() //API等级11
-                    .penaltyLog()
-                    .penaltyDeath()
-                    .build());
-        }
+//        }
 //
         try {
             new Thread (){
@@ -175,23 +175,31 @@ public abstract class GalleryActivity extends BaseGameGalleryActivity
         //Network Connectivity Statu
         //  dbHelper = new DatabaseHelper(this);
         setContentView(R.layout.activity_gallery);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        adapter = new GalleryPagerAdapter(this, this);
-        adapter.onRestoreInstanceState(savedInstanceState);
-        pager = findViewById(R.id.game_gallery_pager);
-        pager.setAdapter(adapter);
-        mTabLayout = findViewById(R.id.game_gallery_tab);
-        mTabLayout.setupWithViewPager(pager);
-        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        try {
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            adapter = new GalleryPagerAdapter(this, this);
+            adapter.onRestoreInstanceState(savedInstanceState);
+            pager = findViewById(R.id.game_gallery_pager);
+            pager.setAdapter(adapter);
+            mTabLayout = findViewById(R.id.game_gallery_tab);
+            mTabLayout.setupWithViewPager(pager);
+            mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (savedInstanceState != null) {
             pager.setCurrentItem(savedInstanceState.getInt(EXTRA_TABS_IDX, 0));
         } else {
             pager.setCurrentItem(PreferenceUtil.getLastGalleryTab(this));
         }
-        exts = getRomExtensions();
-        exts.addAll(getArchiveExtensions());
-        inZipExts = getRomExtensions();
+        try {
+            exts = getRomExtensions();
+            exts.addAll(getArchiveExtensions());
+            inZipExts = getRomExtensions();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             new Thread(){

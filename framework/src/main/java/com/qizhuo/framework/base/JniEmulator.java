@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -307,9 +308,13 @@ public abstract class JniEmulator implements Emulator {
         synchronized (readyLock) {
             ready.set(false);
 
-            if (bitmap != null) {
-                bitmap.recycle();
-                NLog.d(TAG, "bitmap recycled");
+            try {
+                if (bitmap != null) {
+                    bitmap.recycle();
+                }
+            } catch (Exception e) {
+                Log.d(TAG, "initMaaultiTouchMap: "+e);
+                e.printStackTrace();
             }
             if (track != null) {
                 track.flush();
@@ -471,8 +476,13 @@ public abstract class JniEmulator implements Emulator {
     }
 
     private void createBitmap(int w, int h) {
-        if (bitmap != null) {
-            bitmap.recycle();
+        try {
+            if (bitmap != null) {
+                bitmap.recycle();
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "initMultiTouchMap: "+e);
+            e.printStackTrace();
         }
         bitmap = Bitmap.createBitmap(w, h, Config.ARGB_8888);
     }

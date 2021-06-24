@@ -38,7 +38,6 @@ public class GalleryPagerAdapter extends PagerAdapter {
         this.listener = listener;
         mTabTitles = activity.getResources().getStringArray(R.array.gallery_page_tab_names);
         if(SORT_TYPES!=null) {
-            if (SORT_TYPES!=null) {
                 for (int i = 0; i < SORT_TYPES.length; i++) {
                     try {
                         GalleryAdapter adapter = listAdapters[i] = new GalleryAdapter(activity);
@@ -47,7 +46,7 @@ public class GalleryPagerAdapter extends PagerAdapter {
                         e.printStackTrace();
                     }
                 }
-            }
+
         }
     }
 
@@ -69,43 +68,56 @@ public class GalleryPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         final ListView list = new ListView(activity);
-        list.setCacheColorHint(0x00000000);
-        list.setFastScrollEnabled(true);
-        list.setSelector(R.drawable.row_game_item_list_selector);
-        list.setAdapter(listAdapters[position]);
-        list.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
-            RowItem item = (RowItem) listAdapters[position].getItem(arg2);
-            listener.onItemClick(item.game);
-        });
-        list.setOnScrollListener(new OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                NLog.i("list", position + ":" + scrollState + "");
-                if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
-                    yOffsets[position] = list.getFirstVisiblePosition();
+        try {
+            list.setCacheColorHint(0x00000000);
+            list.setFastScrollEnabled(true);
+            list.setSelector(R.drawable.row_game_item_list_selector);
+            list.setAdapter(listAdapters[position]);
+            list.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+                RowItem item = (RowItem) listAdapters[position].getItem(arg2);
+                listener.onItemClick(item.game);
+            });
+            list.setOnScrollListener(new OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                    NLog.i("list", position + ":" + scrollState + "");
+                    if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+                        yOffsets[position] = list.getFirstVisiblePosition();
+                    }
                 }
-            }
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem,
-                                 int visibleItemCount, int totalItemCount) {
-            }
-        });
-        list.setSelection(yOffsets[position]);
-        lists[position] = list;
-        container.addView(list);
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem,
+                                     int visibleItemCount, int totalItemCount) {
+                }
+            });
+            list.setSelection(yOffsets[position]);
+            lists[position] = list;
+            if  (container!=null)
+            container.addView(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return list;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
+        try {
+            container.removeView((View) object);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setGames(ArrayList<GameEntity> games) {
         if(listAdapters!=null) {
             for (GalleryAdapter adapter : listAdapters) {
-                adapter.setGames(new ArrayList<>(games));
+                try {
+                    adapter.setGames(new ArrayList<>(games));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -115,15 +127,26 @@ public class GalleryPagerAdapter extends PagerAdapter {
         int result = 0;
         if(listAdapters!=null) {
             for (GalleryAdapter adapter : listAdapters) {
-                result = adapter.addGames(new ArrayList<>(newGames));
+                try {
+                    result = adapter.addGames(new ArrayList<>(newGames));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         return result;
     }
 
     public void setFilter(String filter) {
-        for (GalleryAdapter adapter : listAdapters) {
-            adapter.setFilter(filter);
+        if(listAdapters!=null) {
+
+            for (GalleryAdapter adapter : listAdapters) {
+                try {
+                    adapter.setFilter(filter);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -131,12 +154,18 @@ public class GalleryPagerAdapter extends PagerAdapter {
     public void notifyDataSetChanged() {
         if (SORT_TYPES!=null ){
         for (int i = 0; i < SORT_TYPES.length; i++) {
-            GalleryAdapter adapter = listAdapters[i];
-            adapter.notifyDataSetChanged();
-            if (lists[i] != null) {
-                lists[i].setSelection(yOffsets[i]);
+
+            try {
+                GalleryAdapter adapter = listAdapters[i];
+                adapter.notifyDataSetChanged();
+                if (lists[i] != null) {
+                    lists[i].setSelection(yOffsets[i]);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }}
+        }
+        }
         super.notifyDataSetChanged();
     }
 

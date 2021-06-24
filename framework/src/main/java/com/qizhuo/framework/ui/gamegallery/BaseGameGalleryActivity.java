@@ -79,6 +79,7 @@ abstract public class BaseGameGalleryActivity extends AppCompatActivity
             reloadGames = false;
             reloading = searchNew;
             romsFinder = new RomsFinder(exts, inZipExts, this, this, searchNew, selectedFolder);
+          //  if (!romsFinder.isAlive())
             romsFinder.start();
         }
     }

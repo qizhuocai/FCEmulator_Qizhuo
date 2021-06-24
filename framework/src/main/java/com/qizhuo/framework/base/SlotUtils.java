@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -89,7 +90,14 @@ public class SlotUtils {
                         paint.setColorFilter(new ColorMatrixColorFilter(
                                 new ColorMatrix(matrix)));
                         c.drawBitmap(bitmap, 0, 0, paint);
-                        bitmap.recycle();
+                        try {
+                            if (bitmap != null) {
+                                bitmap.recycle();
+                            }
+                        } catch (Exception e) {
+                            Log.d(TAG, "initMultiTouchMap: "+e);
+                            e.printStackTrace();
+                        }
                         slot.screenShot = newScreenshot;
                     }
 

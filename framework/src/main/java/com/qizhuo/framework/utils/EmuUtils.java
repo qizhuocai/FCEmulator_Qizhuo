@@ -17,6 +17,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 import android.view.Display;
 
 import java.io.File;
@@ -305,7 +306,14 @@ public class EmuUtils {
         p.setDither(false);
         p.setFilterBitmap(false);
         c.drawBitmap(bitmap, from, to, p);
-        bitmap.recycle();
+        try {
+            if (bitmap != null) {
+                bitmap.recycle();
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "in5itMultiTouchMap: "+e);
+            e.printStackTrace();
+        }
         return largeBitmap;
     }
 

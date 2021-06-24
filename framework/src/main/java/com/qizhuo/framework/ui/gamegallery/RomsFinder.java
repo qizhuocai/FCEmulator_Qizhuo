@@ -152,7 +152,7 @@ public class RomsFinder extends Thread {
                     e.printStackTrace();
                 }
             } else {
-                activity.runOnUiThread(() -> listener.onRomsFinderEnd(true));
+               activity.runOnUiThread(() -> listener.onRomsFinderEnd(true));
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();

@@ -15,6 +15,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Vibrator;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.util.TypedValue;
 import android.view.Display;
@@ -257,16 +258,27 @@ public class MultitouchLayer extends RelativeLayout implements OnTouchListener {
 
         if (buttonsBitmaps != null) {
             for (Bitmap bitmap : buttonsBitmaps) {
-                if (bitmap != null) {
-                    bitmap.recycle();
+
+                try {
+                    if (bitmap != null) {
+                        bitmap.recycle();
+                    }
+                } catch (Exception e) {
+                    Log.d(TAG, "initMultiTouchMap: "+e);
+                    e.printStackTrace();
                 }
             }
         }
 
         if (buttonsBitmaps != null) {
             for (Bitmap bitmap : buttonsBitmaps) {
-                if (bitmap != null) {
-                    bitmap.recycle();
+                try {
+                    if (bitmap != null) {
+                        bitmap.recycle();
+                    }
+                } catch (Exception e) {
+                    Log.d(TAG, "initMultiTouchMap: "+e);
+                    e.printStackTrace();
                 }
             }
         }

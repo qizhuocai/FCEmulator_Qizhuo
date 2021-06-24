@@ -72,7 +72,11 @@ public class SplashActivity extends Activity {
                             List<String> filesFolder=new ArrayList<>();
                             if  (null!=files) {
                                 for (int i = 0; i < files.length; i++) {
-                                    filesFolder.add(files[i].getName());
+                                    try {
+                                        filesFolder.add(files[i].getName());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                             //   ScheduledExecutorService scheduledExecutorService=new ScheduledExecutorService();
